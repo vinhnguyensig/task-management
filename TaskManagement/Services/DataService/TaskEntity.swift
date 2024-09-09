@@ -20,7 +20,8 @@ class TaskEntity: Object, ObjectKeyIdentifiable {
     @Persisted var detail: String?
     @Persisted var assignees: List<String> = List<String>()
     @Persisted var isCompleted: Bool = false
-    @Persisted var postition: Int
+    @Persisted var position: Int
+    @Persisted var attachments: List<String> = List<String>()
     @Persisted var createdAt: Date = Date()
 
     // Convenience initializer for creating Task objects
@@ -34,7 +35,8 @@ class TaskEntity: Object, ObjectKeyIdentifiable {
                      detail: String? = nil,
                      assignees: [String] = [],
                      isCompleted: Bool = false,
-                     postition: Int = 1,
+                     position: Int = 1,
+                     attachments: [String] = [],
                      createdAt: Date = Date()) {
         
         self.init()
@@ -48,7 +50,8 @@ class TaskEntity: Object, ObjectKeyIdentifiable {
         self.detail = detail
         self.assignees.append(objectsIn: assignees)
         self.isCompleted = isCompleted
-        self.postition = postition
+        self.position = position
+        self.attachments.append(objectsIn: attachments)
         self.createdAt = createdAt
     }
 }

@@ -10,69 +10,150 @@ import RealmSwift
 
 class TaskManagerDB {
     static let shared = TaskManagerDB()
-
+    
     private init() {}
     
-    private func getRealm() async throws -> Realm {
+    private func getRealm(completion: @escaping (Result<Realm, Error>) -> Void) {
         var config = Realm.Configuration()
         config.schemaVersion = 0
-        return try await Realm(configuration: config)
+        do {
+            let realm = try Realm(configuration: config)
+            completion(.success(realm))
+        } catch {
+            completion(.failure(error))
+        }
     }
     
     // MARK: - CRUD Operations
     
-    func createTask(task: Task) async throws {
-        let realm = try await getRealm()
-        let entity = taskEntity(from: task)
-        
-        try realm.write {
-            realm.add(entity)
+    func createTask(task: Task, completion: @escaping (Error?) -> Void) {
+        getRealm { result in
+            switch result {
+            case .success(let realm):
+                let entity = self.taskEntity(from: task)
+                do {
+                    try realm.write {
+                        realm.add(entity)
+                    }
+                    completion(nil)
+                } catch {
+                    completion(error)
+                }
+            case .failure(let error):
+                completion(error)
+            }
         }
     }
     
-    func getAllTasks() async throws -> [Task] {
-        let realm = try await getRealm()
-        let taskEntities = realm.objects(TaskEntity.self)
-        return taskEntities.map { task(from: $0) }
-    }
-    
-    func updateTask(task: Task) async throws {
-        let realm = try await getRealm()
-        let entity = taskEntity(from: task)
-        
-        try realm.write {
-            realm.add(entity, update: .modified)
+    func getAllTasks(completion: @escaping (Result<[Task], Error>) -> Void) {
+        getRealm { result in
+            switch result {
+            case .success(let realm):
+                let taskEntities = realm.objects(TaskEntity.self)
+                let tasks = Array(taskEntities.map { self.task(from: $0) })
+                completion(.success(tasks))
+            case .failure(let error):
+                completion(.failure(error))
+            }
         }
     }
     
-    func deleteTask(task: Task) async throws {
-        let realm = try await getRealm()
-        
-        guard let id = try? ObjectId(string: task.id),
-              let entityToDelete = realm.object(ofType: TaskEntity.self, forPrimaryKey: id) else {
-            throw NSError(domain: "RealmError", code: -1, userInfo: [NSLocalizedDescriptionKey: "Task not found"])
-        }
-        
-        try realm.write {
-            realm.delete(entityToDelete)
+    func updateTask(task: Task, completion: @escaping (Error?) -> Void) {
+        getRealm { result in
+            switch result {
+            case .success(let realm):
+                let entity = self.taskEntity(from: task)
+                do {
+                    try realm.write {
+                        realm.add(entity, update: .modified)
+                    }
+                    completion(nil)
+                } catch {
+                    completion(error)
+                }
+            case .failure(let error):
+                completion(error)
+            }
         }
     }
     
-    func getTask(byID id: ObjectId) async throws -> Task? {
-        let realm = try await getRealm()
-        guard let entity = realm.object(ofType: TaskEntity.self, forPrimaryKey: id) else {
-            return nil
+    func updateTaskPositions(_ tasks: [Task], completion: @escaping (Error?) -> Void) {
+        getRealm { result in
+            switch result {
+            case .success(let realm):
+                do {
+                    try realm.write {
+                        for task in tasks {
+                            guard let id = try? ObjectId(string: task.id),
+                                  let entity = realm.object(ofType: TaskEntity.self, forPrimaryKey: id) else {
+                                completion(NSError(domain: "RealmError", code: -1, userInfo: [NSLocalizedDescriptionKey: "Task not found"]))
+                                return
+                            }
+                            
+                            entity.position = task.position
+                            
+                        }
+                    }
+                    completion(nil)
+                } catch {
+                    completion(error)
+                }
+            case .failure(let error):
+                completion(error)
+            }
         }
-        return task(from: entity)
     }
     
-    func getCompletedTasks() async throws -> [Task] {
-        let realm = try await getRealm()
-        let taskEntities = realm.objects(TaskEntity.self).filter("isCompleted == true")
-        return taskEntities.map { task(from: $0) }
+    func deleteTask(task: Task, completion: @escaping (Error?) -> Void) {
+        getRealm { result in
+            switch result {
+            case .success(let realm):
+                guard let id = try? ObjectId(string: task.id),
+                      let entityToDelete = realm.object(ofType: TaskEntity.self, forPrimaryKey: id) else {
+                    completion(NSError(domain: "RealmError", code: -1, userInfo: [NSLocalizedDescriptionKey: "Task not found"]))
+                    return
+                }
+                do {
+                    try realm.write {
+                        realm.delete(entityToDelete)
+                    }
+                    completion(nil)
+                } catch {
+                    completion(error)
+                }
+            case .failure(let error):
+                completion(error)
+            }
+        }
     }
     
-    // MARK: - Private Helpers (for Realm conversion)
+    func getTask(byID id: ObjectId, completion: @escaping (Result<Task?, Error>) -> Void) {
+        getRealm { result in
+            switch result {
+            case .success(let realm):
+                let entity = realm.object(ofType: TaskEntity.self, forPrimaryKey: id)
+                let task = entity != nil ? self.task(from: entity!) : nil
+                completion(.success(task))
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
+    
+    func getCompletedTasks(completion: @escaping (Result<[Task], Error>) -> Void) {
+        getRealm { result in
+            switch result {
+            case .success(let realm):
+                let taskEntities = realm.objects(TaskEntity.self).filter("isCompleted == true")
+                let tasks = Array(taskEntities.map { self.task(from: $0) })
+                completion(.success(tasks))
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
+    
+    // MARK: - Private Helpers
     
     private func taskEntity(from task: Task) -> TaskEntity {
         let entity = TaskEntity()
@@ -88,7 +169,8 @@ class TaskManagerDB {
         entity.assignees.append(objectsIn: task.assignees ?? [])
         entity.isCompleted = task.isCompleted
         entity.createdAt = task.createdAt
-        entity.postition = task.postition
+        entity.position = task.position
+        entity.attachments.append(objectsIn: task.attachments ?? [])
         return entity
     }
     
@@ -100,11 +182,11 @@ class TaskManagerDB {
                     estimateHour: entity.estimateHour,
                     priority: entity.priority != nil ? TaskPriority(rawValue: entity.priority!) : nil,
                     category: entity.category != nil ? TaskCategory(rawValue: entity.category!) : nil,
-                    description: entity.brief,
+                    brief: entity.brief,
                     detail: entity.detail,
                     assignees: Array(entity.assignees),
                     isCompleted: entity.isCompleted,
-                    postition: entity.postition,
+                    position: entity.position,
                     createdAt: entity.createdAt)
     }
 }

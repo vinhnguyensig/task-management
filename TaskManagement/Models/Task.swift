@@ -19,7 +19,8 @@ struct Task: Identifiable, Codable {
     var detail: String?
     var assignees: [String]?
     var isCompleted: Bool
-    var postition: Int
+    var position: Int
+    var attachments: [String]?
     let createdAt: Date
 
     // Custom initializer for default values
@@ -30,11 +31,12 @@ struct Task: Identifiable, Codable {
          estimateHour: Double? = nil,
          priority: TaskPriority? = nil,
          category: TaskCategory? = nil,
-         description: String? = nil,
+         brief: String? = nil,
          detail: String? = nil,
          assignees: [String]? = nil,
          isCompleted: Bool = false,
-         postition: Int = 1,
+         position: Int = 1,
+         attachments: [String]? = nil,
          createdAt: Date = Date()) {
         
         self.id = id
@@ -44,11 +46,12 @@ struct Task: Identifiable, Codable {
         self.estimateHour = estimateHour
         self.priority = priority
         self.category = category
-        self.brief = description
+        self.brief = brief
         self.detail = detail
         self.assignees = assignees
         self.isCompleted = isCompleted
-        self.postition = postition
+        self.position = position
+        self.attachments = attachments
         self.createdAt = createdAt
     }
 }

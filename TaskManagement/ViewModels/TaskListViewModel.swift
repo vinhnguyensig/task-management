@@ -1,70 +1,134 @@
-//
-//  TaskListViewModel.swift
-//  TaskManagement
-//
-//  Created by Vinh Nguyen on 9/9/24.
-//
-
 import Foundation
 
 @MainActor
 class TaskListViewModel: ObservableObject {
+    
     @Published var tasks: [Task] = []
     @Published var isAddingNewTask = false
+    @Published var errorMessage: String?
+    @Published var searchQuery: String = ""
+    @Published var sortOrder: SortOrder = .descending
+    @Published var sortByPosition: Bool = false
+    
+    enum SortOrder {
+        case ascending
+        case descending
+    }
     
     init() {
+        loadTasks()
     }
     
     // MARK: - Task Management Methods
     
-    func loadTasks() async {
-        do {
-            let loadedTasks = try await TaskManagerDB.shared.getAllTasks()
-            tasks = loadedTasks
-        } catch {
-            print("Failed to load tasks: \(error)")
-        }
-    }
-    
-    func addTask(title: String, dueDate: Date? = nil, priority: TaskPriority = .medium, category: TaskCategory? = nil, description: String? = nil, isCompleted: Bool = false) async {
-        let newTask = Task(title: title, dueDate: dueDate, priority: priority, category: category, description: description, isCompleted: isCompleted)
-        
-        
-        do {
-            try await TaskManagerDB.shared.createTask(task: newTask)
-            tasks.append(newTask)
-        } catch {
-            print("Error adding task: \(error)")
-        }
-        
-    }
-    
-    func deleteTask(at offsets: IndexSet) async {
-        
-        for offset in offsets {
-            let task = tasks[offset]
-            do {
-                try await TaskManagerDB.shared.deleteTask(task: task)
-            } catch {
-                print("Error deleting task: \(error)")
+    func loadTasks() {
+        TaskManagerDB.shared.getAllTasks { [weak self] result in
+            switch result {
+            case .success(let loadedTasks):
+                self?.tasks = self?.sortTasks(loadedTasks) ?? []
+            case .failure(let error):
+                self?.errorMessage = "Failed to load tasks: \(error.localizedDescription)"
+                print(self?.errorMessage ?? "Unknown error")
             }
         }
-        tasks.remove(atOffsets: offsets)
+    }
+    
+    func addTask(title: String, startDate: Date? = nil, dueDate: Date? = nil, priority: TaskPriority = .medium, category: TaskCategory? = nil, brief: String? = nil, detail: String? = nil, position: Int = 1, isCompleted: Bool = false) {
+        let newTask = Task(title: title,
+                           startDate: startDate,
+                           dueDate: dueDate,
+                           estimateHour: nil,
+                           priority: priority,
+                           category: category,
+                           brief: brief,
+                           detail: detail,
+                           assignees: [],
+                           isCompleted: isCompleted,
+                           position: position,
+                           attachments: [])
         
+        TaskManagerDB.shared.createTask(task: newTask) { [weak self] error in
+            if let error = error {
+                self?.errorMessage = "Error adding task: \(error.localizedDescription)"
+                print(self?.errorMessage ?? "Unknown error")
+            } else {
+                self?.tasks.append(newTask)
+                self?.tasks = self?.sortTasks(self?.tasks ?? []) ?? []
+            }
+        }
+    }
+    
+    func deleteTask(at offsets: IndexSet) {
+        for offset in offsets {
+            let task = tasks[offset]
+            TaskManagerDB.shared.deleteTask(task: task) { [weak self] error in
+                if let error = error {
+                    self?.errorMessage = "Error deleting task: \(error.localizedDescription)"
+                    print(self?.errorMessage ?? "Unknown error")
+                } else {
+                    self?.tasks.remove(at: offset) // Remove from the local list after deletion
+                }
+            }
+        }
     }
     
     func moveTask(from source: IndexSet, to destination: Int) {
+        // Move the tasks in the local array
         tasks.move(fromOffsets: source, toOffset: destination)
-        //update the tasks' order in persistent storage
+        
+        // Update the positions of tasks in the local array
+        for (index, _) in tasks.enumerated() {
+            tasks[index].position = index + 1
+        }
+        
+        // Save the updated positions to Realm
+        TaskManagerDB.shared.updateTaskPositions(tasks) { [weak self] error in
+            if let error = error {
+                self?.errorMessage = "Error updating task positions: \(error.localizedDescription)"
+                print(self?.errorMessage ?? "Unknown error")
+            }
+        }
     }
     
-    // MARK: - Filtering and Sorting
+    // MARK: - Sorting by Position and Due Date
+    
+    func sortTasks(_ tasks: [Task]) -> [Task] {
+        if sortByPosition {
+            return sortOrder == .ascending
+                ? tasks.sorted { $0.position < $1.position }
+                : tasks.sorted { $0.position > $1.position }
+        } else {
+            return sortOrder == .ascending
+                ? tasks.sorted { $0.createdAt < $1.createdAt }
+                : tasks.sorted { $0.createdAt > $1.createdAt }
+        }
+    }
+    
+    func toggleSortOrder() {
+        sortOrder = (sortOrder == .ascending) ? .descending : .ascending
+        tasks = sortTasks(tasks)
+    }
+    
+    func toggleSortByPosition() {
+        sortByPosition.toggle()
+        tasks = sortTasks(tasks)
+    }
+    
+    // MARK: - Filtering, Searching, and Refreshing
     
     func filteredTasks(by category: TaskCategory?) -> [Task] {
-        if let category = category {
-            return tasks.filter { $0.category == category }
-        } else {
-            return tasks
+        let filtered = tasks.filter { task in
+            (category == nil || task.category == category) &&
+            (searchQuery.isEmpty || task.title.lowercased().contains(searchQuery.lowercased()))
         }
+        return filtered
+    }
+    
+    func refreshTasks() {
+        loadTasks()
+    }
+    
+    func searchTasks(query: String) {
+        searchQuery = query
     }
 }
