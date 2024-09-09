@@ -18,6 +18,7 @@ struct Task: Identifiable, Codable {
     var brief: String?
     var detail: String?
     var assignees: [String]?
+    var progress: Double
     var isCompleted: Bool
     var position: Int
     var attachments: [String]?
@@ -34,6 +35,7 @@ struct Task: Identifiable, Codable {
          brief: String? = nil,
          detail: String? = nil,
          assignees: [String]? = nil,
+         progress: Double = 0,
          isCompleted: Bool = false,
          position: Int = 1,
          attachments: [String]? = nil,
@@ -49,6 +51,7 @@ struct Task: Identifiable, Codable {
         self.brief = brief
         self.detail = detail
         self.assignees = assignees
+        self.progress = progress
         self.isCompleted = isCompleted
         self.position = position
         self.attachments = attachments

@@ -8,33 +8,33 @@
 import SwiftUI
 
 struct TaskGroupView: View {
-    @Binding var showAddTaskModal: Bool // Binding to control the modal
+    @Binding var showAddTaskModal: Bool
 
     var body: some View {
-        VStack(alignment: .leading) {
+        VStack(alignment: .leading, spacing: 8) {
+            // Header Section
             HStack {
                 Text("Task Groups")
-                    .font(.title2)
-                    .fontWeight(.bold)
-                Text("4")
-                    .foregroundColor(.purple)
+                    .font(.title3)
+                    .fontWeight(.semibold)
                 Spacer()
-                Button(action: {
-                    showAddTaskModal = true
-                }) {
-                    Image(systemName: "plus")
-                }
             }
-            VStack(spacing: 10) {
+            .padding(.horizontal, 16)
+            
+            // Task Group Cards
+            VStack(spacing: 12) {
                 NavigationLink {
                     TaskListView()
                 } label: {
                     TaskGroupCard(title: "Office Project", tasks: 23, progress: 0.7, color: .pink)
                 }
+                
                 TaskGroupCard(title: "Personal Project", tasks: 30, progress: 0.52, color: .purple)
                 TaskGroupCard(title: "Daily Study", tasks: 30, progress: 0.87, color: .orange)
             }
+            .padding(.horizontal, 16)
         }
+        .padding(.top, 16)
     }
 }
 
@@ -46,21 +46,26 @@ struct TaskGroupCard: View {
 
     var body: some View {
         HStack {
-            VStack(alignment: .leading) {
+            // Task Details
+            VStack(alignment: .leading, spacing: 4) {
                 Text(title)
-                    .fontWeight(.bold)
+                    .font(.body)
+                    .fontWeight(.semibold)
+                    .foregroundColor(.primary)
                 Text("\(tasks) Tasks")
                     .font(.caption)
-                    .foregroundColor(.gray)
+                    .foregroundColor(.secondary)
             }
             Spacer()
+            
+            // Progress Circle
             CircleProgressView(progress: progress, color: color)
-                .frame(minWidth: 50, idealWidth: 50, maxWidth: 150, minHeight: 50, idealHeight: 50, maxHeight: 150)
+                .frame(width: 50, height: 50)
                 .padding(.trailing, 8)
         }
         .padding()
-        .background(Color.white)
-        .cornerRadius(15)
-        .shadow(radius: 2)
+        .background(Color(UIColor.systemBackground)) // Adapts to light/dark mode
+        .cornerRadius(12)
+        .shadow(color: Color.black.opacity(0.1), radius: 4, x: 0, y: 2) // Softer shadow
     }
 }

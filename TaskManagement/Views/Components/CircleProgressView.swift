@@ -14,12 +14,12 @@ struct CircleProgressView: View {
     var body: some View {
         ZStack {
             Circle()
-                .stroke(lineWidth: 10)
+                .stroke(lineWidth: 6)
                 .opacity(0.3)
                 .foregroundColor(color)
             Circle()
                 .trim(from: 0.0, to: CGFloat(min(progress, 1.0)))
-                .stroke(style: StrokeStyle(lineWidth: 10, lineCap: .round))
+                .stroke(style: StrokeStyle(lineWidth: 5, lineCap: .round))
                 .foregroundColor(color)
                 .rotationEffect(Angle(degrees: 270.0))
                 .animation(.linear, value: progress)
@@ -31,7 +31,3 @@ struct CircleProgressView: View {
         }
     }
 }
-
-//#Preview {
-//    CircleProgressView(progress: 35, color: .blue)
-//}

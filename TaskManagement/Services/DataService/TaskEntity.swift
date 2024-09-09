@@ -19,6 +19,7 @@ class TaskEntity: Object, ObjectKeyIdentifiable {
     @Persisted var brief: String?
     @Persisted var detail: String?
     @Persisted var assignees: List<String> = List<String>()
+    @Persisted var progress: Double = 0
     @Persisted var isCompleted: Bool = false
     @Persisted var position: Int
     @Persisted var attachments: List<String> = List<String>()
@@ -34,6 +35,7 @@ class TaskEntity: Object, ObjectKeyIdentifiable {
                      brief: String? = nil,
                      detail: String? = nil,
                      assignees: [String] = [],
+                     progress: Double = 0,
                      isCompleted: Bool = false,
                      position: Int = 1,
                      attachments: [String] = [],
@@ -49,6 +51,7 @@ class TaskEntity: Object, ObjectKeyIdentifiable {
         self.brief = brief
         self.detail = detail
         self.assignees.append(objectsIn: assignees)
+        self.progress = progress
         self.isCompleted = isCompleted
         self.position = position
         self.attachments.append(objectsIn: attachments)

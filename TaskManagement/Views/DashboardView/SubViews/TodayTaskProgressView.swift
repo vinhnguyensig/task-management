@@ -14,52 +14,49 @@ struct TodayTaskProgressView: View {
     var body: some View {
         ZStack {
             // Background Shape
-            RoundedRectangle(cornerRadius: 20)
-                .fill(
-                    LinearGradient(
-                        gradient: Gradient(colors: [Color(hex: "AF52DE"), Color(hex: "6B60A0")]),
-                        startPoint: .leading,
-                        endPoint: .trailing
-                    )
-                )
-                .frame(height: 180)
-                .shadow(color: Color(hex: "AF52DE").opacity(0.5), radius: 10, x: 0, y: 5)
+            RoundedRectangle(cornerRadius: 12)
+                .fill(Color(UIColor.systemGray6))
+                .frame(height: 150)
+                .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: 3)
 
-            HStack(alignment: .center, spacing: 20) {
+            HStack(alignment: .center, spacing: 8) {
                 // Text Content
-                VStack(alignment: .leading) {
-                    Text("Your today's task")
-                        .font(.title2)
-                        .fontWeight(.bold)
-                        .foregroundColor(.white)
-                    Text("almost done!")
-                        .font(.headline)
-                        .foregroundColor(Color(hex: "E8E8E8"))
-                    Spacer()
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("Today's Task")
+                        .font(.title3)
+                        .fontWeight(.semibold)
+                        .foregroundColor(.primary)
+                    Text("Almost done!")
+                        .font(.subheadline)
+                        .foregroundColor(.secondary)
+                    
                     Button(action: {
                         navigateToTaskList = true
                     }) {
                         Text("View Task")
-                        .padding(.vertical, 8)
-                        .padding(.horizontal, 16)
-                        .background(Color.white)
-                        .cornerRadius(8)
-                        .foregroundColor(.purple)
-                        .font(.headline)
+                            .font(.callout)
+                            .fontWeight(.medium)
+                            .padding(.vertical, 8)
+                            .padding(.horizontal, 12)
+                            .background(Color.accentColor)
+                            .foregroundColor(.white)
+                            .cornerRadius(8)
                     }
-                    .padding()
+                    .buttonStyle(.plain) // Ensures the button stays simple and clean
                 }
-                .padding(.leading, 20)
+                .padding(.leading, 16)
 
                 Spacer()
-                CircleProgressView(progress: 0.85, color: .green)
-                    .frame(width: 80, height: 80)
-                    .padding()
+                
+                // Progress Circle
+                CircleProgressView(progress: 0.85, color: .accentColor)
+                    .frame(width: 60, height: 60)
+                    .padding(.trailing, 16)
             }
-            .padding(.vertical, 20)
-            .navigationDestination(isPresented: $navigateToTaskList) {
-                TaskListView()
-            }
+        }
+        .padding(.horizontal, 16)
+        .navigationDestination(isPresented: $navigateToTaskList) {
+            TaskListView()
         }
     }
 }
