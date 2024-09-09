@@ -30,7 +30,7 @@ class TaskTests: XCTestCase {
                         estimateHour: estimateHour,
                         priority: priority,
                         category: category,
-                        description: description,
+                        brief: description,
                         detail: detail,
                         assignees: assignees)
         
@@ -40,7 +40,7 @@ class TaskTests: XCTestCase {
         XCTAssertEqual(task.estimateHour, estimateHour)
         XCTAssertEqual(task.priority, priority)
         XCTAssertEqual(task.category, category)
-        XCTAssertEqual(task.description, description)
+        XCTAssertEqual(task.brief, description)
         XCTAssertEqual(task.detail, detail)
         XCTAssertEqual(task.assignees, assignees)
         XCTAssertEqual(task.isCompleted, false) // Default value
@@ -58,7 +58,7 @@ class TaskTests: XCTestCase {
         XCTAssertNil(task.estimateHour)
         XCTAssertNil(task.priority)
         XCTAssertNil(task.category)
-        XCTAssertNil(task.description)
+        XCTAssertNil(task.brief)
         XCTAssertNil(task.detail)
         XCTAssertNil(task.assignees)
         XCTAssertEqual(task.isCompleted, false)
