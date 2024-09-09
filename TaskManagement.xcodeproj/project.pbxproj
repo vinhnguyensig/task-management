@@ -44,6 +44,8 @@
 		1FDA7F3C2C8EA1E400B969A1 /* TaskManagerDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDA7F3B2C8EA1E400B969A1 /* TaskManagerDB.swift */; };
 		1FDA7F3E2C8EA1FA00B969A1 /* NetworkClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDA7F3D2C8EA1FA00B969A1 /* NetworkClient.swift */; };
 		1FDA7F402C8EA32D00B969A1 /* LaunchIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 1FDA7F3F2C8EA32D00B969A1 /* LaunchIcon.png */; };
+		1FDA7F422C8EAC3D00B969A1 /* TaskTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDA7F412C8EAC3D00B969A1 /* TaskTest.swift */; };
+		1FDA7F442C8EBFBD00B969A1 /* TaskEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDA7F432C8EBFBD00B969A1 /* TaskEntity.swift */; };
 		5A8B0A679F98436298504E5F /* Pods_TaskManagement.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DCFD7E81FE717BB38E9F109C /* Pods_TaskManagement.framework */; };
 /* End PBXBuildFile section */
 
@@ -92,6 +94,8 @@
 		1FDA7F3B2C8EA1E400B969A1 /* TaskManagerDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskManagerDB.swift; sourceTree = "<group>"; };
 		1FDA7F3D2C8EA1FA00B969A1 /* NetworkClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkClient.swift; sourceTree = "<group>"; };
 		1FDA7F3F2C8EA32D00B969A1 /* LaunchIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LaunchIcon.png; sourceTree = "<group>"; };
+		1FDA7F412C8EAC3D00B969A1 /* TaskTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskTest.swift; sourceTree = "<group>"; };
+		1FDA7F432C8EBFBD00B969A1 /* TaskEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskEntity.swift; sourceTree = "<group>"; };
 		51C263014581CF55B2C040B6 /* Pods-TaskManagement.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TaskManagement.debug.xcconfig"; path = "Target Support Files/Pods-TaskManagement/Pods-TaskManagement.debug.xcconfig"; sourceTree = "<group>"; };
 		CB014A516C1828C67A9ECC82 /* Pods-TaskManagement.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TaskManagement.release.xcconfig"; path = "Target Support Files/Pods-TaskManagement/Pods-TaskManagement.release.xcconfig"; sourceTree = "<group>"; };
 		DCFD7E81FE717BB38E9F109C /* Pods_TaskManagement.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TaskManagement.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -184,6 +188,7 @@
 			isa = PBXGroup;
 			children = (
 				1F8A70E12C8E95BF00D99C9A /* TaskManagementTests.swift */,
+				1FDA7F412C8EAC3D00B969A1 /* TaskTest.swift */,
 			);
 			path = TaskManagementTests;
 			sourceTree = "<group>";
@@ -219,9 +224,9 @@
 		1FDA7F072C8E9C3900B969A1 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				1FDA7F2D2C8E9F5600B969A1 /* Components */,
-				1FDA7F262C8E9F1500B969A1 /* DetailView */,
 				1FDA7F212C8E9EDA00B969A1 /* HomeView */,
+				1FDA7F262C8E9F1500B969A1 /* DetailView */,
+				1FDA7F2D2C8E9F5600B969A1 /* Components */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -248,6 +253,7 @@
 			isa = PBXGroup;
 			children = (
 				1FDA7F3B2C8EA1E400B969A1 /* TaskManagerDB.swift */,
+				1FDA7F432C8EBFBD00B969A1 /* TaskEntity.swift */,
 			);
 			path = DataService;
 			sourceTree = "<group>";
@@ -510,6 +516,7 @@
 				1F8A70D12C8E95BE00D99C9A /* TaskManagementApp.swift in Sources */,
 				1FDA7F162C8E9E6A00B969A1 /* TaskListViewModel.swift in Sources */,
 				1FDA7F2B2C8E9F3A00B969A1 /* TaskEditView.swift in Sources */,
+				1FDA7F442C8EBFBD00B969A1 /* TaskEntity.swift in Sources */,
 				1FDA7F192C8E9E7F00B969A1 /* TaskDetailsViewModel.swift in Sources */,
 				1FDA7F1C2C8E9E9700B969A1 /* TaskEditViewModel.swift in Sources */,
 			);
@@ -520,6 +527,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1FDA7F1D2C8E9E9700B969A1 /* TaskEditViewModel.swift in Sources */,
+				1FDA7F422C8EAC3D00B969A1 /* TaskTest.swift in Sources */,
 				1FDA7F252C8E9F0400B969A1 /* TaskRowView.swift in Sources */,
 				1FDA7F102C8E9E0600B969A1 /* Task.swift in Sources */,
 				1FDA7F112C8E9E0A00B969A1 /* TaskPriority.swift in Sources */,
