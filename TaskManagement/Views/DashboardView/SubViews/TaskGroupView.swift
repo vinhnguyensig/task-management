@@ -64,9 +64,8 @@ struct TaskGroupCard: View {
 
     var body: some View {
         HStack {
-            // Task Category Icon
             icon
-                .font(.largeTitle)
+                .font(.title)
                 .foregroundColor(color)
                 .padding(.trailing, 8)
 
@@ -88,8 +87,8 @@ struct TaskGroupCard: View {
                 .padding(.trailing, 8)
         }
         .padding()
-        .background(Color(UIColor.systemBackground)) // Adapts to light/dark mode
+        .background(Color(UIColor.systemBackground))
         .cornerRadius(12)
-        .shadow(color: Color.black.opacity(0.1), radius: 4, x: 0, y: 2) // Softer shadow
+        .shadow(color: Color.black.opacity(0.1), radius: 4, x: 0, y: 2)
     }
 }

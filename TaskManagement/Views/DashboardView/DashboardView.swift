@@ -16,7 +16,7 @@ struct DashboardView: View {
         NavigationStack {
             ScrollView {
                 VStack(spacing: 5) {
-                    TodayTaskProgressView()
+                    TodayTaskProgressView(viewModel: viewModel)
                     TaskInProgressView(viewModel: viewModel)
                     TaskGroupView(viewModel: viewModel)
                 }

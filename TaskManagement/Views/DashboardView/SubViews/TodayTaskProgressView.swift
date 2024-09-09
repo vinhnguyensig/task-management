@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct TodayTaskProgressView: View {
+    @StateObject var viewModel: DashboardViewModel
     
     @State private var navigateToTaskList: Bool = false
     
@@ -26,7 +27,7 @@ struct TodayTaskProgressView: View {
                         .font(.title3)
                         .fontWeight(.semibold)
                         .foregroundColor(.primary)
-                    Text("Almost done!")
+                    Text(viewModel.tasksTodayStatus)
                         .font(.subheadline)
                         .foregroundColor(.secondary)
                     
@@ -49,7 +50,7 @@ struct TodayTaskProgressView: View {
                 Spacer()
                 
                 // Progress Circle
-                CircleProgressView(progress: 0.85, color: .accentColor)
+                CircleProgressView(progress: viewModel.tasksTodayProgress, color: .accentColor)
                     .frame(width: 60, height: 60)
                     .padding(.trailing, 16)
             }

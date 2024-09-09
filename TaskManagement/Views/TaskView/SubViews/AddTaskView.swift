@@ -12,9 +12,12 @@ struct AddTaskView: View {
     @Environment(\.dismiss) var dismiss
 
     @State private var title: String = ""
-    @State private var dueDate: Date = Date()
+    @State private var startDate: Date = Date()
+    @State private var dueDate: Date = Date().addingTimeInterval(60*60*24*2)
     @State private var selectedPriority: TaskPriority = .medium
     @State private var selectedCategory: TaskCategory = .work
+    @State private var selectedStatus: TaskStatus = .backlog
+    
     @FocusState private var isTitleFocused: Bool
 
     var body: some View {
@@ -26,9 +29,12 @@ struct AddTaskView: View {
                         .onAppear {
                             self.isTitleFocused = true
                         }
-
+                    
+                    DatePicker("Start Date", selection: $startDate, displayedComponents: .date)
+                        .datePickerStyle(.compact)
+                    
                     DatePicker("Due Date", selection: $dueDate, displayedComponents: .date)
-                        .datePickerStyle(.graphical)
+                        .datePickerStyle(.compact)
 
                     // Priority Picker
                     Picker("Priority", selection: $selectedPriority) {
@@ -42,11 +48,22 @@ struct AddTaskView: View {
                     Picker("Category", selection: $selectedCategory) {
                         ForEach(TaskCategory.allCases, id: \.self) { category in
                             HStack {
-                                category.icon // Assuming TaskCategory has an icon property
+                                category.icon
                                     .foregroundColor(category.color)
                                 Text(category.rawValue.capitalized)
                             }
                             .tag(category)
+                        }
+                    }
+                    
+                    Picker("Status", selection: $selectedStatus) {
+                        ForEach(TaskStatus.allCases, id: \.self) { status in
+                            HStack {
+                                status.icon
+                                    .foregroundColor(status.color)
+                                Text(status.rawValue.capitalized)
+                            }
+                            .tag(status)
                         }
                     }
                 }
@@ -54,7 +71,7 @@ struct AddTaskView: View {
                 // Add Task Button
                 Button(action: {
                     viewModel.addTask(title: title, dueDate: dueDate, priority: selectedPriority, category: selectedCategory)
-                    dismiss() // Dismiss the sheet
+                    dismiss()
                 }) {
                     Text("Add Task")
                         .font(.headline)
