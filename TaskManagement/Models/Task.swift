@@ -13,8 +13,8 @@ struct Task: Identifiable, Codable {
     var startDate: Date?
     var dueDate: Date?
     var estimateHour: Double?
-    var priority: TaskPriority?
-    var category: TaskCategory?
+    var priority: TaskPriority
+    var category: TaskCategory
     var brief: String?
     var detail: String?
     var assignees: [String]?
@@ -24,14 +24,13 @@ struct Task: Identifiable, Codable {
     var attachments: [String]?
     let createdAt: Date
 
-    // Custom initializer for default values
     init(id: String = UUID().uuidString,
          title: String,
          startDate: Date? = nil,
          dueDate: Date? = nil,
          estimateHour: Double? = nil,
-         priority: TaskPriority? = nil,
-         category: TaskCategory? = nil,
+         priority: TaskPriority = .medium,
+         category: TaskCategory = .others,
          brief: String? = nil,
          detail: String? = nil,
          assignees: [String]? = nil,

@@ -30,9 +30,7 @@ struct TaskRowView: View {
                     .foregroundColor(.green)
             }
             
-            if let priority = task.priority {
-                PriorityIndicator(priority: priority)
-            }
+            PriorityIndicator(priority: task.priority)
         }
         .padding()
     }

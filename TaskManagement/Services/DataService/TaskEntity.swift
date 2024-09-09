@@ -14,8 +14,8 @@ class TaskEntity: Object, ObjectKeyIdentifiable {
     @Persisted var startDate: Date?
     @Persisted var dueDate: Date?
     @Persisted var estimateHour: Double?
-    @Persisted var priority: String?
-    @Persisted var category: String?
+    @Persisted var priority: String
+    @Persisted var category: String
     @Persisted var brief: String?
     @Persisted var detail: String?
     @Persisted var assignees: List<String> = List<String>()
@@ -30,8 +30,8 @@ class TaskEntity: Object, ObjectKeyIdentifiable {
                      startDate: Date? = nil,
                      dueDate: Date? = nil,
                      estimateHour: Double? = nil,
-                     priority: String? = nil,
-                     category: String? = nil,
+                     priority: String,
+                     category: String,
                      brief: String? = nil,
                      detail: String? = nil,
                      assignees: [String] = [],

@@ -33,7 +33,7 @@ enum TaskCategory: String, CaseIterable, Codable {
         case .learning: return .teal
         case .travel: return .cyan
         case .events: return .indigo
-        case .others: return .gray
+        case .others: return .orange
         }
     }
     

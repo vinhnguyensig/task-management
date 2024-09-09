@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct DashboardView: View {
+    @StateObject var viewModel = DashboardViewModel()
+    
     @State private var showAddTaskModal = false
 
     var body: some View {
@@ -15,8 +17,8 @@ struct DashboardView: View {
             ScrollView {
                 VStack(spacing: 5) {
                     TodayTaskProgressView()
-                    InprogressSectionView()
-                    TaskGroupView(showAddTaskModal: $showAddTaskModal)
+                    TaskInProgressView(viewModel: viewModel)
+                    TaskGroupView(viewModel: viewModel)
                 }
                 .padding(.horizontal, 5)
             }

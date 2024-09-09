@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct TaskGroupView: View {
-    @Binding var showAddTaskModal: Bool
+    
+    @StateObject var viewModel: DashboardViewModel
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -21,20 +22,36 @@ struct TaskGroupView: View {
             }
             .padding(.horizontal, 16)
             
-            // Task Group Cards
+            // Task Group Cards (Display the task groups dynamically)
             VStack(spacing: 12) {
-                NavigationLink {
-                    TaskListView()
-                } label: {
-                    TaskGroupCard(title: "Office Project", tasks: 23, progress: 0.7, color: .pink)
+                ForEach(viewModel.tasksByCategory, id: \.category) { taskGroup in
+                    // Extract category title or use "Uncategorized" if nil
+                    let categoryTitle = taskGroup.category?.rawValue ?? "Others"
+                    
+                    // Calculate the overall progress (sum of task progress / total tasks)
+                    let totalTasks = taskGroup.tasks.count
+                    let totalProgress = taskGroup.tasks.reduce(0) { $0 + $1.progress } / Double(totalTasks)
+                    
+                    // Extract color and icon from TaskCategory or use default values for uncategorized tasks
+                    let categoryColor = taskGroup.category?.color ?? .gray
+                    let categoryIcon = taskGroup.category?.icon ?? Image(systemName: "questionmark.circle")
+                    
+                    // Display a TaskGroupCard for each group
+                    TaskGroupCard(
+                        title: categoryTitle,
+                        tasks: totalTasks,
+                        progress: totalProgress,
+                        color: categoryColor,
+                        icon: categoryIcon
+                    )
                 }
-                
-                TaskGroupCard(title: "Personal Project", tasks: 30, progress: 0.52, color: .purple)
-                TaskGroupCard(title: "Daily Study", tasks: 30, progress: 0.87, color: .orange)
             }
             .padding(.horizontal, 16)
         }
         .padding(.top, 16)
+        .onAppear {
+            viewModel.loadGroupTasks()
+        }
     }
 }
 
@@ -43,9 +60,16 @@ struct TaskGroupCard: View {
     let tasks: Int
     let progress: Double
     let color: Color
+    let icon: Image
 
     var body: some View {
         HStack {
+            // Task Category Icon
+            icon
+                .font(.largeTitle)
+                .foregroundColor(color)
+                .padding(.trailing, 8)
+
             // Task Details
             VStack(alignment: .leading, spacing: 4) {
                 Text(title)

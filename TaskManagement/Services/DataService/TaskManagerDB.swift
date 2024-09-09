@@ -140,6 +140,19 @@ class TaskManagerDB {
         }
     }
     
+    func getInProgressTasks(completion: @escaping (Result<[Task], Error>) -> Void) {
+        getRealm { result in
+            switch result {
+            case .success(let realm):
+                let taskEntities = realm.objects(TaskEntity.self).filter("isCompleted == false")
+                let tasks = Array(taskEntities.map { self.task(from: $0) })
+                completion(.success(tasks))
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
+    
     func getCompletedTasks(completion: @escaping (Result<[Task], Error>) -> Void) {
         getRealm { result in
             switch result {
@@ -162,8 +175,8 @@ class TaskManagerDB {
         entity.startDate = task.startDate
         entity.dueDate = task.dueDate
         entity.estimateHour = task.estimateHour
-        entity.priority = task.priority?.rawValue
-        entity.category = task.category?.rawValue
+        entity.priority = task.priority.rawValue
+        entity.category = task.category.rawValue
         entity.brief = task.brief
         entity.detail = task.detail
         entity.assignees.append(objectsIn: task.assignees ?? [])
@@ -180,8 +193,8 @@ class TaskManagerDB {
                     startDate: entity.startDate,
                     dueDate: entity.dueDate,
                     estimateHour: entity.estimateHour,
-                    priority: entity.priority != nil ? TaskPriority(rawValue: entity.priority!) : nil,
-                    category: entity.category != nil ? TaskCategory(rawValue: entity.category!) : nil,
+                    priority: TaskPriority(rawValue: entity.priority) ?? .medium,
+                    category: TaskCategory(rawValue: entity.category) ?? .others,
                     brief: entity.brief,
                     detail: entity.detail,
                     assignees: Array(entity.assignees),

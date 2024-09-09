@@ -33,7 +33,7 @@ class TaskListViewModel: ObservableObject {
         }
     }
     
-    func addTask(title: String, startDate: Date? = nil, dueDate: Date? = nil, priority: TaskPriority = .medium, category: TaskCategory? = nil, brief: String? = nil, detail: String? = nil, position: Int = 1, isCompleted: Bool = false) {
+    func addTask(title: String, startDate: Date? = nil, dueDate: Date? = nil, priority: TaskPriority = .medium, category: TaskCategory = .others, brief: String? = nil, detail: String? = nil, position: Int = 1, isCompleted: Bool = false) {
         let newTask = Task(title: title,
                            startDate: startDate,
                            dueDate: dueDate,
