@@ -42,7 +42,7 @@ struct TodayTaskProgressView: View {
                             .foregroundColor(.white)
                             .cornerRadius(8)
                     }
-                    .buttonStyle(.plain) // Ensures the button stays simple and clean
+                    .buttonStyle(.plain)
                 }
                 .padding(.leading, 16)
 

@@ -16,6 +16,7 @@ class TaskEntity: Object, ObjectKeyIdentifiable {
     @Persisted var estimateHour: Double?
     @Persisted var priority: String
     @Persisted var category: String
+    @Persisted var status: String
     @Persisted var brief: String?
     @Persisted var detail: String?
     @Persisted var assignees: List<String> = List<String>()
@@ -32,6 +33,7 @@ class TaskEntity: Object, ObjectKeyIdentifiable {
                      estimateHour: Double? = nil,
                      priority: String,
                      category: String,
+                     status: String,
                      brief: String? = nil,
                      detail: String? = nil,
                      assignees: [String] = [],
@@ -48,6 +50,7 @@ class TaskEntity: Object, ObjectKeyIdentifiable {
         self.estimateHour = estimateHour
         self.priority = priority
         self.category = category
+        self.status = status
         self.brief = brief
         self.detail = detail
         self.assignees.append(objectsIn: assignees)

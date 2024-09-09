@@ -15,7 +15,7 @@ class TaskManagerDB {
     
     private func getRealm(completion: @escaping (Result<Realm, Error>) -> Void) {
         var config = Realm.Configuration()
-        config.schemaVersion = 0
+        config.schemaVersion = 1
         do {
             let realm = try Realm(configuration: config)
             completion(.success(realm))

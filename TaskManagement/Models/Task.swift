@@ -15,6 +15,7 @@ struct Task: Identifiable, Codable {
     var estimateHour: Double?
     var priority: TaskPriority
     var category: TaskCategory
+    var status: TaskStatus
     var brief: String?
     var detail: String?
     var assignees: [String]?
@@ -31,6 +32,7 @@ struct Task: Identifiable, Codable {
          estimateHour: Double? = nil,
          priority: TaskPriority = .medium,
          category: TaskCategory = .others,
+         status: TaskStatus = .backlog,
          brief: String? = nil,
          detail: String? = nil,
          assignees: [String]? = nil,
@@ -47,6 +49,7 @@ struct Task: Identifiable, Codable {
         self.estimateHour = estimateHour
         self.priority = priority
         self.category = category
+        self.status = status
         self.brief = brief
         self.detail = detail
         self.assignees = assignees

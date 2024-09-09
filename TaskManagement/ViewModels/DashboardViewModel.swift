@@ -21,7 +21,7 @@ class DashboardViewModel: ObservableObject {
             switch result {
             case .success(let loadedTasks):
                 let sortedTasks = loadedTasks.sorted {
-                    $0.priority > $1.priority
+                    $0.priority < $1.priority
                 }
                 self?.tasksInProgress = sortedTasks
             case .failure(let error):
