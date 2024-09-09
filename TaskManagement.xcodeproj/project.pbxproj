@@ -21,6 +21,7 @@
 		1F8A70E22C8E95BF00D99C9A /* TaskManagementTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8A70E12C8E95BF00D99C9A /* TaskManagementTests.swift */; };
 		1F8A70EC2C8E95BF00D99C9A /* TaskManagementUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8A70EB2C8E95BF00D99C9A /* TaskManagementUITests.swift */; };
 		1F8A70EE2C8E95BF00D99C9A /* TaskManagementUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8A70ED2C8E95BF00D99C9A /* TaskManagementUITestsLaunchTests.swift */; };
+		1FC3D6BA2C8F51FA004E0109 /* AddTaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDA7F472C8EE0B000B969A1 /* AddTaskView.swift */; };
 		1FDA7F0D2C8E9DE500B969A1 /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDA7F0C2C8E9DE500B969A1 /* Task.swift */; };
 		1FDA7F0F2C8E9DFB00B969A1 /* TaskPriority.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDA7F0E2C8E9DFB00B969A1 /* TaskPriority.swift */; };
 		1FDA7F102C8E9E0600B969A1 /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDA7F0C2C8E9DE500B969A1 /* Task.swift */; };
@@ -303,6 +304,7 @@
 			isa = PBXGroup;
 			children = (
 				1FDA7F222C8E9EE900B969A1 /* SubViews */,
+				1FDA7F472C8EE0B000B969A1 /* AddTaskView.swift */,
 				1FDA7F1E2C8E9EB300B969A1 /* TaskListView.swift */,
 			);
 			path = TaskView;
@@ -312,7 +314,6 @@
 			isa = PBXGroup;
 			children = (
 				1FDA7F232C8E9F0400B969A1 /* TaskRowView.swift */,
-				1FDA7F472C8EE0B000B969A1 /* AddTaskView.swift */,
 				1FDA7F492C8EE76A00B969A1 /* EmptyTaskView.swift */,
 			);
 			path = SubViews;
@@ -604,6 +605,7 @@
 				1FDA7F362C8E9F9200B969A1 /* CategoryBadgeView.swift in Sources */,
 				1FDA7F2C2C8E9F3A00B969A1 /* TaskEditView.swift in Sources */,
 				1FDA7F142C8E9E2200B969A1 /* TaskCategory.swift in Sources */,
+				1FC3D6BA2C8F51FA004E0109 /* AddTaskView.swift in Sources */,
 				1F8A70E22C8E95BF00D99C9A /* TaskManagementTests.swift in Sources */,
 				1FDA7F202C8E9EB300B969A1 /* TaskListView.swift in Sources */,
 				1FDA7F332C8E9F7D00B969A1 /* CustomDatePickerView.swift in Sources */,

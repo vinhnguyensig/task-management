@@ -67,7 +67,7 @@ struct TaskListView: View {
                 }
             }
             .sheet(isPresented: $showingAddTaskView) {
-                AddTaskView(viewModel: viewModel)
+                AddTaskView()
             }
             .searchable(text: $viewModel.searchQuery)
             .alert(isPresented: .constant(viewModel.errorMessage != nil)) {

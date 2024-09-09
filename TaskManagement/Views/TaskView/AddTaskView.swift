@@ -8,12 +8,13 @@
 import SwiftUI
 
 struct AddTaskView: View {
-    @ObservedObject var viewModel: TaskListViewModel
+    @ObservedObject var viewModel = TaskEditViewModel()
+    
     @Environment(\.dismiss) var dismiss
 
     @State private var title: String = ""
-    @State private var brief: String = ""  // brief description
-    @State private var detail: String = "" // detailed description
+    @State private var brief: String = ""
+    @State private var detail: String = ""
     @State private var startDate: Date = Date()
     @State private var dueDate: Date = Date().addingTimeInterval(60*60*24*2)
     @State private var selectedPriority: TaskPriority = .medium
@@ -34,7 +35,6 @@ struct AddTaskView: View {
                             self.isTitleFocused = true
                         }
                     
-                    // Detail Description (long text)
                     VStack(alignment: .leading) {
                         Text("Brief Description")
                             .font(.subheadline)
