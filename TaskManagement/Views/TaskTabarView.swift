@@ -12,7 +12,7 @@ struct TaskTabBarView: View {
     @State private var showAddTaskView: Bool = false
 
     enum Tab {
-        case home, calendar, add
+        case home, tasks, add, calendar, menu
     }
 
     var body: some View {
@@ -25,7 +25,7 @@ struct TaskTabBarView: View {
                 customTabBar
             }
             .sheet(isPresented: $showAddTaskView, onDismiss: {
-                selectedTab = .calendar
+                selectedTab = .tasks
             }) {
                 AddTaskView()
             }
@@ -39,8 +39,12 @@ struct TaskTabBarView: View {
         switch tab {
         case .home:
             DashboardView()
-        case .calendar:
+        case .tasks:
             TaskListView()
+        case .calendar:
+            TaskCalendarView()
+        case .menu:
+            SideMenuView()
         default:
             TaskListView()
         }
@@ -56,10 +60,9 @@ struct TaskTabBarView: View {
             
             HStack {
                 TabBarButton(icon: "gauge.with.dots.needle.67percent", selectedTab: $selectedTab, currentTab: .home)
-
                 Spacer()
-
-                // Button for adding task
+                TabBarButton(icon: "list.bullet.clipboard", selectedTab: $selectedTab, currentTab: .tasks)
+                Spacer()
                 Button(action: {
                     showAddTaskView = true
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
@@ -74,10 +77,10 @@ struct TaskTabBarView: View {
                         .shadow(color: Color.accentColor.opacity(0.4), radius: 10, x: 0, y: 5)
                 }
                 .padding(.top, -40)
-
                 Spacer()
-
                 TabBarButton(icon: "calendar", selectedTab: $selectedTab, currentTab: .calendar)
+                Spacer()
+                TabBarButton(icon: "ellipsis.circle", selectedTab: $selectedTab, currentTab: .menu)
             }
             .padding(.horizontal)
         }

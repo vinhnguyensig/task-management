@@ -26,6 +26,8 @@
 		1FAF293D2C9003A200686EA3 /* CalanderDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FAF293C2C9003A200686EA3 /* CalanderDate.swift */; };
 		1FAF293F2C9003D100686EA3 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FAF293E2C9003D100686EA3 /* Date+Extension.swift */; };
 		1FAF29412C90040F00686EA3 /* DueDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FAF29402C90040F00686EA3 /* DueDatePicker.swift */; };
+		1FAF29442C90527900686EA3 /* TaskCalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FAF29432C90527900686EA3 /* TaskCalendarView.swift */; };
+		1FAF29472C9053B900686EA3 /* SideMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FAF29462C9053B900686EA3 /* SideMenuView.swift */; };
 		1FC3D6BA2C8F51FA004E0109 /* AddTaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDA7F472C8EE0B000B969A1 /* AddTaskView.swift */; };
 		1FDA7F0D2C8E9DE500B969A1 /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDA7F0C2C8E9DE500B969A1 /* Task.swift */; };
 		1FDA7F0F2C8E9DFB00B969A1 /* TaskPriority.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDA7F0E2C8E9DFB00B969A1 /* TaskPriority.swift */; };
@@ -105,6 +107,8 @@
 		1FAF293C2C9003A200686EA3 /* CalanderDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalanderDate.swift; sourceTree = "<group>"; };
 		1FAF293E2C9003D100686EA3 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		1FAF29402C90040F00686EA3 /* DueDatePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DueDatePicker.swift; sourceTree = "<group>"; };
+		1FAF29432C90527900686EA3 /* TaskCalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskCalendarView.swift; sourceTree = "<group>"; };
+		1FAF29462C9053B900686EA3 /* SideMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuView.swift; sourceTree = "<group>"; };
 		1FDA7F0C2C8E9DE500B969A1 /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
 		1FDA7F0E2C8E9DFB00B969A1 /* TaskPriority.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskPriority.swift; sourceTree = "<group>"; };
 		1FDA7F122C8E9E2200B969A1 /* TaskCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskCategory.swift; sourceTree = "<group>"; };
@@ -243,6 +247,22 @@
 			path = TaskManagementUITests;
 			sourceTree = "<group>";
 		};
+		1FAF29422C90525400686EA3 /* TaskCalendarView */ = {
+			isa = PBXGroup;
+			children = (
+				1FAF29432C90527900686EA3 /* TaskCalendarView.swift */,
+			);
+			path = TaskCalendarView;
+			sourceTree = "<group>";
+		};
+		1FAF29452C9053A500686EA3 /* MenuView */ = {
+			isa = PBXGroup;
+			children = (
+				1FAF29462C9053B900686EA3 /* SideMenuView.swift */,
+			);
+			path = MenuView;
+			sourceTree = "<group>";
+		};
 		1FDA7F052C8E9C2000B969A1 /* Services */ = {
 			isa = PBXGroup;
 			children = (
@@ -266,6 +286,8 @@
 		1FDA7F072C8E9C3900B969A1 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				1FAF29452C9053A500686EA3 /* MenuView */,
+				1FAF29422C90525400686EA3 /* TaskCalendarView */,
 				1FDA7F4D2C8EF39000B969A1 /* DashboardView */,
 				1FDA7F212C8E9EDA00B969A1 /* TaskView */,
 				1FDA7F262C8E9F1500B969A1 /* DetailView */,
@@ -594,11 +616,13 @@
 				1FAF293D2C9003A200686EA3 /* CalanderDate.swift in Sources */,
 				1FDA7F502C8EF3E000B969A1 /* CircleProgressView.swift in Sources */,
 				1FAF293F2C9003D100686EA3 /* Date+Extension.swift in Sources */,
+				1FAF29472C9053B900686EA3 /* SideMenuView.swift in Sources */,
 				1FDA7F0D2C8E9DE500B969A1 /* Task.swift in Sources */,
 				1F341FD02C8EF71F0098C834 /* DashboardViewModel.swift in Sources */,
 				1F341FD92C8F07530098C834 /* Color+Extension.swift in Sources */,
 				1FDA7F0F2C8E9DFB00B969A1 /* TaskPriority.swift in Sources */,
 				1FAF29412C90040F00686EA3 /* DueDatePicker.swift in Sources */,
+				1FAF29442C90527900686EA3 /* TaskCalendarView.swift in Sources */,
 				1F8A70D12C8E95BE00D99C9A /* TaskManagementApp.swift in Sources */,
 				1FDA7F162C8E9E6A00B969A1 /* TaskListViewModel.swift in Sources */,
 				1FDA7F2B2C8E9F3A00B969A1 /* TaskEditView.swift in Sources */,
