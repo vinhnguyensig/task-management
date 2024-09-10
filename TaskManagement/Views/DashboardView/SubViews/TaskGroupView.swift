@@ -49,6 +49,7 @@ struct TaskGroupView: View {
             .padding(.horizontal, 16)
         }
         .padding(.top, 16)
+        .padding(.bottom, 50)
         .onAppear {
             viewModel.loadGroupTasks()
         }
