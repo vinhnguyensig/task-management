@@ -25,7 +25,8 @@ class TaskEntity: Object, ObjectKeyIdentifiable {
     @Persisted var position: Int
     @Persisted var attachments: List<String> = List<String>()
     @Persisted var createdAt: Date = Date()
-
+    @Persisted var parentId: String?
+    
     // Convenience initializer for creating Task objects
     convenience init(title: String,
                      startDate: Date? = nil,
@@ -41,7 +42,8 @@ class TaskEntity: Object, ObjectKeyIdentifiable {
                      isCompleted: Bool = false,
                      position: Int = 1,
                      attachments: [String] = [],
-                     createdAt: Date = Date()) {
+                     createdAt: Date = Date(),
+                     parentId: String? = nil) {
         
         self.init()
         self.title = title
@@ -59,6 +61,7 @@ class TaskEntity: Object, ObjectKeyIdentifiable {
         self.position = position
         self.attachments.append(objectsIn: attachments)
         self.createdAt = createdAt
+        self.parentId = parentId
     }
 }
 

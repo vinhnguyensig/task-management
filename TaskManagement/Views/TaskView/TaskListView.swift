@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct TaskListView: View {
+    var category: String?
     
     @StateObject private var viewModel = TaskListViewModel()
-    @State private var showingAddTaskView = false
     @State private var showingSortOptions = false
    
     var body: some View {
@@ -31,8 +31,12 @@ struct TaskListView: View {
                         }
                     }
                 }
+                   
             }
-            .navigationTitle("Tasks")
+            .navigationTitle(category == nil ? "Tasks": category!)
+            .task {
+                viewModel.fetchTasks(category: category)
+            }
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Menu {
@@ -61,10 +65,6 @@ struct TaskListView: View {
                     }
                 }
             }
-            .sheet(isPresented: $showingAddTaskView) {
-                AddTaskView()
-            }
-            .searchable(text: $viewModel.searchQuery)
             .alert(isPresented: .constant(viewModel.errorMessage != nil)) {
                 Alert(title: Text("Error"), message: Text(viewModel.errorMessage ?? "Unknown error"), dismissButton: .default(Text("OK")))
             }

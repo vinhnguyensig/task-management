@@ -15,14 +15,10 @@ struct EmptyTaskView: View {
                 .scaledToFit()
                 .frame(width: 100, height: 100)
                 .foregroundColor(.gray)
-            Text("No tasks available")
+            Text("Looks like there are no tasks available right now!")
                 .font(.title2)
                 .foregroundColor(.gray)
         }
         .padding()
     }
-}
-
-#Preview {
-    EmptyTaskView()
 }

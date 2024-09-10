@@ -24,7 +24,8 @@ struct Task: Identifiable, Codable {
     var position: Int
     var attachments: [String]?
     let createdAt: Date
-
+    var parentId: String?
+    
     init(id: String = UUID().uuidString,
          title: String,
          startDate: Date? = nil,
@@ -40,7 +41,8 @@ struct Task: Identifiable, Codable {
          isCompleted: Bool = false,
          position: Int = 1,
          attachments: [String]? = nil,
-         createdAt: Date = Date()) {
+         createdAt: Date = Date(), 
+         parentId: String? = nil) {
         
         self.id = id
         self.title = title
@@ -58,5 +60,6 @@ struct Task: Identifiable, Codable {
         self.position = position
         self.attachments = attachments
         self.createdAt = createdAt
+        self.parentId = parentId
     }
 }

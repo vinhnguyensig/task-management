@@ -62,7 +62,9 @@ struct TaskTabBarView: View {
                 // Button for adding task
                 Button(action: {
                     showAddTaskView = true
-                    selectedTab = .add
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                        selectedTab = .add
+                    }
                 }) {
                     Image(systemName: "plus")
                         .foregroundColor(.white)

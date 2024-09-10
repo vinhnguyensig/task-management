@@ -39,10 +39,10 @@ struct AddTaskView: View {
                             .font(.subheadline)
                             .foregroundColor(.gray)
                         TextEditor(text: $brief)
-                            .frame(height: 100)
+                            .frame(height: 60)
                             .overlay(
                                 RoundedRectangle(cornerRadius: 8)
-                                    .stroke(Color.gray.opacity(0.5), lineWidth: 1)
+                                    .stroke(Color.gray.opacity(0.1), lineWidth: 1)
                             )
                     }
                     

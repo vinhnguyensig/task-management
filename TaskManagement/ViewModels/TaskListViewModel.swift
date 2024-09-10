@@ -4,7 +4,6 @@ import Foundation
 class TaskListViewModel: ObservableObject {
     
     @Published var tasks: [Task] = []
-    @Published var isAddingNewTask = false
     @Published var errorMessage: String?
     @Published var searchQuery: String = ""
     @Published var sortOrder: SortOrder = .descending
@@ -16,10 +15,29 @@ class TaskListViewModel: ObservableObject {
     }
     
     init() {
-        loadTasks()
     }
     
     // MARK: - Task Management Methods
+    
+    func fetchTasks(category: String?) {
+        if let category = category {
+            loadTasksByCategory(category: category)
+        } else {
+            loadTasks()
+        }
+    }
+    
+    func loadTasksByCategory(category: String) {
+        TaskManagerDB.shared.fetchTasks(by: category) { [weak self] result in
+            switch result {
+            case .success(let loadedTasks):
+                self?.tasks = self?.sortTasks(loadedTasks) ?? []
+            case .failure(let error):
+                self?.errorMessage = "Failed to load tasks: \(error.localizedDescription)"
+                print(self?.errorMessage ?? "Unknown error")
+            }
+        }
+    }
     
     func loadTasks() {
         TaskManagerDB.shared.getAllTasks { [weak self] result in

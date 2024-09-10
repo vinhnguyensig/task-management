@@ -25,7 +25,7 @@ struct TaskGroupView: View {
             VStack(spacing: 12) {
                 ForEach(viewModel.tasksByCategory, id: \.category) { taskGroup in
                     NavigationLink {
-                        TaskListView()
+                        TaskListView(category: taskGroup.category?.rawValue)
                     } label: {
                         let categoryTitle = taskGroup.category?.rawValue ?? "Others"
                         let totalTasks = taskGroup.tasks.count

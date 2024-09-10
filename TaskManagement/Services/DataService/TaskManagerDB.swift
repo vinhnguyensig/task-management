@@ -58,6 +58,20 @@ class TaskManagerDB {
         }
     }
     
+    func fetchTasks(by category: String, completion: @escaping (Result<[Task], Error>) -> Void) {
+        getRealm { result in
+            switch result {
+            case .success(let realm):
+                let predicate = NSPredicate(format: "category == %@", category)
+                let taskEntities = realm.objects(TaskEntity.self).filter(predicate)
+                let tasks = Array(taskEntities.map { self.task(from: $0) })
+                completion(.success(tasks))
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
+    
     func updateTask(task: Task, completion: @escaping (Error?) -> Void) {
         getRealm { result in
             switch result {
