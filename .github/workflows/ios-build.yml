@@ -22,7 +22,7 @@ jobs:
         run: pod install
 
       - name: Build project
-        run: xcodebuild -workspace task-management.xcworkspace -scheme task-management -destination 'generic/platform=iOS' -archivePath build/task-management.xcarchive archive 
+        run: xcodebuild -workspace TaskManagement.xcworkspace -scheme TaskManagement -destination 'generic/platform=iOS' -archivePath build/TaskManagement.xcarchive archive 
 
       - name: Run tests
-        run: xcodebuild test -workspace task-management.xcworkspace -scheme task-management -destination 'platform=iOS Simulator,name=iPhone 15' 
+        run: xcodebuild test -workspace TaskManagement.xcworkspace -scheme TaskManagement -destination 'platform=iOS Simulator,name=iPhone 15' 
