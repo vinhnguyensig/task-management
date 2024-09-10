@@ -18,14 +18,6 @@ jobs:
         with:
           xcode-version: '15.4' 
 
-      - name: Cache CocoaPods
-        uses: actions/cache@v3
-        with:
-          path: |
-            Pods
-            ~/Library/Caches/CocoaPods
-          key: ${{ runner.os }}-pods-${{ hashFiles('Podfile.lock') }}
-
       - name: Install dependencies
         run: pod install
 
