@@ -46,7 +46,7 @@ struct DueDatePicker: View {
         // Show +/- 1 week from current date
         let today = calendar.startOfDay(for: Date())
         guard let startDate = calendar.date(byAdding: .day, value: -2, to: today),
-              let endDate = calendar.date(byAdding: .day, value: 7, to: today) else {
+              let endDate = calendar.date(byAdding: .day, value: 90, to: today) else {
             return dates
         }
 

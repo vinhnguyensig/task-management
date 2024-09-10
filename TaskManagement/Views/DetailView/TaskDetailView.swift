@@ -83,10 +83,14 @@ struct TaskDetailView: View {
                         Button {
                             if !isAddReminder {
                                 viewModel.setReminder(task: task)
-                                isAddReminder = true
+                                withAnimation {
+                                    isAddReminder = true
+                                }
                             } else {
                                 viewModel.removeReminder(id: task.id)
-                                isAddReminder = false
+                                withAnimation {
+                                    isAddReminder = false
+                                }
                             }
                         } label: {
                             Image(systemName: "bell.badge.circle.fill")

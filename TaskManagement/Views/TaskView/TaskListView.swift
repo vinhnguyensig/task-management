@@ -16,57 +16,85 @@ struct TaskListView: View {
     var body: some View {
         NavigationStack {
             VStack {
-                if viewModel.tasks.isEmpty {
-                    EmptyTaskView()
-                } else {
-                    VStack {
-                        List {
-                            ForEach(viewModel.filteredTasks(by: nil)) { task in
-                                NavigationLink(destination: TaskDetailView(task: task)) {
-                                    TaskRowView(task: task)
-                                }
-                            }
-                            .onDelete(perform: viewModel.deleteTask)
-                            .onMove(perform: viewModel.moveTask)
-                        }
-                    }
-                }
-                   
+                taskContent
             }
-            .navigationTitle(category == nil ? "Tasks": category!)
+            .navigationTitle(navigationTitle)
             .task {
                 viewModel.fetchTasks(category: category)
             }
             .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Menu {
-                        Button(action: {
-                            viewModel.toggleSortOrder()
-                        }) {
-                            HStack {
-                                Text("Sort Order")
-                                Spacer()
-                                Image(systemName: viewModel.sortOrder == .ascending ? "arrow.up" : "arrow.down")
-                            }
-                        }
-                        
-                        Button(action: {
-                            viewModel.toggleSortByPosition()
-                        }) {
-                            HStack {
-                                Text("Sort by Position")
-                                Spacer()
-                                Image(systemName: viewModel.sortByPosition ? "list.number" : "list.bullet")
-                            }
-                        }
-                    } label: {
-                        Image(systemName: "arrow.up.arrow.down.circle")
-                            .font(.title2)
-                    }
-                }
+                sortMenu
             }
             .alert(isPresented: .constant(viewModel.errorMessage != nil)) {
-                Alert(title: Text("Error"), message: Text(viewModel.errorMessage ?? "Unknown error"), dismissButton: .default(Text("OK")))
+                Alert(
+                    title: Text("Error"),
+                    message: Text(viewModel.errorMessage ?? "Unknown error"),
+                    dismissButton: .default(Text("OK"))
+                )
+            }
+        }
+    }
+    
+    // MARK: - Subviews
+    
+    private var taskContent: some View {
+        Group {
+            if viewModel.tasks.isEmpty {
+                EmptyTaskView()
+            } else {
+                taskListView
+            }
+        }
+    }
+    
+    private var taskListView: some View {
+        List {
+            ForEach(viewModel.filteredTasks(by: nil)) { task in
+                NavigationLink(destination: TaskDetailView(task: task)) {
+                    TaskRowView(task: task)
+                }
+            }
+            .onDelete(perform: viewModel.deleteTask)
+            .onMove(perform: viewModel.moveTask)
+        }
+    }
+    
+    private var navigationTitle: String {
+        category == nil ? "Tasks" : category!
+    }
+    
+    private var sortMenu: some ToolbarContent {
+        ToolbarItem(placement: .navigationBarTrailing) {
+            Menu {
+                sortOrderButton
+                sortByPositionButton
+            } label: {
+                Image(systemName: "arrow.up.arrow.down.circle")
+                    .font(.title2)
+            }
+        }
+    }
+    
+    private var sortOrderButton: some View {
+        Button(action: {
+            viewModel.toggleSortOrder()
+        }) {
+            HStack {
+                Text("Sort Order")
+                Spacer()
+                Image(systemName: viewModel.sortOrder == .ascending ? "arrow.up" : "arrow.down")
+            }
+        }
+    }
+    
+    private var sortByPositionButton: some View {
+        Button(action: {
+            viewModel.toggleSortByPosition()
+        }) {
+            HStack {
+                Text("Sort by Position")
+                Spacer()
+                Image(systemName: viewModel.sortByPosition ? "list.number" : "list.bullet")
             }
         }
     }
