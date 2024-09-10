@@ -11,7 +11,8 @@ import SwiftUI
 struct TaskManagementApp: App {
     var body: some Scene {
         WindowGroup {
-            DashboardView()
+            //DashboardView()
+            TaskTabBarView()
         }
     }
 }

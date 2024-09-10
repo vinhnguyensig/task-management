@@ -17,7 +17,7 @@ struct TaskRowView: View {
                 Text(task.title)
                     .font(.headline)
                 if let dueDate = task.dueDate {
-                    Text("Due: \(dueDate, formatter: taskDateFormatter)")
+                    Text("Due: \(dueDate, formatter: Utils.taskDateFormatter)")
                         .font(.subheadline)
                         .foregroundColor(.gray)
                 }
@@ -40,17 +40,15 @@ struct PriorityIndicator: View {
     let priority: TaskPriority
     
     var body: some View {
-        Text(priority.rawValue.capitalized)
-            .font(.caption)
-            .padding(5)
-            .background(priority.color)
-            .foregroundColor(.white)
-            .cornerRadius(5)
+        ZStack {
+            Circle()
+                .fill(priority.color)
+                .frame(width: 20, height: 20)
+            
+            Text(priority.rawValue.prefix(1).uppercased())
+                .font(.caption.bold())
+                .foregroundColor(.white)
+        }
     }
 }
 
-private let taskDateFormatter: DateFormatter = {
-    let formatter = DateFormatter()
-    formatter.dateStyle = .medium
-    return formatter
-}()

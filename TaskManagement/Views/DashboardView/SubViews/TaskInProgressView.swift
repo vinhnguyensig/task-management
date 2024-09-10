@@ -33,7 +33,8 @@ struct TaskInProgressView: View {
                             TaskInProgress(
                                 title: task.title,
                                 project: task.category.rawValue,
-                                color: task.category.color
+                                color: task.category.color,
+                                icon: task.category.icon
                             )
                         }
                     }
@@ -53,13 +54,18 @@ struct TaskInProgress: View {
     let title: String
     let project: String
     let color: Color
-
+    let icon: Image
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text(project)
-                .font(.caption)
-                .foregroundColor(.secondary)
-            
+            HStack {
+                Text(project)
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+                Spacer()
+                icon
+                    .foregroundColor(color)
+            }
             Text(title)
                 .font(.body)
                 .fontWeight(.semibold)

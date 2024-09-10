@@ -57,14 +57,6 @@ struct TaskListView: View {
                             .font(.title2)
                     }
                 }
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(action: {
-                        showingAddTaskView = true
-                    }) {
-                        Image(systemName: "plus")
-                            .font(.title2)
-                    }
-                }
             }
             .sheet(isPresented: $showingAddTaskView) {
                 AddTaskView()
