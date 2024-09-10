@@ -8,24 +8,27 @@
 import SwiftUI
 
 struct TaskListView: View {
+    
     @StateObject private var viewModel = TaskListViewModel()
     @State private var showingAddTaskView = false
     @State private var showingSortOptions = false
-    
+   
     var body: some View {
         NavigationStack {
             VStack {
                 if viewModel.tasks.isEmpty {
                     EmptyTaskView()
                 } else {
-                    List {
-                        ForEach(viewModel.filteredTasks(by: nil)) { task in
-                            NavigationLink(destination: TaskDetailView(task: task)) {
-                                TaskRowView(task: task)
+                    VStack {
+                        List {
+                            ForEach(viewModel.filteredTasks(by: nil)) { task in
+                                NavigationLink(destination: TaskDetailView(task: task)) {
+                                    TaskRowView(task: task)
+                                }
                             }
+                            .onDelete(perform: viewModel.deleteTask)
+                            .onMove(perform: viewModel.moveTask)
                         }
-                        .onDelete(perform: viewModel.deleteTask)
-                        .onMove(perform: viewModel.moveTask)
                     }
                 }
             }

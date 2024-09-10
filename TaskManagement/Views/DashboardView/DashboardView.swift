@@ -22,7 +22,6 @@ struct DashboardView: View {
                 }
                 .padding(.horizontal, 5)
             }
-            .background(Color(UIColor.systemGroupedBackground))
             .navigationTitle("Task Management")
             .navigationBarTitleDisplayMode(.large)
         }

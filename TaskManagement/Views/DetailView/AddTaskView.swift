@@ -15,17 +15,16 @@ struct AddTaskView: View {
     @State private var title: String = ""
     @State private var brief: String = ""
     @State private var detail: String = ""
-    @State private var startDate: Date = Date()
-    @State private var dueDate: Date = Date().addingTimeInterval(60*60*24*2)
+    @State private var dueDate: Date = Date()
     @State private var selectedPriority: TaskPriority = .medium
     @State private var selectedCategory: TaskCategory = .work
-    @State private var selectedStatus: TaskStatus = .backlog
+    @State private var selectedStatus: TaskStatus = .inProgress
     
     @FocusState private var isTitleFocused: Bool
     @State private var validationError: String?
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             Form {
                 Section(header: Text("Task Details").font(.headline)) {
                     // Task Title
@@ -46,10 +45,6 @@ struct AddTaskView: View {
                                     .stroke(Color.gray.opacity(0.5), lineWidth: 1)
                             )
                     }
-
-                    // Start Date and Due Date Pickers
-                    DatePicker("Start Date", selection: $startDate, displayedComponents: .date)
-                        .datePickerStyle(.compact)
                     
                     DatePicker("Due Date", selection: $dueDate, displayedComponents: .date)
                         .datePickerStyle(.compact)
@@ -98,7 +93,6 @@ struct AddTaskView: View {
                     if validateTask() {
                         viewModel.addTask(
                             title: title,
-                            startDate: startDate,
                             dueDate: dueDate,
                             priority: selectedPriority,
                             category: selectedCategory,
@@ -136,11 +130,6 @@ struct AddTaskView: View {
     private func validateTask() -> Bool {
         if title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
             validationError = "Task title cannot be empty."
-            return false
-        }
-
-        if startDate >= dueDate {
-            validationError = "Start date must be earlier than the due date."
             return false
         }
 

@@ -55,7 +55,7 @@ struct TaskTabBarView: View {
                 .edgesIgnoringSafeArea(.bottom)
             
             HStack {
-                TabBarButton(icon: "house.fill", selectedTab: $selectedTab, currentTab: .home)
+                TabBarButton(icon: "gauge.with.dots.needle.67percent", selectedTab: $selectedTab, currentTab: .home)
 
                 Spacer()
 

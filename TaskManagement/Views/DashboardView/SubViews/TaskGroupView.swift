@@ -22,28 +22,25 @@ struct TaskGroupView: View {
             }
             .padding(.horizontal, 16)
             
-            // Task Group Cards (Display the task groups dynamically)
             VStack(spacing: 12) {
                 ForEach(viewModel.tasksByCategory, id: \.category) { taskGroup in
-                    // Extract category title or use "Uncategorized" if nil
-                    let categoryTitle = taskGroup.category?.rawValue ?? "Others"
-                    
-                    // Calculate the overall progress (sum of task progress / total tasks)
-                    let totalTasks = taskGroup.tasks.count
-                    let totalProgress = taskGroup.tasks.reduce(0) { $0 + $1.progress } / Double(totalTasks)
-                    
-                    // Extract color and icon from TaskCategory or use default values for uncategorized tasks
-                    let categoryColor = taskGroup.category?.color ?? .gray
-                    let categoryIcon = taskGroup.category?.icon ?? Image(systemName: "questionmark.circle")
-                    
-                    // Display a TaskGroupCard for each group
-                    TaskGroupCard(
-                        title: categoryTitle,
-                        tasks: totalTasks,
-                        progress: totalProgress,
-                        color: categoryColor,
-                        icon: categoryIcon
-                    )
+                    NavigationLink {
+                        TaskListView()
+                    } label: {
+                        let categoryTitle = taskGroup.category?.rawValue ?? "Others"
+                        let totalTasks = taskGroup.tasks.count
+                        let totalProgress = taskGroup.tasks.reduce(0) { $0 + $1.progress } / Double(totalTasks)
+                        let categoryColor = taskGroup.category?.color ?? .gray
+                        let categoryIcon = taskGroup.category?.icon ?? Image(systemName: "questionmark.circle")
+                        
+                        TaskGroupCard(
+                            title: categoryTitle,
+                            tasks: totalTasks,
+                            progress: totalProgress,
+                            color: categoryColor,
+                            icon: categoryIcon
+                        )
+                    }
                 }
             }
             .padding(.horizontal, 16)
@@ -81,8 +78,7 @@ struct TaskGroupCard: View {
                     .foregroundColor(.secondary)
             }
             Spacer()
-            
-            // Progress Circle
+
             CircleProgressView(progress: progress, color: color)
                 .frame(width: 50, height: 50)
                 .padding(.trailing, 8)
