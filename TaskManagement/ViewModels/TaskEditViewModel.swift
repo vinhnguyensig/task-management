@@ -6,10 +6,13 @@
 //
 
 import Foundation
+import Combine
 
 @MainActor
 class TaskEditViewModel: ObservableObject {
     @Published var errorMessage: String?
+    
+    var anyCancleables = Set<AnyCancellable>()
     
     func addTask(title: String, startDate: Date? = nil, dueDate: Date? = nil, priority: TaskPriority = .medium, category: TaskCategory = .others, status: TaskStatus = .backlog, brief: String? = nil, detail: String? = nil, position: Int = 1, isCompleted: Bool = false) {
         let newTask = Task(title: title,
@@ -32,5 +35,21 @@ class TaskEditViewModel: ObservableObject {
                 print(self?.errorMessage ?? "Unknown error")
             }
         }
+    }
+    
+    func setReminder() {
+        NotificationManager.shared.requestAuthorization()
+        NotificationManager.shared.$isAuthorized
+            .dropFirst()
+            .sink { status in
+                print("authorize status = ", status)
+            }
+            .store(in: &anyCancleables)
+        NotificationManager.shared.$errorMessage
+            .dropFirst()
+            .sink { [weak self] message in
+                self?.errorMessage = message
+            }
+            .store(in: &anyCancleables)
     }
 }

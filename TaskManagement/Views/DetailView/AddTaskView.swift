@@ -48,6 +48,20 @@ struct AddTaskView: View {
                     
                     DatePicker("Due Date", selection: $dueDate, displayedComponents: .date)
                         .datePickerStyle(.compact)
+                    
+                    HStack{
+                        Text("Reminder")
+                        Spacer()
+                        Button {
+                            viewModel.setReminder()
+                        } label: {
+                            Image(systemName: "bell.badge.circle.fill")
+                                .resizable()
+                                .frame(width: 30, height: 30)
+                                .foregroundColor(.gray)
+                        }
+                    }
+                    
 
                     // Priority Picker
                     Picker("Priority", selection: $selectedPriority) {
