@@ -15,6 +15,7 @@ class NotificationManager: NSObject, UNUserNotificationCenterDelegate, Observabl
     
     // Published properties to notify subscribers of status or error changes
     @Published var isAuthorized: Bool = false
+    @Published var isSetNotify: Bool = false
     @Published var errorMessage: String?
 
     override init() {
@@ -40,7 +41,7 @@ class NotificationManager: NSObject, UNUserNotificationCenterDelegate, Observabl
     }
     
     // Schedule a notification to trigger after a specified time interval
-    func scheduleNotification(title: String, body: String, timeInterval: TimeInterval) {
+    func scheduleNotification(id: String, title: String, body: String, timeInterval: TimeInterval) {
         let content = UNMutableNotificationContent()
         content.title = title
         content.body = body
@@ -48,19 +49,23 @@ class NotificationManager: NSObject, UNUserNotificationCenterDelegate, Observabl
 
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: timeInterval, repeats: false)
         
-        let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
+        let request = UNNotificationRequest(identifier: id, content: content, trigger: trigger)
         
         UNUserNotificationCenter.current().add(request) { [weak self] error in
             if let error = error {
                 DispatchQueue.main.async {
                     self?.errorMessage = "Error scheduling notification: \(error.localizedDescription)"
                 }
+            } else {
+                DispatchQueue.main.async {
+                    self?.isSetNotify = true
+                }
             }
         }
     }
     
     // Schedule a notification for a specific date and time
-    func scheduleNotification(title: String, body: String, date: Date) {
+    func scheduleNotification(id: String, title: String, body: String, date: Date) {
         let content = UNMutableNotificationContent()
         content.title = title
         content.body = body
@@ -69,12 +74,16 @@ class NotificationManager: NSObject, UNUserNotificationCenterDelegate, Observabl
         let triggerDate = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
         let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDate, repeats: false)
         
-        let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
+        let request = UNNotificationRequest(identifier: id, content: content, trigger: trigger)
         
         UNUserNotificationCenter.current().add(request) { [weak self] error in
             if let error = error {
                 DispatchQueue.main.async {
                     self?.errorMessage = "Error scheduling notification: \(error.localizedDescription)"
+                }
+            } else {
+                DispatchQueue.main.async {
+                    self?.isSetNotify = true
                 }
             }
         }

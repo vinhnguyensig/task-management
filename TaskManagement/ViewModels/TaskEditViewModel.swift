@@ -37,19 +37,51 @@ class TaskEditViewModel: ObservableObject {
         }
     }
     
-    func setReminder() {
+    func setReminder(task: Task) {
         NotificationManager.shared.requestAuthorization()
         NotificationManager.shared.$isAuthorized
             .dropFirst()
-            .sink { status in
-                print("authorize status = ", status)
+            .sink { [weak self] status in
+                if status {
+                    if let dueDate = task.dueDate {
+                        NotificationManager.shared.scheduleNotification(id: task.id, title: task.title, body: task.brief ?? "", date: dueDate)
+                    }
+                } else {
+                    DispatchQueue.main.async {
+                        self?.errorMessage = "Notification permission denied"
+                    }
+                }
             }
             .store(in: &anyCancleables)
+        
+        NotificationManager.shared.$isSetNotify
+            .dropFirst()
+            .sink { status in
+                if status {
+                    UserDefaultsManager.save(value: status, forKey: task.id)
+                }
+            }
+            .store(in: &anyCancleables)
+        
         NotificationManager.shared.$errorMessage
             .dropFirst()
             .sink { [weak self] message in
-                self?.errorMessage = message
+                DispatchQueue.main.async {
+                    self?.errorMessage = message
+                }
             }
             .store(in: &anyCancleables)
+    }
+    
+    func removeReminder(id: String) {
+        NotificationManager.shared.cancelNotification(identifier: id)
+        UserDefaultsManager.remove(forKey: id)
+    }
+    
+    func isSetReminder(id: String) -> Bool {
+        if let _ = UserDefaultsManager.get(forKey: id) {
+            return true
+        }
+        return false
     }
 }

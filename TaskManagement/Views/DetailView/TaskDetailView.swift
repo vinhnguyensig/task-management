@@ -8,10 +8,12 @@
 import SwiftUI
 
 struct TaskDetailView: View {
+    @StateObject var viewModel = TaskEditViewModel()
     var task: Task
     
     @State private var brief: String = ""
     @State private var detail: String = ""
+    @State private var isAddReminder = false
     
     var body: some View {
         ScrollView {
@@ -57,18 +59,11 @@ struct TaskDetailView: View {
                 }
                 .padding(.vertical, 8)
                 
+                Divider()
+                
                 // Start Date and Due Date
-                if let startDate = task.startDate, let dueDate = task.dueDate {
+                if let dueDate = task.dueDate {
                     VStack(alignment: .leading, spacing: 4) {
-                        HStack {
-                            Label("Start Date", systemImage: "calendar")
-                                .font(.headline)
-                                .foregroundColor(.secondary)
-                            Spacer()
-                            Text(Utils.formattedDate(startDate))
-                                .font(.subheadline)
-                                .foregroundColor(.primary)
-                        }
                         HStack {
                             Label("Due Date", systemImage: "calendar.badge.exclamationmark")
                                 .font(.headline)
@@ -81,6 +76,25 @@ struct TaskDetailView: View {
                     }
                     .padding(.vertical, 8)
                     .accessibilityElement(children: .combine)
+                    
+                    HStack{
+                        Text("Reminder")
+                        Spacer()
+                        Button {
+                            if !isAddReminder {
+                                viewModel.setReminder(task: task)
+                                isAddReminder = true
+                            } else {
+                                viewModel.removeReminder(id: task.id)
+                                isAddReminder = false
+                            }
+                        } label: {
+                            Image(systemName: "bell.badge.circle.fill")
+                                .resizable()
+                                .frame(width: 30, height: 30)
+                                .foregroundColor(isAddReminder ? .blue : .gray)
+                        }
+                    }
                 }
                 
                 Divider()
@@ -130,6 +144,7 @@ struct TaskDetailView: View {
             if let cont = task.detail {
                 detail = cont
             }
+            isAddReminder = viewModel.isSetReminder(id: task.id)
         }
         .navigationTitle("Task Details")
         .navigationBarTitleDisplayMode(.inline)

@@ -29,6 +29,7 @@
 		1FAF29442C90527900686EA3 /* TaskCalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FAF29432C90527900686EA3 /* TaskCalendarView.swift */; };
 		1FAF29472C9053B900686EA3 /* SideMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FAF29462C9053B900686EA3 /* SideMenuView.swift */; };
 		1FAF294B2C9058EB00686EA3 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FAF294A2C9058EB00686EA3 /* NotificationService.swift */; };
+		1FAF294D2C90693800686EA3 /* UserDefaultManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FAF294C2C90693800686EA3 /* UserDefaultManager.swift */; };
 		1FC3D6BA2C8F51FA004E0109 /* AddTaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDA7F472C8EE0B000B969A1 /* AddTaskView.swift */; };
 		1FDA7F0D2C8E9DE500B969A1 /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDA7F0C2C8E9DE500B969A1 /* Task.swift */; };
 		1FDA7F0F2C8E9DFB00B969A1 /* TaskPriority.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDA7F0E2C8E9DFB00B969A1 /* TaskPriority.swift */; };
@@ -112,6 +113,7 @@
 		1FAF29462C9053B900686EA3 /* SideMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuView.swift; sourceTree = "<group>"; };
 		1FAF29482C90563F00686EA3 /* TaskManagement.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TaskManagement.entitlements; sourceTree = "<group>"; };
 		1FAF294A2C9058EB00686EA3 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
+		1FAF294C2C90693800686EA3 /* UserDefaultManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaultManager.swift; sourceTree = "<group>"; };
 		1FDA7F0C2C8E9DE500B969A1 /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
 		1FDA7F0E2C8E9DFB00B969A1 /* TaskPriority.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskPriority.swift; sourceTree = "<group>"; };
 		1FDA7F122C8E9E2200B969A1 /* TaskCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskCategory.swift; sourceTree = "<group>"; };
@@ -392,6 +394,7 @@
 		1FDA7F372C8E9FAE00B969A1 /* Helper */ = {
 			isa = PBXGroup;
 			children = (
+				1FAF294C2C90693800686EA3 /* UserDefaultManager.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -612,6 +615,7 @@
 				1FDA7F3C2C8EA1E400B969A1 /* TaskManagerDB.swift in Sources */,
 				1FDA7F2F2C8E9F6D00B969A1 /* TaskPriorityIndicatorView.swift in Sources */,
 				1FAF294B2C9058EB00686EA3 /* NotificationService.swift in Sources */,
+				1FAF294D2C90693800686EA3 /* UserDefaultManager.swift in Sources */,
 				1FDA7F482C8EE0B000B969A1 /* AddTaskView.swift in Sources */,
 				1FDA7F132C8E9E2200B969A1 /* TaskCategory.swift in Sources */,
 				1FAF293B2C8FDDB200686EA3 /* TaskTabarView.swift in Sources */,
