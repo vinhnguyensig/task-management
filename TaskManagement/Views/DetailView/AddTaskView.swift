@@ -20,17 +20,18 @@ struct AddTaskView: View {
     @State private var selectedCategory: TaskCategory = .work
     @State private var selectedStatus: TaskStatus = .inProgress
     @State private var showDueDatePicker = false
-    @State private var isToastShowing = false
+    @State private var toastMessage : String?
+    @State private var isEnableAddReminder = false
     
     @FocusState private var isTitleFocused: Bool
-    @State private var validationError: String?
+    @State private var errorMessage: String?
     
     var body: some View {
         NavigationStack {
             Form {
                 taskDetailsSection
-                if let error = validationError {
-                    validationErrorView(error)
+                if let error = errorMessage {
+                    errorMessageView(error)
                 }
             }
             .navigationTitle("New Task")
@@ -46,35 +47,47 @@ struct AddTaskView: View {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Add") {
                         addTask()
-                        isToastShowing = true
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                            withAnimation {
-                                isToastShowing = false
-                                title = ""
-                                brief = ""
-                                isTitleFocused = true
-                            }
-                        }
                     }
                     .disabled(title.isEmpty)
                 }
             }
             .overlay {
-                if isToastShowing {
-                    ToastView(message: "Added task successful!")
+                if let message = toastMessage {
+                    ToastView(message: message)
                     .transition(.move(edge: .bottom).combined(with: .opacity))
-                    .animation(.easeInOut(duration: 0.5), value: isToastShowing)
+                    .animation(.easeInOut(duration: 0.9), value: true)
                 }
             }
+            .onReceive(viewModel.$addedTask, perform: { newTask in
+                if let addedTask = newTask {
+                    toastMessage = "Added Task"
+                    if isEnableAddReminder {
+                        viewModel.setReminder(task: addedTask)
+                    }
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
+                        withAnimation {
+                            toastMessage = nil
+                            title = ""
+                            brief = ""
+                            errorMessage = nil
+                            isTitleFocused = true
+                        }
+                    }
+                }
+            })
+            .onReceive(viewModel.$errorMessage, perform: { message in
+                errorMessage = message
+            })
         }
     }
     
     // MARK: - Task Details Section
     private var taskDetailsSection: some View {
-        Section(header: Text("Task Details").font(.headline)) {
+        Section {
             taskTitleField
             briefDescriptionField
             dueDatePickerButton
+            taskReminderButton
             priorityPicker
             categoryPicker
             statusPicker
@@ -121,6 +134,25 @@ struct AddTaskView: View {
         }
     }
     
+    private var taskReminderButton: some View {
+        Button(action: {
+            viewModel.requestionNotifictionAuthorization()
+        }) {
+            HStack {
+                Text("Reminder")
+                Spacer()
+                Image(systemName: "bell.badge.circle.fill")
+                    .resizable()
+                    .frame(width: 30, height: 30)
+                    .foregroundColor(isEnableAddReminder ? .blue : .gray)
+            }
+            .foregroundColor(.primary)
+            .onReceive(viewModel.$notificationAuthorized, perform: { status in
+                isEnableAddReminder = status
+            })
+        }
+    }
+    
     private var priorityPicker: some View {
         Picker("Priority", selection: $selectedPriority) {
             ForEach(TaskPriority.allCases, id: \.self) { priority in
@@ -156,10 +188,9 @@ struct AddTaskView: View {
         }
     }
     
-    private func validationErrorView(_ error: String) -> some View {
+    private func errorMessageView(_ error: String) -> some View {
         Text(error)
             .foregroundColor(.red)
-            .padding()
     }
     
     // MARK: - Add Task Logic

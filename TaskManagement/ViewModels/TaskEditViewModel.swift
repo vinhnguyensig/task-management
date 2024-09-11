@@ -10,6 +10,8 @@ import Combine
 
 @MainActor
 class TaskEditViewModel: ObservableObject {
+    @Published var addedTask: Task?
+    @Published var notificationAuthorized: Bool = false
     @Published var errorMessage: String?
     
     var anyCancleables = Set<AnyCancellable>()
@@ -33,8 +35,26 @@ class TaskEditViewModel: ObservableObject {
             if let error = error {
                 self?.errorMessage = "Error adding task: \(error.localizedDescription)"
                 print(self?.errorMessage ?? "Unknown error")
+            } else {
+                self?.addedTask = newTask
             }
         }
+    }
+    
+    func requestionNotifictionAuthorization() {
+        NotificationManager.shared.requestAuthorization()
+        NotificationManager.shared.$isAuthorized
+            .dropFirst()
+            .sink { [weak self] status in
+                if status {
+                    self?.notificationAuthorized = status
+                } else {
+                    DispatchQueue.main.async {
+                        self?.errorMessage = Constants.notificationPermissionDeniedMessage
+                    }
+                }
+            }
+            .store(in: &anyCancleables)
     }
     
     func setReminder(task: Task) {
@@ -48,7 +68,7 @@ class TaskEditViewModel: ObservableObject {
                     }
                 } else {
                     DispatchQueue.main.async {
-                        self?.errorMessage = "Notification permission denied"
+                        self?.errorMessage = Constants.notificationPermissionDeniedMessage
                     }
                 }
             }
