@@ -9,12 +9,24 @@ on:
 jobs:
   build:
     runs-on: macos-latest
+
     steps:
+      # Check out the repository
       - uses: actions/checkout@v2
 
-      - name: Set up Xcode
-        run: sudo xcode-select -switch /Applications/Xcode.app/Contents/Developer
+      # Set up Ruby and Bundler
+      - name: Set up Ruby environment
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true  # Caches the bundle install
 
+      # Install CocoaPods via Bundler
+      - name: Install Dependencies
+        run: |
+          bundle install  # Ensure CocoaPods is installed locally if defined in Gemfile
+          bundle exec pod install  # Run `pod install` via Bundler
+
+      # Build the project
       - name: Build for iOS Simulator
         run: |
           xcodebuild clean build \
@@ -22,16 +34,16 @@ jobs:
             -scheme TaskManagement \
             -sdk iphonesimulator \
             -configuration Debug \
-            -destination 'platform=iOS Simulator,name=iPhone 14' \
+            -destination 'platform=iOS Simulator,name=iPhone 15 Pro Max' \
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGN_IDENTITY="" \
             PROVISIONING_PROFILE_SPECIFIER=""
 
+      # Run tests
       - name: Run Unit Tests on iOS Simulator
         run: |
-          xcodebuild test \
+          xcodebuild clean test \
             -workspace TaskManagement.xcworkspace \
             -scheme TaskManagement \
             -sdk iphonesimulator \
-            -destination 'platform=iOS Simulator,name=iPhone 14'
-
+            -destination 'platform=iOS Simulator,name=iPhone 15 Pro Max'
