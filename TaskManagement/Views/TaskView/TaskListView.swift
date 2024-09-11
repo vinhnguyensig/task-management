@@ -20,7 +20,7 @@ struct TaskListView: View {
             }
             .navigationTitle(navigationTitle)
             .navigationBarTitleDisplayMode(.automatic)
-            .task {
+            .onAppear {
                 viewModel.fetchTasks(category: category)
             }
             .toolbar {
@@ -52,9 +52,7 @@ struct TaskListView: View {
     private var taskListView: some View {
         List {
             ForEach(viewModel.filteredTasks(by: nil)) { task in
-                NavigationLink(destination: TaskDetailView(task: task)) {
-                    TaskRowView(task: task)
-                }
+                TaskRowView(viewModel: viewModel, task: task)
             }
             .onDelete(perform: viewModel.deleteTask)
             .onMove(perform: viewModel.moveTask)

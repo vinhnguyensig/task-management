@@ -17,6 +17,8 @@ struct SideMenuView: View {
                     menuItem(title: "Task Reminder", systemImage: "bell.badge.circle.fill")
                     menuItem(title: "Priority", systemImage: "exclamationmark.circle")
                     menuItem(title: "Categories", systemImage: "folder")
+                    Spacer()
+                    menuItem(title: "Feedback", systemImage: "ellipsis.message")
                     menuItem(title: "Settings", systemImage: "gearshape")
                 }
                 .listStyle(PlainListStyle())
@@ -37,8 +39,4 @@ struct SideMenuView: View {
                 .padding(.vertical, 8)
         }
     }
-}
-
-#Preview {
-    SideMenuView()
 }

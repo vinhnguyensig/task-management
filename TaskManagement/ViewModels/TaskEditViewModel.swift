@@ -10,9 +10,14 @@ import Combine
 
 @MainActor
 class TaskEditViewModel: ObservableObject {
+    @Published var addedTask: Task?
+    @Published var updatedTask: Task?
+    @Published var notificationAuthorized: Bool = false
     @Published var errorMessage: String?
     
-    var anyCancleables = Set<AnyCancellable>()
+    var isShouldPostNotify: Bool = false
+    
+    private var anyCancleables = Set<AnyCancellable>()
     
     func addTask(title: String, startDate: Date? = nil, dueDate: Date? = nil, priority: TaskPriority = .medium, category: TaskCategory = .others, status: TaskStatus = .backlog, brief: String? = nil, detail: String? = nil, position: Int = 1, isCompleted: Bool = false) {
         let newTask = Task(title: title,
@@ -33,8 +38,53 @@ class TaskEditViewModel: ObservableObject {
             if let error = error {
                 self?.errorMessage = "Error adding task: \(error.localizedDescription)"
                 print(self?.errorMessage ?? "Unknown error")
+            } else {
+                self?.isShouldPostNotify = true
+                self?.addedTask = newTask
             }
         }
+    }
+    
+    func updateTask(id: String, title: String, startDate: Date? = nil, dueDate: Date? = nil, priority: TaskPriority = .medium, category: TaskCategory = .others, status: TaskStatus = .backlog, brief: String? = nil, detail: String? = nil, position: Int = 1, isCompleted: Bool = false) {
+
+        let editTask = Task(id: id,
+                           title: title,
+                           startDate: startDate,
+                           dueDate: dueDate,
+                           estimateHour: nil,
+                           priority: priority,
+                           category: category,
+                           status: status,
+                           brief: brief,
+                           detail: detail,
+                           assignees: [],
+                           isCompleted: isCompleted,
+                           position: position,
+                           attachments: [])
+        TaskManagerDB.shared.updateTask(task: editTask) { [weak self] error in
+            if let error = error {
+                self?.errorMessage = "Error adding task: \(error.localizedDescription)"
+                print(self?.errorMessage ?? "Unknown error")
+            } else {
+                self?.updatedTask = editTask
+            }
+        }
+    }
+    
+    func requestionNotifictionAuthorization() {
+        NotificationManager.shared.requestAuthorization()
+        NotificationManager.shared.$isAuthorized
+            .dropFirst()
+            .sink { [weak self] status in
+                if status {
+                    self?.notificationAuthorized = status
+                } else {
+                    DispatchQueue.main.async {
+                        self?.errorMessage = Constants.notificationPermissionDeniedMessage
+                    }
+                }
+            }
+            .store(in: &anyCancleables)
     }
     
     func setReminder(task: Task) {
@@ -48,7 +98,7 @@ class TaskEditViewModel: ObservableObject {
                     }
                 } else {
                     DispatchQueue.main.async {
-                        self?.errorMessage = "Notification permission denied"
+                        self?.errorMessage = Constants.notificationPermissionDeniedMessage
                     }
                 }
             }

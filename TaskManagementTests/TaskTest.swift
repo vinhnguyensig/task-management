@@ -7,7 +7,6 @@
 
 import XCTest
 
-import XCTest
 @testable import TaskManagement
 
 class TaskTests: XCTestCase {

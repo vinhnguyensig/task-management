@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct AddTaskView: View {
+    var task: Task?
+    
     @StateObject var viewModel = TaskEditViewModel()
     
     @Environment(\.dismiss) var dismiss
@@ -20,126 +22,246 @@ struct AddTaskView: View {
     @State private var selectedCategory: TaskCategory = .work
     @State private var selectedStatus: TaskStatus = .inProgress
     @State private var showDueDatePicker = false
+    @State private var toastMessage : String?
+    @State private var isEnableAddReminder = false
     
     @FocusState private var isTitleFocused: Bool
-    @State private var validationError: String?
+    @State private var errorMessage: String?
     
     var body: some View {
         NavigationStack {
             Form {
-                Section(header: Text("Task Details").font(.headline)) {
-                    // Task Title
-                    TextField("Enter task title", text: $title)
-                        .focused($isTitleFocused)
-                        .onAppear {
-                            self.isTitleFocused = true
-                        }
-                    
-                    VStack(alignment: .leading) {
-                        if brief.isEmpty {
-                            Text("Brief Description")
-                                .font(.subheadline)
-                                .foregroundColor(.gray)
-                            
-                        }
-                        TextEditor(text: $brief)
-                            .frame(height: 60)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 8)
-                                    .stroke(Color.gray.opacity(0.1), lineWidth: 1)
-                            )
-                        
-                    }
-                    
-                    // Button to open Due Date Picker
-                    Button(action: {
-                        showDueDatePicker = true
-                    }) {
-                        HStack {
-                            Text("Due Date")
-                            Spacer()
-                            Image(systemName: "bell.badge.circle")
-                            Text("\(Utils.formattedDate(dueDate))")
-                        }
-                        .foregroundColor(.primary)
-                        .background(Color.white)
-                        .cornerRadius(8)
-                    }
-                    .sheet(isPresented: $showDueDatePicker) {
-                        DueDatePickerView(selectedDate: $dueDate)
-                            .presentationDetents([.large, .fraction(0.7)])
-                            .presentationDragIndicator(.visible)
-                    }
-                    
-                    // Priority Picker
-                    Picker("Priority", selection: $selectedPriority) {
-                        ForEach(TaskPriority.allCases, id: \.self) { priority in
-                            Text(priority.rawValue.capitalized)
-                                .tag(priority)
-                        }
-                    }
-                    
-                    // Category Picker
-                    Picker("Category", selection: $selectedCategory) {
-                        ForEach(TaskCategory.allCases, id: \.self) { category in
-                            HStack {
-                                category.icon
-                                    .foregroundColor(category.color)
-                                Text(category.rawValue.capitalized)
-                            }
-                            .tag(category)
-                        }
-                    }
-                    
-                    // Status Picker
-                    Picker("Status", selection: $selectedStatus) {
-                        ForEach(TaskStatus.allCases, id: \.self) { status in
-                            HStack {
-                                status.icon
-                                    .foregroundColor(status.color)
-                                Text(status.rawValue.capitalized)
-                            }
-                            .tag(status)
-                        }
-                    }
-                }
-                
-                if let error = validationError {
-                    Text(error)
-                        .foregroundColor(.red)
-                        .padding()
+                taskDetailsSection
+                if let error = errorMessage {
+                    errorMessageView(error)
                 }
             }
-            .navigationTitle("New Task")
+            .navigationTitle(task == nil ? "New Task" : "Edit Task")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button {
-                        dismiss()
-                    } label: {
-                        Image(systemName: "arrowshape.down.circle")
-                            .foregroundColor(.gray)
+                if task == nil {
+                    ToolbarItem(placement: .navigationBarLeading) {
+                        Button(action: { dismiss() }) {
+                            Image(systemName: "arrowshape.down.circle")
+                                .foregroundColor(.gray)
+                        }
                     }
-                    
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Add") {
-                        
-                        viewModel.addTask(
-                            title: title,
-                            dueDate: dueDate,
-                            priority: selectedPriority,
-                            category: selectedCategory,
-                            status: selectedStatus,
-                            brief: brief,
-                            detail: detail
-                        )
-                        dismiss()
-                        
+                    if let editTask = task {
+                        Button("Update") {
+                            updateTask(editTask: editTask)
+                        }
+                        .disabled(title.isEmpty)
+                    } else {
+                        Button("Add") {
+                            addTask()
+                        }
+                        .disabled(title.isEmpty)
                     }
-                    .disabled(title.isEmpty)
+                }
+            }
+            .onAppear {
+                if let editTask = task {
+                    title = editTask.title
+                    if let desc = editTask.brief {
+                        brief = desc
+                    }
+                    if let dd = editTask.dueDate {
+                        dueDate = dd
+                    }
+                    selectedPriority = editTask.priority
+                    selectedCategory = editTask.category
+                    selectedStatus = editTask.status
+                    if let dt = editTask.detail {
+                        detail = dt
+                    }
+                }
+            }
+            .overlay {
+                if let message = toastMessage {
+                    ToastView(message: message)
+                    .transition(.move(edge: .bottom).combined(with: .opacity))
+                    .animation(.easeInOut(duration: 0.5), value: true)
+                }
+            }
+            .onReceive(viewModel.$addedTask, perform: { newTask in
+                if let addedTask = newTask {
+                    toastMessage = "Added Task"
+                    if isEnableAddReminder {
+                        viewModel.setReminder(task: addedTask)
+                    }
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        withAnimation {
+                            toastMessage = nil
+                            title = ""
+                            brief = ""
+                            errorMessage = nil
+                            isTitleFocused = true
+                        }
+                    }
+                }
+            })
+            .onReceive(viewModel.$updatedTask, perform: { editTask in
+                if let uptask = editTask {
+                    toastMessage = "Updated Task"
+                    if isEnableAddReminder {
+                        viewModel.setReminder(task: uptask)
+                    }
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        toastMessage = nil
+                        NotificationCenter.default.post(name: Notification.Name(Constants.taskNotificationInfo), object: nil, userInfo: ["task": uptask])
+                        dismiss()
+                    }
+                }
+            })
+            .onReceive(viewModel.$errorMessage, perform: { message in
+                errorMessage = message
+            })
+            .onDisappear {
+                if viewModel.isShouldPostNotify {
+                    viewModel.isShouldPostNotify = false
+                    NotificationCenter.default.post(name: Notification.Name(Constants.taskNotificationInfo), object: nil, userInfo: ["reload": true])
                 }
             }
         }
+    }
+    
+    // MARK: - Task Details Section
+    private var taskDetailsSection: some View {
+        Section {
+            taskTitleField
+            briefDescriptionField
+            dueDatePickerButton
+            taskReminderButton
+            priorityPicker
+            categoryPicker
+            statusPicker
+        }
+    }
+    
+    // MARK: - Components
+    private var taskTitleField: some View {
+        TextField("Enter task title", text: $title)
+            .focused($isTitleFocused)
+            .onAppear { self.isTitleFocused = true }
+    }
+    
+    private var briefDescriptionField: some View {
+        VStack(alignment: .leading) {
+            if brief.isEmpty {
+                Text("Brief Description")
+                    .font(.subheadline)
+                    .foregroundColor(.gray)
+            }
+            TextEditor(text: $brief)
+                .frame(height: 60)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 8)
+                        .stroke(Color.gray.opacity(0.1), lineWidth: 1)
+                )
+        }
+    }
+    
+    private var dueDatePickerButton: some View {
+        Button(action: { showDueDatePicker = true }) {
+            HStack {
+                Text("Due Date")
+                Spacer()
+                Image(systemName: "calendar")
+                Text("\(Utils.formattedDate(dueDate))")
+            }
+            .foregroundColor(.primary)
+        }
+        .sheet(isPresented: $showDueDatePicker) {
+            DueDatePickerView(selectedDate: $dueDate)
+                .presentationDetents([.large, .fraction(0.7)])
+                .presentationDragIndicator(.visible)
+        }
+    }
+    
+    private var taskReminderButton: some View {
+        Button(action: {
+            viewModel.requestionNotifictionAuthorization()
+        }) {
+            HStack {
+                Text("Reminder")
+                Spacer()
+                Image(systemName: "bell.badge.circle.fill")
+                    .resizable()
+                    .frame(width: 30, height: 30)
+                    .foregroundColor(isEnableAddReminder ? .blue : .gray)
+            }
+            .foregroundColor(.primary)
+            .onReceive(viewModel.$notificationAuthorized, perform: { status in
+                isEnableAddReminder = status
+            })
+        }
+    }
+    
+    private var priorityPicker: some View {
+        Picker("Priority", selection: $selectedPriority) {
+            ForEach(TaskPriority.allCases, id: \.self) { priority in
+                Text(priority.rawValue.capitalized)
+                    .tag(priority)
+            }
+        }
+    }
+    
+    private var categoryPicker: some View {
+        Picker("Category", selection: $selectedCategory) {
+            ForEach(TaskCategory.allCases, id: \.self) { category in
+                HStack {
+                    category.icon
+                        .foregroundColor(category.color)
+                    Text(category.rawValue.capitalized)
+                }
+                .tag(category)
+            }
+        }
+    }
+    
+    private var statusPicker: some View {
+        Picker("Status", selection: $selectedStatus) {
+            ForEach(TaskStatus.allCases, id: \.self) { status in
+                HStack {
+                    status.icon
+                        .foregroundColor(status.color)
+                    Text(status.rawValue.capitalized)
+                }
+                .tag(status)
+            }
+        }
+    }
+    
+    private func errorMessageView(_ error: String) -> some View {
+        Text(error)
+            .foregroundColor(.red)
+    }
+    
+    // MARK: - Add Task Logic
+    private func addTask() {
+        viewModel.addTask(
+            title: title,
+            dueDate: dueDate,
+            priority: selectedPriority,
+            category: selectedCategory,
+            status: selectedStatus,
+            brief: brief,
+            detail: detail
+        )
+    }
+    
+    private func updateTask(editTask: Task) {
+        viewModel.updateTask(
+            id: editTask.id,
+            title: title,
+            dueDate: dueDate,
+            priority: selectedPriority,
+            category: selectedCategory,
+            status: selectedStatus,
+            brief: brief,
+            detail: detail
+        )
     }
 }

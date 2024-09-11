@@ -8,149 +8,167 @@
 import SwiftUI
 
 struct TaskDetailView: View {
-    @StateObject var viewModel = TaskEditViewModel()
-    var task: Task
+    @State var task: Task
+    
+    @StateObject var viewModel = TaskDetailsViewModel()
+    @Environment(\.dismiss) var dismiss
     
     @State private var brief: String = ""
     @State private var detail: String = ""
     @State private var isAddReminder = false
-    
+    @State private var isNavigateEdit = false
+  
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 16) {
-                
-                // Task Title
-                Text(task.title)
-                    .font(.title2)
-                    .fontWeight(.semibold)
-                    .lineLimit(2)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.vertical, 4)
-                    .accessibilityAddTraits(.isHeader)
-                
-                // Task Details (Priority, Category, Status)
-                HStack(alignment: .center, spacing: 16) {
-                    // Priority
-                    Label(task.priority.rawValue.capitalized, systemImage: "flag.fill")
-                        .padding(4)
-                        .background(task.priority.color)
-                        .cornerRadius(6)
-                        .foregroundColor(.white)
-                        .font(.subheadline)
-                        .accessibilityLabel("Priority: \(task.priority.rawValue)")
+        NavigationStack {
+            ScrollView {
+                VStack(alignment: .leading, spacing: 16) {
                     
-                    Spacer()
+                    // Task Title
+                    Text(task.title)
+                        .font(.title2)
+                        .fontWeight(.semibold)
+                        .lineLimit(2)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.vertical, 4)
+                        .accessibilityAddTraits(.isHeader)
                     
-                    // Category
-                    task.category.icon
-                        .foregroundColor(task.category.color)
-                    Text(task.category.rawValue.capitalized)
-                        .font(.subheadline)
-                        .foregroundColor(.primary)
+                    // Task Details (Priority, Category, Status)
+                    HStack(alignment: .center, spacing: 16) {
+                        // Priority
+                        Label(task.priority.rawValue.capitalized, systemImage: "flag.fill")
+                            .padding(4)
+                            .background(task.priority.color)
+                            .cornerRadius(6)
+                            .foregroundColor(.white)
+                            .font(.subheadline)
+                            .accessibilityLabel("Priority: \(task.priority.rawValue)")
+                        
+                        Spacer()
+                        
+                        // Category
+                        task.category.icon
+                            .foregroundColor(task.category.color)
+                        Text(task.category.rawValue.capitalized)
+                            .font(.subheadline)
+                            .foregroundColor(.primary)
+                        
+                        Spacer()
+                        
+                        // Status
+                        task.status.icon
+                            .foregroundColor(task.status.color)
+                        Text(task.status.rawValue.capitalized)
+                            .font(.subheadline)
+                            .foregroundColor(.primary)
+                    }
+                    .padding(.vertical, 8)
                     
-                    Spacer()
+                    Divider()
                     
-                    // Status
-                    task.status.icon
-                        .foregroundColor(task.status.color)
-                    Text(task.status.rawValue.capitalized)
-                        .font(.subheadline)
-                        .foregroundColor(.primary)
-                }
-                .padding(.vertical, 8)
-                
-                Divider()
-                
-                // Start Date and Due Date
-                if let dueDate = task.dueDate {
-                    VStack(alignment: .leading, spacing: 4) {
-                        HStack {
-                            Label("Due Date", systemImage: "calendar.badge.exclamationmark")
-                                .font(.headline)
+                    // Start Date and Due Date
+                    if let dueDate = task.dueDate {
+                        VStack(alignment: .leading, spacing: 4) {
+                            HStack {
+                                Label("Due Date", systemImage: "calendar.badge.exclamationmark")
+                                    .font(.headline)
+                                    .foregroundColor(.secondary)
+                                Spacer()
+                                Text(Utils.formattedDate(dueDate))
+                                    .font(.subheadline)
+                                    .foregroundColor(.primary)
+                            }
+                        }
+                        .padding(.vertical, 8)
+                        .accessibilityElement(children: .combine)
+                        
+                        HStack{
+                            Text("Reminder")
                                 .foregroundColor(.secondary)
                             Spacer()
-                            Text(Utils.formattedDate(dueDate))
-                                .font(.subheadline)
-                                .foregroundColor(.primary)
+                            Button {
+                            } label: {
+                                Image(systemName: "bell.badge.circle.fill")
+                                    .resizable()
+                                    .frame(width: 30, height: 30)
+                                    .foregroundColor(isAddReminder ? .blue : .gray)
+                            }
+                        }
+                    }
+                    
+                    Divider()
+                    
+                    // Brief Description
+                    VStack(alignment: .leading, spacing: 8) {
+                        Label("Brief Description", systemImage: "text.book.closed")
+                            .font(.headline)
+                            .foregroundColor(.secondary)
+                        
+                        TextEditor(text: $brief)
+                            .frame(minHeight: 60, maxHeight: 100)
+                            .padding(1)
+                            .background(Color(.systemGray6))
+                            .cornerRadius(8)
+                    }
+                    .padding(.vertical, 8)
+                    
+                    // Detailed Description
+                    VStack(alignment: .leading, spacing: 8) {
+                        Label("Task Detail", systemImage: "doc.text")
+                            .font(.headline)
+                            .foregroundColor(.secondary)
+                        
+                        TextEditor(text: $detail)
+                            .frame(minHeight: 100, maxHeight: 160)
+                            .padding(1)
+                            .background(Color(.systemGray6))
+                            .cornerRadius(8)
+                        
+                        Button(action: {
+                            // Action to generate detailed description
+                        }) {
+                            Label("Generate task detail with AI", systemImage: "wand.and.stars")
+                                .foregroundColor(.blue)
                         }
                     }
                     .padding(.vertical, 8)
-                    .accessibilityElement(children: .combine)
-                    
-                    HStack{
-                        Text("Reminder")
-                        Spacer()
-                        Button {
-                            if !isAddReminder {
-                                viewModel.setReminder(task: task)
-                                withAnimation {
-                                    isAddReminder = true
-                                }
-                            } else {
-                                viewModel.removeReminder(id: task.id)
-                                withAnimation {
-                                    isAddReminder = false
-                                }
-                            }
-                        } label: {
-                            Image(systemName: "bell.badge.circle.fill")
-                                .resizable()
-                                .frame(width: 30, height: 30)
-                                .foregroundColor(isAddReminder ? .blue : .gray)
-                        }
+                }
+            }
+            .padding()
+            .frame(maxWidth: .infinity)
+            .onAppear {
+                if let des = task.brief {
+                    brief = des
+                }
+                if let cont = task.detail {
+                    detail = cont
+                }
+                isAddReminder = viewModel.isSetReminder(id: task.id)
+            }
+            .navigationTitle("Task Details")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button(action: { dismiss() }) {
+                        Image(systemName: "arrowshape.down.circle")
+                            .foregroundColor(.gray)
                     }
                 }
                 
-                Divider()
-                
-                // Brief Description
-                VStack(alignment: .leading, spacing: 8) {
-                    Label("Brief Description", systemImage: "text.book.closed")
-                        .font(.headline)
-                        .foregroundColor(.secondary)
-                    
-                    TextEditor(text: $brief)
-                        .frame(minHeight: 60, maxHeight: 100)
-                        .padding(1)
-                        .background(Color(.systemGray6))
-                        .cornerRadius(8)
-                }
-                .padding(.vertical, 8)
-                
-                // Detailed Description
-                VStack(alignment: .leading, spacing: 8) {
-                    Label("Task Detail", systemImage: "doc.text")
-                        .font(.headline)
-                        .foregroundColor(.secondary)
-                    
-                    TextEditor(text: $detail)
-                        .frame(minHeight: 100, maxHeight: 160)
-                        .padding(1)
-                        .background(Color(.systemGray6))
-                        .cornerRadius(8)
-                    
-                    Button(action: {
-                        // Action to generate detailed description
-                    }) {
-                        Label("Generate task detail with AI", systemImage: "wand.and.stars")
-                            .foregroundColor(.blue)
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button("Edit") {
+                        viewModel.registerObserveTaskInfo()
+                        isNavigateEdit = true
                     }
                 }
-                .padding(.vertical, 8)
             }
+            .navigationDestination(isPresented: $isNavigateEdit) {
+                AddTaskView(task: task)
+            }
+            .onReceive(viewModel.$task, perform: { info in
+                if let nTask = info {
+                    task = nTask
+                }
+            })
         }
-        .padding()
-        .frame(maxWidth: .infinity)
-        .onAppear {
-            if let des = task.brief {
-                brief = des
-            }
-            if let cont = task.detail {
-                detail = cont
-            }
-            isAddReminder = viewModel.isSetReminder(id: task.id)
-        }
-        .navigationTitle("Task Details")
-        .navigationBarTitleDisplayMode(.inline)
     }
 }

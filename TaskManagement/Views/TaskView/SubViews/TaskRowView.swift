@@ -9,30 +9,43 @@ import Foundation
 import SwiftUI
 
 struct TaskRowView: View {
+    @ObservedObject var viewModel: TaskListViewModel
+    
     let task: Task
+    @State private var isShowDetail = false
     
     var body: some View {
-        HStack {
-            VStack(alignment: .leading) {
-                Text(task.title)
-                    .font(.headline)
-                if let dueDate = task.dueDate {
-                    Text("Due date: \(Utils.taskDateFormatter(dueDate))")
-                        .font(.subheadline)
-                        .foregroundColor(.gray)
+        
+        Button(action: {
+            viewModel.registerObserveTaskInfo()
+            isShowDetail = true
+        }, label: {
+            HStack {
+                VStack(alignment: .leading) {
+                    Text(task.title)
+                        .font(.headline)
+                    if let dueDate = task.dueDate {
+                        Text("Due date: \(Utils.taskDateFormatter(dueDate))")
+                            .font(.subheadline)
+                            .foregroundColor(.gray)
+                    }
                 }
+                
+                Spacer()
+                
+                if task.status == .done {
+                    Image(systemName: "checkmark.circle.fill")
+                        .foregroundColor(.green)
+                }
+                
+                PriorityIndicator(priority: task.priority)
             }
-            
-            Spacer()
-            
-            if task.status == .done {
-                Image(systemName: "checkmark.circle.fill")
-                    .foregroundColor(.green)
-            }
-            
-            PriorityIndicator(priority: task.priority)
-        }
-        .padding()
+            .padding()
+            .sheet(isPresented: $isShowDetail, content: {
+                TaskDetailView(task: task)
+            })
+        })
+        
     }
 }
 
