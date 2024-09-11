@@ -14,11 +14,11 @@ jobs:
       # Check out the repository
       - uses: actions/checkout@v2
 
-      # Install CocoaPods via Bundler
-      - name: Install Dependencies
-        run: |
-          bundle install  # Ensure CocoaPods is installed locally if defined in Gemfile
-          bundle exec pod install  # Run `pod install` via Bundler
+      - name: Install CocoaPods
+        run: brew install cocoapods
+
+      - name: Install dependencies
+        run: pod install
 
       # Build the project
       - name: Build for iOS Simulator
