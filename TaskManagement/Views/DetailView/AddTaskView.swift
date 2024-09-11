@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct AddTaskView: View {
+    var task: Task?
+    
     @StateObject var viewModel = TaskEditViewModel()
     
     @Environment(\.dismiss) var dismiss
@@ -34,28 +36,44 @@ struct AddTaskView: View {
                     errorMessageView(error)
                 }
             }
-            .navigationTitle("New Task")
+            .navigationTitle(task == nil ? "New Task" : "Edit Task")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button(action: { dismiss() }) {
-                        Image(systemName: "arrowshape.down.circle")
-                            .foregroundColor(.gray)
+                if task == nil {
+                    ToolbarItem(placement: .navigationBarLeading) {
+                        Button(action: { dismiss() }) {
+                            Image(systemName: "arrowshape.down.circle")
+                                .foregroundColor(.gray)
+                        }
                     }
                 }
-                
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Add") {
-                        addTask()
+                    if let editTask = task {
+                        Button("Update") {
+                            updateTask(editTask: editTask)
+                        }
+                        .disabled(title.isEmpty)
+                    } else {
+                        Button("Add") {
+                            addTask()
+                        }
+                        .disabled(title.isEmpty)
                     }
-                    .disabled(title.isEmpty)
+                }
+            }
+            .onAppear {
+                if let editTask = task {
+                    title = editTask.title
+                    if let desc = editTask.brief {
+                        brief = desc
+                    }
                 }
             }
             .overlay {
                 if let message = toastMessage {
                     ToastView(message: message)
                     .transition(.move(edge: .bottom).combined(with: .opacity))
-                    .animation(.easeInOut(duration: 0.9), value: true)
+                    .animation(.easeInOut(duration: 0.5), value: true)
                 }
             }
             .onReceive(viewModel.$addedTask, perform: { newTask in
@@ -64,7 +82,7 @@ struct AddTaskView: View {
                     if isEnableAddReminder {
                         viewModel.setReminder(task: addedTask)
                     }
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                         withAnimation {
                             toastMessage = nil
                             title = ""
@@ -72,6 +90,19 @@ struct AddTaskView: View {
                             errorMessage = nil
                             isTitleFocused = true
                         }
+                    }
+                }
+            })
+            .onReceive(viewModel.$updatedTask, perform: { editTask in
+                if let uptask = editTask {
+                    toastMessage = "Updated Task"
+                    if isEnableAddReminder {
+                        viewModel.setReminder(task: uptask)
+                    }
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        toastMessage = nil
+                        NotificationCenter.default.post(name: Notification.Name(Constants.taskNotificationInfo), object: nil, userInfo: ["task": uptask])
+                        dismiss()
                     }
                 }
             })
@@ -196,6 +227,19 @@ struct AddTaskView: View {
     // MARK: - Add Task Logic
     private func addTask() {
         viewModel.addTask(
+            title: title,
+            dueDate: dueDate,
+            priority: selectedPriority,
+            category: selectedCategory,
+            status: selectedStatus,
+            brief: brief,
+            detail: detail
+        )
+    }
+    
+    private func updateTask(editTask: Task) {
+        viewModel.updateTask(
+            id: editTask.id,
             title: title,
             dueDate: dueDate,
             priority: selectedPriority,

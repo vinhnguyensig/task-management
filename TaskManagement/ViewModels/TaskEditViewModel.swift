@@ -11,6 +11,7 @@ import Combine
 @MainActor
 class TaskEditViewModel: ObservableObject {
     @Published var addedTask: Task?
+    @Published var updatedTask: Task?
     @Published var notificationAuthorized: Bool = false
     @Published var errorMessage: String?
     
@@ -37,6 +38,32 @@ class TaskEditViewModel: ObservableObject {
                 print(self?.errorMessage ?? "Unknown error")
             } else {
                 self?.addedTask = newTask
+            }
+        }
+    }
+    
+    func updateTask(id: String, title: String, startDate: Date? = nil, dueDate: Date? = nil, priority: TaskPriority = .medium, category: TaskCategory = .others, status: TaskStatus = .backlog, brief: String? = nil, detail: String? = nil, position: Int = 1, isCompleted: Bool = false) {
+
+        let editTask = Task(id: id,
+                           title: title,
+                           startDate: startDate,
+                           dueDate: dueDate,
+                           estimateHour: nil,
+                           priority: priority,
+                           category: category,
+                           status: status,
+                           brief: brief,
+                           detail: detail,
+                           assignees: [],
+                           isCompleted: isCompleted,
+                           position: position,
+                           attachments: [])
+        TaskManagerDB.shared.updateTask(task: editTask) { [weak self] error in
+            if let error = error {
+                self?.errorMessage = "Error adding task: \(error.localizedDescription)"
+                print(self?.errorMessage ?? "Unknown error")
+            } else {
+                self?.updatedTask = editTask
             }
         }
     }
