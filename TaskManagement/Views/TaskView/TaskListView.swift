@@ -20,7 +20,7 @@ struct TaskListView: View {
             }
             .navigationTitle(navigationTitle)
             .navigationBarTitleDisplayMode(.automatic)
-            .task {
+            .onAppear {
                 viewModel.fetchTasks(category: category)
             }
             .toolbar {

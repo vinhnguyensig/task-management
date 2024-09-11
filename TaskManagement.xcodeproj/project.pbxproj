@@ -25,6 +25,7 @@
 		1F990AF42C911454003B5117 /* DueDateCalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F990AF32C911454003B5117 /* DueDateCalendarView.swift */; };
 		1F990AF62C91305B003B5117 /* TaskCalendarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F990AF52C91305B003B5117 /* TaskCalendarViewModel.swift */; };
 		1F990AF82C9133E5003B5117 /* DueDatePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F990AF72C9133E5003B5117 /* DueDatePickerView.swift */; };
+		1F990AFA2C915359003B5117 /* ToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F990AF92C915359003B5117 /* ToastView.swift */; };
 		1FAF293B2C8FDDB200686EA3 /* TaskTabarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FAF293A2C8FDDB200686EA3 /* TaskTabarView.swift */; };
 		1FAF293D2C9003A200686EA3 /* CalanderDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FAF293C2C9003A200686EA3 /* CalanderDate.swift */; };
 		1FAF293F2C9003D100686EA3 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FAF293E2C9003D100686EA3 /* Date+Extension.swift */; };
@@ -109,6 +110,7 @@
 		1F990AF32C911454003B5117 /* DueDateCalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DueDateCalendarView.swift; sourceTree = "<group>"; };
 		1F990AF52C91305B003B5117 /* TaskCalendarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskCalendarViewModel.swift; sourceTree = "<group>"; };
 		1F990AF72C9133E5003B5117 /* DueDatePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DueDatePickerView.swift; sourceTree = "<group>"; };
+		1F990AF92C915359003B5117 /* ToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastView.swift; sourceTree = "<group>"; };
 		1FAF293A2C8FDDB200686EA3 /* TaskTabarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskTabarView.swift; sourceTree = "<group>"; };
 		1FAF293C2C9003A200686EA3 /* CalanderDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalanderDate.swift; sourceTree = "<group>"; };
 		1FAF293E2C9003D100686EA3 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
@@ -392,6 +394,7 @@
 				1FDA7F2E2C8E9F6D00B969A1 /* TaskPriorityIndicatorView.swift */,
 				1FDA7F342C8E9F9200B969A1 /* CategoryBadgeView.swift */,
 				1FDA7F4F2C8EF3E000B969A1 /* CircleProgressView.swift */,
+				1F990AF92C915359003B5117 /* ToastView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -639,6 +642,7 @@
 				1FDA7F4A2C8EE76A00B969A1 /* EmptyTaskView.swift in Sources */,
 				1F990AF42C911454003B5117 /* DueDateCalendarView.swift in Sources */,
 				1FAF293D2C9003A200686EA3 /* CalanderDate.swift in Sources */,
+				1F990AFA2C915359003B5117 /* ToastView.swift in Sources */,
 				1FDA7F502C8EF3E000B969A1 /* CircleProgressView.swift in Sources */,
 				1FAF293F2C9003D100686EA3 /* Date+Extension.swift in Sources */,
 				1FAF29472C9053B900686EA3 /* SideMenuView.swift in Sources */,
