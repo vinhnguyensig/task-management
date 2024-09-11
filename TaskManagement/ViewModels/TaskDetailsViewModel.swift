@@ -26,13 +26,6 @@ class TaskDetailsViewModel: ObservableObject {
         }
     }
     
-    func isSetReminder(id: String) -> Bool {
-        if let _ = UserDefaultsManager.get(forKey: id) {
-            return true
-        }
-        return false
-    }
-    
     deinit {
         notificationObserver = nil
     }

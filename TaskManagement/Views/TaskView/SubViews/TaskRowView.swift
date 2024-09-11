@@ -24,6 +24,7 @@ struct TaskRowView: View {
                 VStack(alignment: .leading) {
                     Text(task.title)
                         .font(.headline)
+                        .foregroundColor(.primary)
                     if let dueDate = task.dueDate {
                         Text("Due date: \(Utils.taskDateFormatter(dueDate))")
                             .font(.subheadline)

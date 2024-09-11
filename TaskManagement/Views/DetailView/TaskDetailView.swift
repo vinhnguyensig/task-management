@@ -11,6 +11,8 @@ struct TaskDetailView: View {
     @State var task: Task
     
     @StateObject var viewModel = TaskDetailsViewModel()
+    @StateObject var reminderViewModel = TaskReminderViewModel()
+    
     @Environment(\.dismiss) var dismiss
     
     @State private var brief: String = ""
@@ -27,13 +29,14 @@ struct TaskDetailView: View {
                     Text(task.title)
                         .font(.title2)
                         .fontWeight(.semibold)
+                        .foregroundColor(.primary)
                         .lineLimit(2)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(.vertical, 4)
                         .accessibilityAddTraits(.isHeader)
                     
                     // Task Details (Priority, Category, Status)
-                    HStack(alignment: .center, spacing: 16) {
+                    HStack(alignment: .center, spacing: 8) {
                         // Priority
                         Label(task.priority.rawValue.capitalized, systemImage: "flag.fill")
                             .padding(4)
@@ -51,6 +54,7 @@ struct TaskDetailView: View {
                         Text(task.category.rawValue.capitalized)
                             .font(.subheadline)
                             .foregroundColor(.primary)
+                            .padding(.leading, 2)
                         
                         Spacer()
                         
@@ -86,12 +90,23 @@ struct TaskDetailView: View {
                                 .foregroundColor(.secondary)
                             Spacer()
                             Button {
+                                if isAddReminder {
+                                    reminderViewModel.removeReminder(id: task.id)
+                                    isAddReminder = false
+                                } else {
+                                    reminderViewModel.setReminder(task: task)
+                                }
                             } label: {
                                 Image(systemName: "bell.badge.circle.fill")
                                     .resizable()
                                     .frame(width: 30, height: 30)
                                     .foregroundColor(isAddReminder ? .blue : .gray)
                             }
+                            .onReceive(reminderViewModel.$notificationAuthorized, perform: { status in
+                                if status {
+                                    isAddReminder = status
+                                }
+                            })
                         }
                     }
                     
@@ -142,7 +157,7 @@ struct TaskDetailView: View {
                 if let cont = task.detail {
                     detail = cont
                 }
-                isAddReminder = viewModel.isSetReminder(id: task.id)
+                isAddReminder = reminderViewModel.isSetReminder(id: task.id)
             }
             .navigationTitle("Task Details")
             .navigationBarTitleDisplayMode(.inline)

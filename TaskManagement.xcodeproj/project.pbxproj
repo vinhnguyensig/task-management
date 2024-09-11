@@ -24,6 +24,7 @@
 		1F8A70EE2C8E95BF00D99C9A /* TaskManagementUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8A70ED2C8E95BF00D99C9A /* TaskManagementUITestsLaunchTests.swift */; };
 		1F94776A2C91E8F400480444 /* TaskPriority.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDA7F0E2C8E9DFB00B969A1 /* TaskPriority.swift */; };
 		1F94776B2C91E8F700480444 /* TaskCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDA7F122C8E9E2200B969A1 /* TaskCategory.swift */; };
+		1F94776D2C91EC5300480444 /* TaskReminderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F94776C2C91EC5300480444 /* TaskReminderViewModel.swift */; };
 		1F990AF42C911454003B5117 /* DueDateCalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F990AF32C911454003B5117 /* DueDateCalendarView.swift */; };
 		1F990AF62C91305B003B5117 /* TaskCalendarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F990AF52C91305B003B5117 /* TaskCalendarViewModel.swift */; };
 		1F990AF82C9133E5003B5117 /* DueDatePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F990AF72C9133E5003B5117 /* DueDatePickerView.swift */; };
@@ -94,6 +95,7 @@
 		1F8A70E72C8E95BF00D99C9A /* TaskManagementUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TaskManagementUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F8A70EB2C8E95BF00D99C9A /* TaskManagementUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskManagementUITests.swift; sourceTree = "<group>"; };
 		1F8A70ED2C8E95BF00D99C9A /* TaskManagementUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskManagementUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		1F94776C2C91EC5300480444 /* TaskReminderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskReminderViewModel.swift; sourceTree = "<group>"; };
 		1F990AF32C911454003B5117 /* DueDateCalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DueDateCalendarView.swift; sourceTree = "<group>"; };
 		1F990AF52C91305B003B5117 /* TaskCalendarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskCalendarViewModel.swift; sourceTree = "<group>"; };
 		1F990AF72C9133E5003B5117 /* DueDatePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DueDatePickerView.swift; sourceTree = "<group>"; };
@@ -286,6 +288,7 @@
 				1FDA7F182C8E9E7F00B969A1 /* TaskDetailsViewModel.swift */,
 				1FDA7F1B2C8E9E9700B969A1 /* TaskEditViewModel.swift */,
 				1F990AF52C91305B003B5117 /* TaskCalendarViewModel.swift */,
+				1F94776C2C91EC5300480444 /* TaskReminderViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -636,6 +639,7 @@
 				1FDA7F442C8EBFBD00B969A1 /* TaskEntity.swift in Sources */,
 				1FDA7F192C8E9E7F00B969A1 /* TaskDetailsViewModel.swift in Sources */,
 				1FDA7F1C2C8E9E9700B969A1 /* TaskEditViewModel.swift in Sources */,
+				1F94776D2C91EC5300480444 /* TaskReminderViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

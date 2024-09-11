@@ -11,6 +11,7 @@ struct AddTaskView: View {
     var task: Task?
     
     @StateObject var viewModel = TaskEditViewModel()
+    @StateObject var reminderViewModel = TaskReminderViewModel()
     
     @Environment(\.dismiss) var dismiss
     
@@ -89,7 +90,7 @@ struct AddTaskView: View {
                 if let addedTask = newTask {
                     toastMessage = "Added Task"
                     if isEnableAddReminder {
-                        viewModel.setReminder(task: addedTask)
+                        reminderViewModel.setReminder(task: addedTask)
                     }
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                         withAnimation {
@@ -106,7 +107,7 @@ struct AddTaskView: View {
                 if let uptask = editTask {
                     toastMessage = "Updated Task"
                     if isEnableAddReminder {
-                        viewModel.setReminder(task: uptask)
+                        reminderViewModel.setReminder(task: uptask)
                     }
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                         toastMessage = nil
@@ -182,7 +183,16 @@ struct AddTaskView: View {
     
     private var taskReminderButton: some View {
         Button(action: {
-            viewModel.requestionNotifictionAuthorization()
+            if let editTask = task {
+                if isEnableAddReminder {
+                    reminderViewModel.removeReminder(id: editTask.id)
+                    isEnableAddReminder = false
+                } else {
+                    reminderViewModel.setReminder(task: editTask)
+                }
+            } else {
+                reminderViewModel.requestionNotifictionAuthorization()
+            }
         }) {
             HStack {
                 Text("Reminder")
@@ -193,9 +203,14 @@ struct AddTaskView: View {
                     .foregroundColor(isEnableAddReminder ? .blue : .gray)
             }
             .foregroundColor(.primary)
-            .onReceive(viewModel.$notificationAuthorized, perform: { status in
+            .onReceive(reminderViewModel.$notificationAuthorized, perform: { status in
                 isEnableAddReminder = status
             })
+            .onAppear {
+                if let editTask = task {
+                    isEnableAddReminder = reminderViewModel.isSetReminder(id: editTask.id)
+                }
+            }
         }
     }
     

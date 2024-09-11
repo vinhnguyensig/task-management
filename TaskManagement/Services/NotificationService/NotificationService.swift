@@ -73,7 +73,7 @@ class NotificationManager: NSObject, UNUserNotificationCenterDelegate, Observabl
         
         let triggerDate = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
         let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDate, repeats: false)
-        
+        print("reminder date = ", triggerDate)
         let request = UNNotificationRequest(identifier: id, content: content, trigger: trigger)
         
         UNUserNotificationCenter.current().add(request) { [weak self] error in
