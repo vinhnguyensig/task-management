@@ -27,16 +27,10 @@ struct TaskInProgressView: View {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 12) {
                     ForEach(viewModel.tasksInProgress) { task in
-                        NavigationLink {
-                            TaskDetailView(task: task)
-                        } label: {
-                            TaskInProgress(
-                                title: task.title,
-                                project: task.category.rawValue,
-                                color: task.category.color,
-                                icon: task.category.icon
-                            )
-                        }
+                        TaskInProgress(
+                            viewModel: viewModel,
+                            task: task
+                        )
                     }
                 }
                 .padding(.leading, 16)
@@ -51,33 +45,39 @@ struct TaskInProgressView: View {
 }
 
 struct TaskInProgress: View {
-    let title: String
-    let project: String
-    let color: Color
-    let icon: Image
+    @ObservedObject var viewModel: DashboardViewModel
+    let task: Task
     
+    @State private var isShowDetail = false
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            HStack {
-                Text(project)
-                    .font(.caption)
-                    .foregroundColor(.secondary)
-                Spacer()
-                icon
-                    .foregroundColor(color)
+        
+        Button {
+            viewModel.registerObserveTaskInfo()
+            isShowDetail = true
+        } label: {
+            VStack(alignment: .leading, spacing: 8) {
+                HStack {
+                    Text(task.category.rawValue)
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                    Spacer()
+                    task.category.icon
+                        .foregroundColor(task.category.color)
+                }
+                Text(task.title)
+                    .font(.body)
+                    .fontWeight(.semibold)
+                    .foregroundColor(.primary)
             }
-            Text(title)
-                .font(.body)
-                .fontWeight(.semibold)
-                .foregroundColor(.primary)
-            
-            ProgressView(value: 0.1)
-                .progressViewStyle(LinearProgressViewStyle(tint: color))
+            .padding(20)
+            .background(Color(UIColor.systemBackground))
+            .cornerRadius(12)
+            .shadow(color: Color.black.opacity(0.1), radius: 4, x: 0, y: 2)
+            .frame(width: 200, height: 120)
+            .sheet(isPresented: $isShowDetail, content: {
+                TaskDetailView(task: task)
+            })
         }
-        .padding(12)
-        .background(Color(UIColor.systemBackground))
-        .cornerRadius(12)
-        .shadow(color: Color.black.opacity(0.1), radius: 4, x: 0, y: 2)
-        .frame(width: 200, height: 120)
+        
     }
 }

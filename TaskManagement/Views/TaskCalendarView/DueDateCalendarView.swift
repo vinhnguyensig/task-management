@@ -18,18 +18,42 @@ struct DueDateCalendarView: View {
         VStack {
             // Month and expand/collapse button
             HStack {
+                // Display the current month and year
                 Text(Utils.monthYearFormatter(selectedDate))
                     .font(.title)
-                    .padding()
-                
+                    .padding(.leading, 16)
+
+                // Add "Next Month" button here
                 Button(action: {
-                    selectedDate = Date()
-                    viewModel.selectedDate = selectedDate
-                }, label: {
-                    Text("Today")
-                })
+                    if let nextMonth = Calendar.current.date(byAdding: .month, value: 1, to: selectedDate) {
+                        selectedDate = nextMonth
+                        viewModel.selectedDate = nextMonth
+                    }
+                }) {
+                    HStack {
+                        Image(systemName: "chevron.right")
+                    }
+                }
+                .padding(.leading, 10)
+
                 Spacer()
                 
+                if !isSameDay(date1: selectedDate, date2: Date()) {
+                    Button(action: {
+                        selectedDate = Date()
+                        viewModel.selectedDate = Date()
+                    }) {
+                        HStack {
+                            Image(systemName: "calendar")
+                            Text("\(Calendar.current.component(.day, from: Date()))")
+                                .bold()
+                        }
+                        .padding(8)
+                        .background(Color.blue.opacity(0.2))
+                        .cornerRadius(10)
+                    }
+                }
+                // Toggle button to expand/collapse the calendar
                 Button(action: {
                     withAnimation {
                         isExpanded.toggle()

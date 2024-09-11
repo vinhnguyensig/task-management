@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Combine
 
 @MainActor
 class DashboardViewModel: ObservableObject {
@@ -15,7 +16,10 @@ class DashboardViewModel: ObservableObject {
     @Published var tasksTodayProgress: Double = 0.1
     @Published var errorMessage: String?
     
+    private var notificationObserver: AnyCancellable?
+    
     init() {
+        registerObserveTaskInfo()
     }
     
     func loadProgressTask() {
@@ -51,5 +55,21 @@ class DashboardViewModel: ObservableObject {
                 print(self?.errorMessage ?? "Unknown error")
             }
         }
+    }
+    
+    func registerObserveTaskInfo() {
+        if notificationObserver == nil {
+            notificationObserver = NotificationCenter.default.publisher(for: Notification.Name(Constants.taskNotificationInfo))
+                .sink {[weak self] notification in
+                    if let _ = notification.userInfo {
+                        self?.loadProgressTask()
+                        self?.loadGroupTasks()
+                    }
+                }
+        }
+    }
+    
+    deinit {
+        notificationObserver = nil
     }
 }
