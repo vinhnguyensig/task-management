@@ -3,7 +3,6 @@ name: iOS Build and Test
 on:
   push:
     branches:
-      - main
       - develop
 
 jobs:
