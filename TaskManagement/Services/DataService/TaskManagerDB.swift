@@ -191,6 +191,7 @@ class TaskManagerDB {
         entity.estimateHour = task.estimateHour
         entity.priority = task.priority.rawValue
         entity.category = task.category.rawValue
+        entity.status = task.status.rawValue
         entity.brief = task.brief
         entity.detail = task.detail
         entity.assignees.append(objectsIn: task.assignees ?? [])
@@ -209,6 +210,7 @@ class TaskManagerDB {
                     estimateHour: entity.estimateHour,
                     priority: TaskPriority(rawValue: entity.priority) ?? .medium,
                     category: TaskCategory(rawValue: entity.category) ?? .others,
+                    status: TaskStatus(rawValue: entity.status) ?? .backlog,
                     brief: entity.brief,
                     detail: entity.detail,
                     assignees: Array(entity.assignees),

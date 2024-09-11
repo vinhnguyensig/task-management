@@ -67,6 +67,15 @@ struct AddTaskView: View {
                     if let desc = editTask.brief {
                         brief = desc
                     }
+                    if let dd = editTask.dueDate {
+                        dueDate = dd
+                    }
+                    selectedPriority = editTask.priority
+                    selectedCategory = editTask.category
+                    selectedStatus = editTask.status
+                    if let dt = editTask.detail {
+                        detail = dt
+                    }
                 }
             }
             .overlay {
@@ -109,6 +118,12 @@ struct AddTaskView: View {
             .onReceive(viewModel.$errorMessage, perform: { message in
                 errorMessage = message
             })
+            .onDisappear {
+                if viewModel.isShouldPostNotify {
+                    viewModel.isShouldPostNotify = false
+                    NotificationCenter.default.post(name: Notification.Name(Constants.taskNotificationInfo), object: nil, userInfo: ["reload": true])
+                }
+            }
         }
     }
     
@@ -153,7 +168,7 @@ struct AddTaskView: View {
             HStack {
                 Text("Due Date")
                 Spacer()
-                Image(systemName: "bell.badge.circle")
+                Image(systemName: "calendar")
                 Text("\(Utils.formattedDate(dueDate))")
             }
             .foregroundColor(.primary)

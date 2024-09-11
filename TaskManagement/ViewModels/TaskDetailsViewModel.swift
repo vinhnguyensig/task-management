@@ -13,16 +13,17 @@ import Combine
 class TaskDetailsViewModel: ObservableObject {
     @Published var task: Task?
     
-    var anyCancleables = Set<AnyCancellable>()
+    private var notificationObserver: AnyCancellable?
     
     func registerObserveTaskInfo() {
-        NotificationCenter.default.publisher(for: Notification.Name(Constants.taskNotificationInfo))
-       .sink {[weak self] notification in
-           if let userInfo = notification.userInfo, let taskInfo = userInfo["task"] as? Task {
-               self?.task = taskInfo
-           }
-       }
-       .store(in: &anyCancleables)
+        if notificationObserver == nil {
+            notificationObserver = NotificationCenter.default.publisher(for: Notification.Name(Constants.taskNotificationInfo))
+                .sink {[weak self] notification in
+                    if let userInfo = notification.userInfo, let taskInfo = userInfo["task"] as? Task {
+                        self?.task = taskInfo
+                    }
+                }
+        }
     }
     
     func isSetReminder(id: String) -> Bool {
@@ -30,5 +31,9 @@ class TaskDetailsViewModel: ObservableObject {
             return true
         }
         return false
+    }
+    
+    deinit {
+        notificationObserver = nil
     }
 }

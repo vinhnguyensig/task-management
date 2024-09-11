@@ -1,4 +1,5 @@
 import Foundation
+import Combine
 
 @MainActor
 class TaskListViewModel: ObservableObject {
@@ -9,18 +10,23 @@ class TaskListViewModel: ObservableObject {
     @Published var sortOrder: SortOrder = .descending
     @Published var sortByPosition: Bool = false
     
+    private var currentCategory: String?
+    private var notificationObserver: AnyCancellable?
+    
     enum SortOrder {
         case ascending
         case descending
     }
     
     init() {
+        registerObserveTaskInfo()
     }
     
     // MARK: - Task Management Methods
     
     func fetchTasks(category: String?) {
         if let category = category {
+            currentCategory = category
             loadTasksByCategory(category: category)
         } else {
             loadTasks()
@@ -123,5 +129,27 @@ class TaskListViewModel: ObservableObject {
     
     func searchTasks(query: String) {
         searchQuery = query
+    }
+    
+    // MARK: - Register Notification
+   
+    func registerObserveTaskInfo() {
+        if notificationObserver == nil {
+            notificationObserver = NotificationCenter.default.publisher(for: Notification.Name(Constants.taskNotificationInfo))
+                .sink {[weak self] notification in
+                    print("Tasklist viewmodel notification")
+                    if let _ = notification.userInfo {
+                        if let category = self?.currentCategory {
+                            self?.loadTasksByCategory(category: category)
+                        } else {
+                            self?.loadTasks()
+                        }
+                    }
+                }
+        }
+    }
+    
+    deinit {
+        notificationObserver = nil
     }
 }

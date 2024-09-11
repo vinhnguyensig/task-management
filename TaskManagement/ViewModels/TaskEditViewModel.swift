@@ -15,7 +15,9 @@ class TaskEditViewModel: ObservableObject {
     @Published var notificationAuthorized: Bool = false
     @Published var errorMessage: String?
     
-    var anyCancleables = Set<AnyCancellable>()
+    var isShouldPostNotify: Bool = false
+    
+    private var anyCancleables = Set<AnyCancellable>()
     
     func addTask(title: String, startDate: Date? = nil, dueDate: Date? = nil, priority: TaskPriority = .medium, category: TaskCategory = .others, status: TaskStatus = .backlog, brief: String? = nil, detail: String? = nil, position: Int = 1, isCompleted: Bool = false) {
         let newTask = Task(title: title,
@@ -37,6 +39,7 @@ class TaskEditViewModel: ObservableObject {
                 self?.errorMessage = "Error adding task: \(error.localizedDescription)"
                 print(self?.errorMessage ?? "Unknown error")
             } else {
+                self?.isShouldPostNotify = true
                 self?.addedTask = newTask
             }
         }

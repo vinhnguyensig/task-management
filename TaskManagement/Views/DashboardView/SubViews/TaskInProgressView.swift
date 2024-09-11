@@ -28,6 +28,7 @@ struct TaskInProgressView: View {
                 HStack(spacing: 12) {
                     ForEach(viewModel.tasksInProgress) { task in
                         TaskInProgress(
+                            viewModel: viewModel,
                             task: task
                         )
                     }
@@ -44,11 +45,14 @@ struct TaskInProgressView: View {
 }
 
 struct TaskInProgress: View {
+    @ObservedObject var viewModel: DashboardViewModel
     let task: Task
+    
     @State private var isShowDetail = false
     var body: some View {
         
         Button {
+            viewModel.registerObserveTaskInfo()
             isShowDetail = true
         } label: {
             VStack(alignment: .leading, spacing: 8) {

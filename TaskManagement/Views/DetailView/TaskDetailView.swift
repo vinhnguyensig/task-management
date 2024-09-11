@@ -83,6 +83,7 @@ struct TaskDetailView: View {
                         
                         HStack{
                             Text("Reminder")
+                                .foregroundColor(.secondary)
                             Spacer()
                             Button {
                             } label: {
