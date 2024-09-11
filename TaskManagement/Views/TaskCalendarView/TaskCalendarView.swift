@@ -5,18 +5,20 @@
 //  Created by Vinh Nguyen on 10/9/24.
 //
 
+import Foundation
 import SwiftUI
 
 struct TaskCalendarView: View {
-    @State var selectedDate = Date()
+    @StateObject var viewModel = TaskListViewModel()
+    
+    @State private var selectedDate: Date = Date()
+
     var body: some View {
         VStack {
-            DueDatePicker(selectedDate: $selectedDate)
-            Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+            DueDateCalendarView(viewModel: viewModel, selectedDate: $selectedDate)
+        }
+        .task {
+            viewModel.loadTasks()
         }
     }
-}
-
-#Preview {
-    TaskCalendarView()
 }
