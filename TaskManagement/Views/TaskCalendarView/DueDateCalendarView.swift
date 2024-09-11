@@ -8,27 +8,23 @@
 import SwiftUI
 
 struct DueDateCalendarView: View {
-    @StateObject var viewModel: TaskListViewModel
+    @StateObject var viewModel: TaskCalendarViewModel
     @Binding var selectedDate: Date
+    @Binding var isExpanded: Bool
     
-    @State private var isExpanded: Bool = false
     private let calendar = Calendar.current
-    private let dateFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "MMM yyyy"
-        return formatter
-    }()
     
     var body: some View {
         VStack {
             // Month and expand/collapse button
             HStack {
-                Text(dateFormatter.string(from: selectedDate))
+                Text(Utils.monthYearFormatter(selectedDate))
                     .font(.title)
                     .padding()
                 
                 Button(action: {
                     selectedDate = Date()
+                    viewModel.selectedDate = selectedDate
                 }, label: {
                     Text("Today")
                 })
@@ -62,16 +58,7 @@ struct DueDateCalendarView: View {
                     }
                 }
             } else {
-                DueDatePicker(selectedDate: $selectedDate)
-            }
-            
-            // Task list for selected date
-            VStack {
-                Text("Tasks for \(formattedDate(selectedDate))")
-                    .font(.headline)
-                    .padding()
-                
-                TaskView(date: selectedDate)
+                DueDatePicker(viewModel: viewModel, selectedDate: $selectedDate)
             }
         }
     }
@@ -111,22 +98,5 @@ struct DueDateCalendarView: View {
         let formatter = DateFormatter()
         formatter.dateStyle = .full
         return formatter.string(from: date)
-    }
-}
-
-struct TaskView: View {
-    var date: Date
-    
-    var body: some View {
-        List {
-            Text("Task 1 for \(date, formatter: taskDateFormatter)")
-            Text("Task 2 for \(date, formatter: taskDateFormatter)")
-        }
-    }
-    
-    private var taskDateFormatter: DateFormatter {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .short
-        return formatter
     }
 }

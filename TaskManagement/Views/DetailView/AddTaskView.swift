@@ -11,7 +11,7 @@ struct AddTaskView: View {
     @StateObject var viewModel = TaskEditViewModel()
     
     @Environment(\.dismiss) var dismiss
-
+    
     @State private var title: String = ""
     @State private var brief: String = ""
     @State private var detail: String = ""
@@ -19,10 +19,11 @@ struct AddTaskView: View {
     @State private var selectedPriority: TaskPriority = .medium
     @State private var selectedCategory: TaskCategory = .work
     @State private var selectedStatus: TaskStatus = .inProgress
+    @State private var showDueDatePicker = false
     
     @FocusState private var isTitleFocused: Bool
     @State private var validationError: String?
-
+    
     var body: some View {
         NavigationStack {
             Form {
@@ -35,21 +36,41 @@ struct AddTaskView: View {
                         }
                     
                     VStack(alignment: .leading) {
-                        Text("Brief Description")
-                            .font(.subheadline)
-                            .foregroundColor(.gray)
+                        if brief.isEmpty {
+                            Text("Brief Description")
+                                .font(.subheadline)
+                                .foregroundColor(.gray)
+                            
+                        }
                         TextEditor(text: $brief)
                             .frame(height: 60)
                             .overlay(
                                 RoundedRectangle(cornerRadius: 8)
                                     .stroke(Color.gray.opacity(0.1), lineWidth: 1)
                             )
+                        
                     }
                     
-                    DatePicker("Due Date", selection: $dueDate, displayedComponents: .date)
-                        .datePickerStyle(.compact)
+                    // Button to open Due Date Picker
+                    Button(action: {
+                        showDueDatePicker = true
+                    }) {
+                        HStack {
+                            Text("Due Date")
+                            Spacer()
+                            Image(systemName: "bell.badge.circle")
+                            Text("\(Utils.formattedDate(dueDate))")
+                        }
+                        .foregroundColor(.primary)
+                        .background(Color.white)
+                        .cornerRadius(8)
+                    }
+                    .sheet(isPresented: $showDueDatePicker) {
+                        DueDatePickerView(selectedDate: $dueDate)
+                            .presentationDetents([.large, .fraction(0.7)])
+                            .presentationDragIndicator(.visible)
+                    }
                     
-
                     // Priority Picker
                     Picker("Priority", selection: $selectedPriority) {
                         ForEach(TaskPriority.allCases, id: \.self) { priority in
@@ -57,7 +78,7 @@ struct AddTaskView: View {
                                 .tag(priority)
                         }
                     }
-
+                    
                     // Category Picker
                     Picker("Category", selection: $selectedCategory) {
                         ForEach(TaskCategory.allCases, id: \.self) { category in
@@ -82,16 +103,28 @@ struct AddTaskView: View {
                         }
                     }
                 }
-
+                
                 if let error = validationError {
                     Text(error)
                         .foregroundColor(.red)
                         .padding()
                 }
-
-                // Add Task Button
-                Button(action: {
-                    if validateTask() {
+            }
+            .navigationTitle("New Task")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button {
+                        dismiss()
+                    } label: {
+                        Image(systemName: "arrowshape.down.circle")
+                            .foregroundColor(.gray)
+                    }
+                    
+                }
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button("Add") {
+                        
                         viewModel.addTask(
                             title: title,
                             dueDate: dueDate,
@@ -102,39 +135,11 @@ struct AddTaskView: View {
                             detail: detail
                         )
                         dismiss()
+                        
                     }
-                }) {
-                    Text("Add Task")
-                        .font(.headline)
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(Color.blue)
-                        .foregroundColor(.white)
-                        .cornerRadius(10)
-                }
-                .buttonStyle(.borderless)
-                .padding(.vertical)
-            }
-            .navigationTitle("New Task")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button("Cancel") {
-                        dismiss()
-                    }
+                    .disabled(title.isEmpty)
                 }
             }
         }
-    }
-
-    // Validation function
-    private func validateTask() -> Bool {
-        if title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-            validationError = "Task title cannot be empty."
-            return false
-        }
-
-        validationError = nil
-        return true
     }
 }

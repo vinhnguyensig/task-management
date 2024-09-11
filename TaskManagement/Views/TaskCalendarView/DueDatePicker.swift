@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct DueDatePicker: View {
+    @StateObject var viewModel: TaskCalendarViewModel
     @Binding var selectedDate: Date
 
     var body: some View {
@@ -28,9 +29,12 @@ struct DueDatePicker: View {
                 }
                 .padding(.horizontal)
                 .frame(height: 80)
-            }
-            .onAppear {
-                DispatchQueue.main.async {
+                .onReceive(viewModel.$selectedDate, perform: { onDate in
+                    if let date = onDate {
+                        scrollViewProxy.scrollTo(date, anchor: .center)
+                    }
+                })
+                .onAppear {
                     scrollViewProxy.scrollTo(selectedDate, anchor: .center)
                 }
             }

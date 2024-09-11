@@ -19,12 +19,14 @@ struct TaskListView: View {
                 taskContent
             }
             .navigationTitle(navigationTitle)
+            .navigationBarTitleDisplayMode(.automatic)
             .task {
                 viewModel.fetchTasks(category: category)
             }
             .toolbar {
                 sortMenu
             }
+            .searchable(text: $viewModel.searchQuery)
             .alert(isPresented: .constant(viewModel.errorMessage != nil)) {
                 Alert(
                     title: Text("Error"),

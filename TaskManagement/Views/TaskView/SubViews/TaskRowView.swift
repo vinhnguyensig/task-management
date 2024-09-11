@@ -17,7 +17,7 @@ struct TaskRowView: View {
                 Text(task.title)
                     .font(.headline)
                 if let dueDate = task.dueDate {
-                    Text("Due: \(dueDate, formatter: Utils.taskDateFormatter)")
+                    Text("Due date: \(Utils.taskDateFormatter(dueDate))")
                         .font(.subheadline)
                         .foregroundColor(.gray)
                 }
@@ -25,7 +25,7 @@ struct TaskRowView: View {
             
             Spacer()
             
-            if task.isCompleted {
+            if task.status == .done {
                 Image(systemName: "checkmark.circle.fill")
                     .foregroundColor(.green)
             }

@@ -25,7 +25,6 @@ struct TaskTabBarView: View {
                 customTabBar
             }
             .sheet(isPresented: $showAddTaskView, onDismiss: {
-                selectedTab = .tasks
             }) {
                 AddTaskView()
             }
@@ -65,9 +64,6 @@ struct TaskTabBarView: View {
                 Spacer()
                 Button(action: {
                     showAddTaskView = true
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                        selectedTab = .add
-                    }
                 }) {
                     Image(systemName: "plus")
                         .foregroundColor(.white)

@@ -9,13 +9,18 @@ import Foundation
 import SwiftUI
 
 struct TaskCalendarView: View {
-    @StateObject var viewModel = TaskListViewModel()
+    @StateObject var viewModel = TaskCalendarViewModel()
     
     @State private var selectedDate: Date = Date()
-
+    @State private var isExpanded: Bool = false
+    
     var body: some View {
         VStack {
-            DueDateCalendarView(viewModel: viewModel, selectedDate: $selectedDate)
+            DueDateCalendarView(viewModel: viewModel, selectedDate: $selectedDate, isExpanded: $isExpanded)
+            Spacer()
+            Text("Comming Soon...")
+                .foregroundColor(.primary)
+            Spacer()
         }
         .task {
             viewModel.loadTasks()
