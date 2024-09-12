@@ -22,6 +22,24 @@ class DashboardViewModel: ObservableObject {
         registerObserveTaskInfo()
     }
     
+    func loadTodayProgress() {
+        TaskManagerDB.shared.fetchTodayTasks { [weak self] result in
+            switch result {
+            case .success(let loadedTasks):
+                if loadedTasks.count > 0 {
+                    let completeTasks = loadedTasks.filter {
+                        $0.isCompleted == true
+                    }
+                    let progress = Double(completeTasks.count)/Double(loadedTasks.count)
+                    self?.updateTodayProgress(progress: progress)
+                }
+            case .failure(let error):
+                self?.errorMessage = "Failed to load tasks: \(error.localizedDescription)"
+                print(self?.errorMessage ?? "Unknown error")
+            }
+        }
+    }
+    
     func loadProgressTask() {
         TaskManagerDB.shared.getInProgressTasks { [weak self] result in
             switch result {
@@ -67,6 +85,35 @@ class DashboardViewModel: ObservableObject {
                     }
                 }
         }
+    }
+    
+    private func updateTodayProgress(progress: Double) {
+        DispatchQueue.main.async {
+            let statusMessage = self.taskStatusMessage(progress: progress)
+            self.tasksTodayProgress = progress
+            self.tasksTodayStatus = statusMessage
+        }
+    }
+    
+    private func taskStatusMessage(progress: Double) -> String {
+        var message = ""
+        switch progress {
+        case 0.0:
+            message = "Let's get started!"
+        case 0.0..<0.3:
+            message = "Good start! Keep going!"
+        case 0.3..<0.6:
+            message = "You're making progress!"
+        case 0.6..<0.8:
+            message = "You're more than halfway there!"
+        case 0.8..<1.0:
+            message = "Almost done!"
+        case 1.0:
+            message = "Great job! You've completed everything for today!"
+        default:
+            message = "Keep pushing forward!"
+        }
+        return message
     }
     
     deinit {

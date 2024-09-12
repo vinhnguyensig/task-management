@@ -28,6 +28,7 @@ struct TaskListView: View {
                 viewModel.fetchTasks(category: category, isTodayTasks: isTodayTasks)
             }
             .toolbar {
+                filterMenu
                 sortMenu
             }
             .searchable(text: $viewModel.searchQuery)
@@ -56,7 +57,7 @@ struct TaskListView: View {
     
     private var taskListView: some View {
         List {
-            ForEach(viewModel.filteredTasks(by: nil)) { task in
+            ForEach(viewModel.isFilter ? viewModel.filterTasks : viewModel.tasks) { task in
                 TaskRowView(task: task, onToggleComplete: { task in
                     if !task.isCompleted {
                         confettiCounter += 1
@@ -75,6 +76,42 @@ struct TaskListView: View {
     private var navigationTitle: String {
         category == nil ? "Tasks for Today" : category!
     }
+    
+    private var filterMenu: some ToolbarContent {
+        ToolbarItem(placement: .navigationBarTrailing) {
+            Menu {
+                // Filter by Status
+                Section(header: Text("Filter")) {
+                    Button(action: {
+                        viewModel.applyFilter()
+                    }) {
+                        Label("Show All", systemImage: "list.bullet.clipboard")
+                    }
+                    
+                    Button(action: {
+                        viewModel.applyFilter(isCompleted: false)
+                    }) {
+                        Label("In Progress", systemImage: "figure.run")
+                    }
+                    Button(action: {
+                        viewModel.applyFilter(isCompleted: true)
+                    }) {
+                        Label("Completed", systemImage: "checkmark.circle.fill")
+                    }
+                    
+                    Button(action: {
+                        viewModel.applyFilter(status: .backlog)
+                    }) {
+                        Label("Backlog", systemImage: "tray.fill")
+                    }
+                }
+            } label: {
+                Image(systemName: "line.3.horizontal.decrease.circle")
+                    .font(.title2)
+            }
+        }
+    }
+
     
     private var sortMenu: some ToolbarContent {
         ToolbarItem(placement: .navigationBarTrailing) {

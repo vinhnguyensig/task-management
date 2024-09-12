@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct TodayTaskProgressView: View {
-    @StateObject var viewModel: DashboardViewModel
+    @ObservedObject var viewModel: DashboardViewModel
     
     @State private var navigateToTaskList: Bool = false
     
@@ -58,6 +58,9 @@ struct TodayTaskProgressView: View {
         .padding(.horizontal, 16)
         .navigationDestination(isPresented: $navigateToTaskList) {
             TaskListView()
+        }
+        .onAppear {
+            viewModel.loadTodayProgress()
         }
     }
 }

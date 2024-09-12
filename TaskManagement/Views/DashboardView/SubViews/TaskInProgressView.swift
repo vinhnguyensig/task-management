@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct TaskInProgressView: View {
-    @StateObject var viewModel: DashboardViewModel
+    @ObservedObject var viewModel: DashboardViewModel
     
     var body: some View {
         VStack(alignment: .leading, spacing: 5) {
@@ -57,18 +57,20 @@ struct TaskInProgress: View {
         } label: {
             VStack(alignment: .leading, spacing: 8) {
                 HStack {
+                    Image(systemName: task.category.icon)
+                         .foregroundColor(task.category.color)
                     Text(task.category.rawValue)
                         .font(.caption)
                         .foregroundColor(.secondary)
                     Spacer()
-                   Image(systemName: task.category.icon)
-                        .foregroundColor(task.category.color)
+                   
                     PriorityIndicator(priority: task.priority)
                 }
                 Text(task.title)
                     .font(.body)
                     .fontWeight(.semibold)
                     .foregroundColor(.primary)
+                    .lineLimit(2)
             }
             .padding(20)
             .background(Color(UIColor.systemBackground))

@@ -179,7 +179,8 @@ class TaskManagerDB {
         getRealm { result in
             switch result {
             case .success(let realm):
-                let taskEntities = realm.objects(TaskEntity.self).filter("isCompleted == false")
+                let predicate = NSPredicate(format: "isCompleted == false AND status != %@", TaskStatus.backlog.rawValue)
+                let taskEntities = realm.objects(TaskEntity.self).filter(predicate)
                 let tasks = Array(taskEntities.map { self.task(from: $0) })
                 completion(.success(tasks))
             case .failure(let error):
@@ -187,6 +188,7 @@ class TaskManagerDB {
             }
         }
     }
+
     
     func getCompletedTasks(completion: @escaping (Result<[Task], Error>) -> Void) {
         getRealm { result in

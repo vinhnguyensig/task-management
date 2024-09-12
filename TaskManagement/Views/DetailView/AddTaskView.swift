@@ -292,6 +292,10 @@ struct AddTaskView: View {
     
     // MARK: - Add Task Logic
     private func addTask() {
+        var isCompleted = false
+        if selectedStatus == .completed || selectedStatus == .inReview || selectedStatus == .done {
+            isCompleted = true
+        }
         viewModel.addTask(
             title: title,
             dueDate: dueDate,
@@ -299,11 +303,16 @@ struct AddTaskView: View {
             category: selectedCategory,
             status: selectedStatus,
             brief: brief,
-            detail: detail
+            detail: detail,
+            isCompleted: isCompleted
         )
     }
     
     private func updateTask(editTask: Task) {
+        var isCompleted = false
+        if selectedStatus == .completed || selectedStatus == .inReview || selectedStatus == .done {
+            isCompleted = true
+        }
         viewModel.updateTask(
             id: editTask.id,
             title: title,
@@ -312,7 +321,8 @@ struct AddTaskView: View {
             category: selectedCategory,
             status: selectedStatus,
             brief: brief,
-            detail: detail
+            detail: detail,
+            isCompleted: isCompleted
         )
     }
 }
