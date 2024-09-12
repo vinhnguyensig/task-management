@@ -90,6 +90,7 @@ struct TaskDetailView: View {
                                 .foregroundColor(.secondary)
                             Spacer()
                             Button {
+                                HapticManager.shared.triggerImpactFeedback(style: .medium)
                                 if isAddReminder {
                                     reminderViewModel.removeReminder(id: task.id)
                                     isAddReminder = false
@@ -170,6 +171,7 @@ struct TaskDetailView: View {
                 
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Edit") {
+                        HapticManager.shared.triggerImpactFeedback(style: .medium)
                         viewModel.registerObserveTaskInfo()
                         isNavigateEdit = true
                     }

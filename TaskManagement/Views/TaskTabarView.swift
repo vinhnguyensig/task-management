@@ -63,6 +63,7 @@ struct TaskTabBarView: View {
                 TabBarButton(icon: "gauge.with.dots.needle.67percent", selectedTab: $selectedTab, currentTab: .home)
                 Spacer()
                 Button(action: {
+                    HapticManager.shared.triggerImpactFeedback(style: .medium)
                     showAddTaskView = true
                 }) {
                     Image(systemName: "plus")
@@ -90,6 +91,7 @@ struct TabBarButton: View {
 
     var body: some View {
         Button(action: {
+            HapticManager.shared.triggerImpactFeedback(style: .light)
             withAnimation {
                 selectedTab = currentTab
             }

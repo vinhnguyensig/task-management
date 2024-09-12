@@ -19,12 +19,14 @@ struct TaskRowView: View {
         HStack {
             // Checkmark Button to toggle task completion
             CheckmarkButton(isCompleted: task.isCompleted) {
+                HapticManager.shared.triggerImpactFeedback(style: .medium)
                 onToggleComplete(task)
             }
 
             // Task info and category icon
             TaskInfoView(task: task)
                 .onTapGesture {
+                    HapticManager.shared.triggerImpactFeedback(style: .medium)
                     highlightRow()
                     onTaskTapped(task)
                     isShowDetail = true

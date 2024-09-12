@@ -51,11 +51,13 @@ struct AddTaskView: View {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     if let editTask = task {
                         Button("Update") {
+                            HapticManager.shared.triggerImpactFeedback(style: .medium)
                             updateTask(editTask: editTask)
                         }
                         .disabled(title.isEmpty)
                     } else {
                         Button("Add") {
+                            HapticManager.shared.triggerImpactFeedback(style: .medium)
                             addTask()
                         }
                         .disabled(title.isEmpty)
@@ -195,7 +197,10 @@ struct AddTaskView: View {
     }
     
     private var dueDatePickerButton: some View {
-        Button(action: { showDueDatePicker = true }) {
+        Button(action: {
+            HapticManager.shared.triggerImpactFeedback(style: .medium)
+            showDueDatePicker = true
+        }) {
             HStack {
                 Text("Due Date")
                 Spacer()
@@ -213,6 +218,7 @@ struct AddTaskView: View {
     
     private var taskReminderButton: some View {
         Button(action: {
+            HapticManager.shared.triggerImpactFeedback(style: .medium)
             if let editTask = task {
                 if isEnableAddReminder {
                     reminderViewModel.removeReminder(id: editTask.id)

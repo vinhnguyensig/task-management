@@ -42,6 +42,7 @@
 		1FCC9AB02C92975F00046ACF /* Triangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCC9AA72C92975F00046ACF /* Triangle.swift */; };
 		1FCC9AB12C92975F00046ACF /* ConfettiSwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCC9AA92C92975F00046ACF /* ConfettiSwiftUI.swift */; };
 		1FCC9AB22C92975F00046ACF /* View+ConfettiCannon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCC9AAA2C92975F00046ACF /* View+ConfettiCannon.swift */; };
+		1FCC9AB42C92A6DB00046ACF /* HapticManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCC9AB32C92A6DB00046ACF /* HapticManager.swift */; };
 		1FDA7F0D2C8E9DE500B969A1 /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDA7F0C2C8E9DE500B969A1 /* Task.swift */; };
 		1FDA7F0F2C8E9DFB00B969A1 /* TaskPriority.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDA7F0E2C8E9DFB00B969A1 /* TaskPriority.swift */; };
 		1FDA7F102C8E9E0600B969A1 /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDA7F0C2C8E9DE500B969A1 /* Task.swift */; };
@@ -119,6 +120,7 @@
 		1FCC9AA72C92975F00046ACF /* Triangle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Triangle.swift; sourceTree = "<group>"; };
 		1FCC9AA92C92975F00046ACF /* ConfettiSwiftUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfettiSwiftUI.swift; sourceTree = "<group>"; };
 		1FCC9AAA2C92975F00046ACF /* View+ConfettiCannon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "View+ConfettiCannon.swift"; sourceTree = "<group>"; };
+		1FCC9AB32C92A6DB00046ACF /* HapticManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticManager.swift; sourceTree = "<group>"; };
 		1FDA7F0C2C8E9DE500B969A1 /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
 		1FDA7F0E2C8E9DFB00B969A1 /* TaskPriority.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskPriority.swift; sourceTree = "<group>"; };
 		1FDA7F122C8E9E2200B969A1 /* TaskCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskCategory.swift; sourceTree = "<group>"; };
@@ -434,6 +436,7 @@
 			children = (
 				1FAF294C2C90693800686EA3 /* UserDefaultManager.swift */,
 				1FA9BB882C919500005CDA16 /* Constants.swift */,
+				1FCC9AB32C92A6DB00046ACF /* HapticManager.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -679,6 +682,7 @@
 				1FDA7F502C8EF3E000B969A1 /* CircleProgressView.swift in Sources */,
 				1FAF293F2C9003D100686EA3 /* Date+Extension.swift in Sources */,
 				1FAF29472C9053B900686EA3 /* SideMenuView.swift in Sources */,
+				1FCC9AB42C92A6DB00046ACF /* HapticManager.swift in Sources */,
 				1FDA7F0D2C8E9DE500B969A1 /* Task.swift in Sources */,
 				1F341FD02C8EF71F0098C834 /* DashboardViewModel.swift in Sources */,
 				1F341FD92C8F07530098C834 /* Color+Extension.swift in Sources */,
