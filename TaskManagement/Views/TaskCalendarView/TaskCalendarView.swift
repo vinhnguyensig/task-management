@@ -26,43 +26,8 @@ struct TaskCalendarView: View {
     var body: some View {
         NavigationStack {
             VStack {
-                // Calendar view at the top
-                DueDateCalendarView(viewModel: viewModel, selectedDate: $selectedDate, isExpanded: $isExpanded)
-
-                if !viewModel.taskGroups.isEmpty {
-                    ScrollViewReader { scrollProxy in
-                        ScrollView {
-                            LazyVStack(spacing: 8) {
-                                ForEach(viewModel.taskGroups, id: \.key) { date, tasks in
-                                    TaskSectionView(date: date, tasks: tasks, onToggleComplete: { task in
-                                        // Handle toggle complete
-                                    }, onTaskTapped: { task in
-                                        // Handle task tapped
-                                    })
-                                    .id(date)
-                                    .background(
-                                        GeometryReader { geo in
-                                            Color.clear
-                                                .onChange(of: geo.frame(in: .global).minY) { yPos in
-                                                    handleScrollPosition(yPos: yPos, date: date)
-                                                }
-                                        }
-                                    )
-                                }
-                            }
-                            .padding(.horizontal, 8)
-                        }
-                        .onChange(of: selectedDate) { newDate in
-                            // Smoothly scroll to the selected date
-                            withAnimation {
-                                scrollProxy.scrollTo(newDate, anchor: .top)
-                            }
-                        }
-                    }
-                } else {
-                    // Handle empty state
-                   // EmptyStateView()
-                }
+                calendarView
+                taskListOrEmptyView
             }
             .task {
                 viewModel.loadTasks()
@@ -73,20 +38,80 @@ struct TaskCalendarView: View {
         }
     }
 
-    // This function handles the scroll position and debounces the date update
+    // Extracted calendar view for cleaner structure
+    private var calendarView: some View {
+        DueDateCalendarView(
+            viewModel: viewModel,
+            selectedDate: $selectedDate,
+            isExpanded: $isExpanded
+        )
+    }
+
+    // Conditional view for tasks or empty state
+    private var taskListOrEmptyView: some View {
+        Group {
+            if !viewModel.taskGroups.isEmpty {
+                TaskGroupListView
+            } else {
+                EmptyStateView()
+            }
+        }
+    }
+
+    // Task list with scroll view and lazy loading of sections
+    private var TaskGroupListView: some View {
+        ScrollViewReader { scrollProxy in
+            ScrollView {
+                LazyVStack(spacing: 8) {
+                    ForEach(viewModel.taskGroups, id: \.key) { date, tasks in
+                        TaskSectionView(date: date, tasks: tasks, onToggleComplete: toggleTaskCompletion, onTaskTapped: taskTapped)
+                            .id(date)
+                            .background(geometryReaderForScrollPosition(date: date))
+                    }
+                }
+                .padding(.horizontal, 8)
+            }
+            .onChange(of: selectedDate) { newDate in
+                scrollToSelectedDate(newDate, using: scrollProxy)
+            }
+        }
+    }
+
+    // GeometryReader for handling scroll position updates
+    private func geometryReaderForScrollPosition(date: Date) -> some View {
+        GeometryReader { geo in
+            Color.clear
+                .onChange(of: geo.frame(in: .global).minY) { yPos in
+                    handleScrollPosition(yPos: yPos, date: date)
+                }
+        }
+    }
+
+    // Helper for task toggle completion
+    private func toggleTaskCompletion(_ task: Task) {
+        // Handle task completion logic
+    }
+
+    // Helper for task tapped interaction
+    private func taskTapped(_ task: Task) {
+        // Handle task tapped logic
+    }
+
+    // Scroll to the selected date
+    private func scrollToSelectedDate(_ date: Date, using scrollProxy: ScrollViewProxy) {
+       // withAnimation {
+           // scrollProxy.scrollTo(date, anchor: .top)
+       // }
+    }
+
+    // Handle scroll position updates for date changes
     private func handleScrollPosition(yPos: CGFloat, date: Date) {
         let screenHeight = UIScreen.main.bounds.height
-
-        // Update the date only when the section is near the center of the screen
         if yPos < screenHeight * 0.6 && yPos > 0 {
             pendingDate = date
-
-            // Debounce the update to make it smoother
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
                 if pendingDate == date {
-                    withAnimation {
-                        selectedDate = date
-                    }
+                    selectedDate = date
                 }
             }
         }
@@ -120,7 +145,6 @@ struct TaskSectionView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             SectionHeaderView(date: date)
-
             ForEach(tasks) { task in
                 TaskRowView(task: task, onToggleComplete: onToggleComplete, onTaskTapped: onTaskTapped)
                     .padding(.vertical, 4)
@@ -133,5 +157,23 @@ struct TaskSectionView: View {
         }
         .padding(.horizontal, 8)
         .padding(.bottom, 16)
+    }
+}
+
+struct EmptyStateView: View {
+    var body: some View {
+        VStack {
+            Spacer()
+            Image(systemName: "calendar.badge.exclamationmark")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 80, height: 80)
+                .foregroundColor(.gray)
+            Text("No tasks for the selected date")
+                .foregroundColor(.gray)
+                .font(.headline)
+                .padding()
+            Spacer()
+        }
     }
 }
