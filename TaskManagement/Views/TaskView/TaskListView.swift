@@ -137,6 +137,8 @@ struct TaskListView: View {
         ToolbarItem(placement: .navigationBarTrailing) {
             Menu {
                 sortOrderButton
+                sortByCompletedButton
+                sortByCreatedButton
                 sortByPositionButton
             } label: {
                 Image(systemName: "arrow.up.arrow.down.circle")
@@ -159,12 +161,36 @@ struct TaskListView: View {
     
     private var sortByPositionButton: some View {
         Button(action: {
-            viewModel.toggleSortCriteria()
+            viewModel.toggleSortCriteria(.position)
         }) {
             HStack {
                 Text("Sort by Position")
                 Spacer()
-                Image(systemName: viewModel.sortCriteria == .position ? "list.number" : "list.bullet")
+                Image(systemName: viewModel.sortCriteria == .position ? "checkmark" : "")
+            }
+        }
+    }
+    
+    private var sortByCompletedButton: some View {
+        Button(action: {
+            viewModel.toggleSortCriteria(.status)
+        }) {
+            HStack {
+                Text("Sort by Status")
+                Spacer()
+                Image(systemName: viewModel.sortCriteria == .status ? "checkmark" : "")
+            }
+        }
+    }
+    
+    private var sortByCreatedButton: some View {
+        Button(action: {
+            viewModel.toggleSortCriteria(.creationDate)
+        }) {
+            HStack {
+                Text("Sort by Date Created")
+                Spacer()
+                Image(systemName: viewModel.sortCriteria == .creationDate ? "checkmark" : "")
             }
         }
     }

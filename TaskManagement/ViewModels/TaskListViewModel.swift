@@ -33,6 +33,7 @@ class TaskListViewModel: ObservableObject {
     enum SortCriteria {
         case position
         case creationDate
+        case status
     }
     
     enum TaskFilter {
@@ -131,11 +132,15 @@ class TaskListViewModel: ObservableObject {
             return sortOrder == .ascending
             ? tasks.sorted { $0.createdAt < $1.createdAt }
             : tasks.sorted { $0.createdAt > $1.createdAt }
+        case .status:
+            return tasks.sorted {
+                  sortOrder == .ascending ? !$0.isCompleted && $1.isCompleted : $0.isCompleted && !$1.isCompleted
+              }
         }
     }
     
-    func toggleSortCriteria() {
-        sortCriteria = (sortCriteria == .position) ? .creationDate : .position
+    func toggleSortCriteria(_ sortBy: SortCriteria) {
+        sortCriteria = sortBy
         tasks = sortTasks(tasks)
     }
     
