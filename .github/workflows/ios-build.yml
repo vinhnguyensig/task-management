@@ -13,6 +13,18 @@ jobs:
       # Check out the repository
       - uses: actions/checkout@v2
 
+      # Clean Derived Data and Cache
+      - name: Clean Derived Data and Cache
+        run: |
+          rm -rf ~/Library/Developer/Xcode/DerivedData/*
+          rm -rf ~/Library/Developer/Xcode/iOS\ DeviceSupport/*
+          rm -rf ~/Library/Developer/Xcode/Archives/*
+
+      # Remove Unused Simulators
+      - name: Remove Unused Simulators
+        run: |
+          xcrun simctl delete unavailable
+
       - name: Install CocoaPods
         run: brew install cocoapods
 
