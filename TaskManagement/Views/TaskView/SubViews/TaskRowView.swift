@@ -71,9 +71,10 @@ struct TaskInfoView: View {
             VStack(alignment: .leading) {
                 Text(task.title)
                     .font(.headline)
-                    .foregroundColor(.primary)
+                    .foregroundColor(task.isCompleted ?.secondary : .primary)
                     .lineLimit(2)
                     .padding(4)
+                    .strikethrough(task.isCompleted, color: .primary)
                 
                 if let dueDate = task.dueDate {
                     Text("Due date: \(Utils.taskDateFormatter(dueDate))")

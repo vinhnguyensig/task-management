@@ -14,6 +14,9 @@ struct TaskListView: View {
     @State private var isTodayTasks = true
     @State private var showingSortOptions = false
    
+    @State private var showConfetti = false
+    @State private var confettiCounter = 0
+    
     var body: some View {
         NavigationStack {
             VStack {
@@ -35,6 +38,7 @@ struct TaskListView: View {
                     dismissButton: .default(Text("OK"))
                 )
             }
+            .confettiCannon(counter: $confettiCounter, num: 50, openingAngle: Angle(degrees: 0), closingAngle: Angle(degrees: 360), radius: 200)
         }
     }
     
@@ -54,7 +58,11 @@ struct TaskListView: View {
         List {
             ForEach(viewModel.filteredTasks(by: nil)) { task in
                 TaskRowView(task: task, onToggleComplete: { task in
+                    if !task.isCompleted {
+                        confettiCounter += 1
+                    }
                     viewModel.toggleTaskCompletion(task: task)
+                    
                 }, onTaskTapped: { task in
                     viewModel.registerObserveTaskInfo()
                 })
