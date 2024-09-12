@@ -29,11 +29,6 @@ struct DueDatePicker: View {
                 }
                 .padding(.horizontal)
                 .frame(height: 80)
-                .onReceive(viewModel.$selectedDate, perform: { onDate in
-                    if let date = onDate {
-                        scrollViewProxy.scrollTo(date, anchor: .center)
-                    }
-                })
                 .onAppear {
                     scrollViewProxy.scrollTo(selectedDate, anchor: .center)
                 }

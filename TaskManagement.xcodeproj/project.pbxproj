@@ -43,6 +43,7 @@
 		1FCC9AB12C92975F00046ACF /* ConfettiSwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCC9AA92C92975F00046ACF /* ConfettiSwiftUI.swift */; };
 		1FCC9AB22C92975F00046ACF /* View+ConfettiCannon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCC9AAA2C92975F00046ACF /* View+ConfettiCannon.swift */; };
 		1FCC9AB42C92A6DB00046ACF /* HapticManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCC9AB32C92A6DB00046ACF /* HapticManager.swift */; };
+		1FCC9AB62C92F11300046ACF /* Calendar+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCC9AB52C92F11300046ACF /* Calendar+Extension.swift */; };
 		1FDA7F0D2C8E9DE500B969A1 /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDA7F0C2C8E9DE500B969A1 /* Task.swift */; };
 		1FDA7F0F2C8E9DFB00B969A1 /* TaskPriority.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDA7F0E2C8E9DFB00B969A1 /* TaskPriority.swift */; };
 		1FDA7F102C8E9E0600B969A1 /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDA7F0C2C8E9DE500B969A1 /* Task.swift */; };
@@ -121,6 +122,7 @@
 		1FCC9AA92C92975F00046ACF /* ConfettiSwiftUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfettiSwiftUI.swift; sourceTree = "<group>"; };
 		1FCC9AAA2C92975F00046ACF /* View+ConfettiCannon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "View+ConfettiCannon.swift"; sourceTree = "<group>"; };
 		1FCC9AB32C92A6DB00046ACF /* HapticManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticManager.swift; sourceTree = "<group>"; };
+		1FCC9AB52C92F11300046ACF /* Calendar+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Calendar+Extension.swift"; sourceTree = "<group>"; };
 		1FDA7F0C2C8E9DE500B969A1 /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
 		1FDA7F0E2C8E9DFB00B969A1 /* TaskPriority.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskPriority.swift; sourceTree = "<group>"; };
 		1FDA7F122C8E9E2200B969A1 /* TaskCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskCategory.swift; sourceTree = "<group>"; };
@@ -185,6 +187,7 @@
 			children = (
 				1F341FD82C8F07530098C834 /* Color+Extension.swift */,
 				1FAF293E2C9003D100686EA3 /* Date+Extension.swift */,
+				1FCC9AB52C92F11300046ACF /* Calendar+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -671,6 +674,7 @@
 				1F341FD42C8EFDEC0098C834 /* TaskInProgressView.swift in Sources */,
 				1F990AF82C9133E5003B5117 /* DueDatePickerView.swift in Sources */,
 				1F341FD22C8EFD9E0098C834 /* TodayTaskProgressView.swift in Sources */,
+				1FCC9AB62C92F11300046ACF /* Calendar+Extension.swift in Sources */,
 				1FDA7F4C2C8EF0EE00B969A1 /* DashboardView.swift in Sources */,
 				1FDA7F1F2C8E9EB300B969A1 /* TaskListView.swift in Sources */,
 				1F990AF62C91305B003B5117 /* TaskCalendarViewModel.swift in Sources */,

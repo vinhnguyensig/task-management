@@ -10,7 +10,7 @@ import Foundation
 @MainActor
 class TaskCalendarViewModel: ObservableObject {
     @Published var tasks: [Task] = []
-    @Published var selectedDate: Date?
+   // @Published var selectedDate: Date?
     @Published var errorMessage: String?
     
     init() {
