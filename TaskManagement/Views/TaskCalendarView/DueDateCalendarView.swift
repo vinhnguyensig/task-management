@@ -41,7 +41,7 @@ struct CalendarHeaderView: View {
     var body: some View {
         HStack {
             Text(Utils.monthYearFormatter(selectedDate))
-                .font(.title)
+                .font(.title2)
                 .padding(.leading, 16)
 
             Button(action: nextMonth) {
