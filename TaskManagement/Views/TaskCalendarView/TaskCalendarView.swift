@@ -15,14 +15,18 @@
 import Foundation
 import SwiftUI
 
+import SwiftUI
+
 struct TaskCalendarView: View {
     @StateObject var viewModel = TaskCalendarViewModel()
     @State private var selectedDate: Date = Date()
     @State private var isExpanded: Bool = false
+    @State private var pendingDate: Date?
 
     var body: some View {
         NavigationStack {
             VStack {
+                // Calendar view at the top
                 DueDateCalendarView(viewModel: viewModel, selectedDate: $selectedDate, isExpanded: $isExpanded)
 
                 if !viewModel.taskGroups.isEmpty {
@@ -39,11 +43,8 @@ struct TaskCalendarView: View {
                                     .background(
                                         GeometryReader { geo in
                                             Color.clear
-                                                .onChange(of: geo.frame(in: .global).minY) { newY in
-                                                    // Update selectedDate based on scrolling position
-                                                    if newY < UIScreen.main.bounds.height / 2 && newY > 0 {
-                                                        selectedDate = date
-                                                    }
+                                                .onChange(of: geo.frame(in: .global).minY) { yPos in
+                                                    handleScrollPosition(yPos: yPos, date: date)
                                                 }
                                         }
                                     )
@@ -52,13 +53,14 @@ struct TaskCalendarView: View {
                             .padding(.horizontal, 8)
                         }
                         .onChange(of: selectedDate) { newDate in
-                            // Optionally scroll to the newly selected date if needed
+                            // Smoothly scroll to the selected date
                             withAnimation {
                                 scrollProxy.scrollTo(newDate, anchor: .top)
                             }
                         }
                     }
                 } else {
+                    // Handle empty state
                    // EmptyStateView()
                 }
             }
@@ -68,6 +70,25 @@ struct TaskCalendarView: View {
             .navigationTitle("Task Calendar")
             .navigationBarTitleDisplayMode(.inline)
             .background(Color(UIColor.systemGroupedBackground))
+        }
+    }
+
+    // This function handles the scroll position and debounces the date update
+    private func handleScrollPosition(yPos: CGFloat, date: Date) {
+        let screenHeight = UIScreen.main.bounds.height
+
+        // Update the date only when the section is near the center of the screen
+        if yPos < screenHeight * 0.6 && yPos > 0 {
+            pendingDate = date
+
+            // Debounce the update to make it smoother
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
+                if pendingDate == date {
+                    withAnimation {
+                        selectedDate = date
+                    }
+                }
+            }
         }
     }
 }

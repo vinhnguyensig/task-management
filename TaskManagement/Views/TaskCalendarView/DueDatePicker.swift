@@ -33,6 +33,12 @@ struct DueDatePicker: View {
                     scrollViewProxy.scrollTo(selectedDate, anchor: .center)
                 }
             }
+            .onChange(of: selectedDate) { newDate in
+                // Smoothly scroll to the selected date
+                withAnimation {
+                    scrollViewProxy.scrollTo(newDate, anchor: .center)
+                }
+            }
         }
     }
 
