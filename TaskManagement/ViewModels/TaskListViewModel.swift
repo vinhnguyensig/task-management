@@ -10,6 +10,8 @@ class TaskListViewModel: ObservableObject {
     @Published var sortOrder: SortOrder = .descending
     @Published var sortByPosition: Bool = false
     
+    var isTodayTask = true
+    
     private var currentCategory: String?
     private var notificationObserver: AnyCancellable?
     
@@ -24,10 +26,12 @@ class TaskListViewModel: ObservableObject {
     
     // MARK: - Task Management Methods
     
-    func fetchTasks(category: String?) {
+    func fetchTasks(category: String?, isTodayTasks: Bool) {
         if let category = category {
             currentCategory = category
             loadTasksByCategory(category: category)
+        } else if isTodayTasks {
+            loadTodayTasks()
         } else {
             loadTasks()
         }
@@ -47,6 +51,18 @@ class TaskListViewModel: ObservableObject {
     
     func loadTasks() {
         TaskManagerDB.shared.getAllTasks { [weak self] result in
+            switch result {
+            case .success(let loadedTasks):
+                self?.tasks = self?.sortTasks(loadedTasks) ?? []
+            case .failure(let error):
+                self?.errorMessage = "Failed to load tasks: \(error.localizedDescription)"
+                print(self?.errorMessage ?? "Unknown error")
+            }
+        }
+    }
+    
+    func loadTodayTasks() {
+        TaskManagerDB.shared.fetchTodayTasks { [weak self] result in
             switch result {
             case .success(let loadedTasks):
                 self?.tasks = self?.sortTasks(loadedTasks) ?? []
@@ -141,6 +157,8 @@ class TaskListViewModel: ObservableObject {
                     if let _ = notification.userInfo {
                         if let category = self?.currentCategory {
                             self?.loadTasksByCategory(category: category)
+                        } else if self?.isTodayTask == true {
+                            self?.loadTodayTasks()
                         } else {
                             self?.loadTasks()
                         }

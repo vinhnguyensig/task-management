@@ -44,6 +44,7 @@ struct TaskRowView: View {
             .padding()
             .sheet(isPresented: $isShowDetail, content: {
                 TaskDetailView(task: task)
+                    .presentationDetents([.medium, .large])
             })
         })
         

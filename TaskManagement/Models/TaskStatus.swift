@@ -10,7 +10,7 @@ import SwiftUI
 
 enum TaskStatus: String, CaseIterable, Codable {
     case backlog = "Backlog"
-    case pending = "Pending"
+    case ready = "Ready"
     case inProgress = "In Progress"
     case completed = "Completed"
     case inReview = "In Review"
@@ -22,13 +22,13 @@ enum TaskStatus: String, CaseIterable, Codable {
     var color: Color {
         switch self {
         case .backlog: return .gray
-        case .pending: return .gray
+        case .ready: return .cyan
         case .inProgress: return .blue
-        case .completed: return .cyan
+        case .completed: return .purple
         case .done: return .green
         case .onHold: return .orange
         case .canceled: return .red
-        case .inReview: return .purple
+        case .inReview: return .yellow
         }
     }
     
@@ -36,8 +36,8 @@ enum TaskStatus: String, CaseIterable, Codable {
     var icon: Image {
         switch self {
         case .backlog: return Image(systemName: "note")
-        case .pending: return Image(systemName: "square")
-        case .inProgress: return Image(systemName: "arrow.triangle.2.circlepath")
+        case .ready: return Image(systemName: "figure.dance")
+        case .inProgress: return Image(systemName: "figure.run")
         case .completed: return Image(systemName: "circle.badge.checkmark")
         case .done: return Image(systemName: "checkmark.seal.fill")
         case .onHold: return Image(systemName: "pause.circle.fill")

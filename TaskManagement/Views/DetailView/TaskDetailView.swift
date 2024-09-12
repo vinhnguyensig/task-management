@@ -111,41 +111,40 @@ struct TaskDetailView: View {
                     }
                     
                     Divider()
-                    
-                    // Brief Description
-                    VStack(alignment: .leading, spacing: 8) {
-                        Label("Brief Description", systemImage: "text.book.closed")
-                            .font(.headline)
-                            .foregroundColor(.secondary)
-                        
-                        TextEditor(text: $brief)
-                            .frame(minHeight: 60, maxHeight: 100)
-                            .padding(1)
-                            .background(Color(.systemGray6))
-                            .cornerRadius(8)
-                    }
-                    .padding(.vertical, 8)
-                    
-                    // Detailed Description
-                    VStack(alignment: .leading, spacing: 8) {
-                        Label("Task Detail", systemImage: "doc.text")
-                            .font(.headline)
-                            .foregroundColor(.secondary)
-                        
-                        TextEditor(text: $detail)
-                            .frame(minHeight: 100, maxHeight: 160)
-                            .padding(1)
-                            .background(Color(.systemGray6))
-                            .cornerRadius(8)
-                        
-                        Button(action: {
-                            // Action to generate detailed description
-                        }) {
-                            Label("Generate task detail with AI", systemImage: "wand.and.stars")
-                                .foregroundColor(.blue)
+                    if !brief.isEmpty {
+                        // Brief Description
+                        VStack(alignment: .leading, spacing: 8) {
+                            Label("Brief Description", systemImage: "text.book.closed")
+                                .foregroundColor(.secondary)
+                            
+                            Text(brief)
+                                .frame(minHeight: 60, maxHeight: 100)
+                                .padding(1)
+                                .background(Color(.systemGray6))
+                                .cornerRadius(8)
                         }
+                        .padding(.vertical, 8)
                     }
-                    .padding(.vertical, 8)
+                    if !detail.isEmpty {
+                        // Detailed Description
+                        VStack(alignment: .leading, spacing: 8) {
+                            Label("Task Detail", systemImage: "doc.text")
+                                .foregroundColor(.secondary)
+                            Text(detail)
+                                .frame(minHeight: 100, maxHeight: .infinity)
+                                .padding(1)
+                                .background(Color(.systemGray6))
+                                .cornerRadius(8)
+                            
+                            Button(action: {
+                                // Action to generate detailed description
+                            }) {
+                                Label("Generate task detail with AI", systemImage: "wand.and.stars")
+                                    .foregroundColor(.blue)
+                            }
+                        }
+                        .padding(.vertical, 8)
+                    }
                 }
             }
             .padding()

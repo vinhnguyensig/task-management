@@ -76,6 +76,7 @@ struct TaskInProgress: View {
             .frame(width: 200, height: 120)
             .sheet(isPresented: $isShowDetail, content: {
                 TaskDetailView(task: task)
+                    .presentationDetents([.medium, .large])
             })
         }
         

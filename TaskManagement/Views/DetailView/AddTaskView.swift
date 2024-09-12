@@ -21,7 +21,7 @@ struct AddTaskView: View {
     @State private var dueDate: Date = Date()
     @State private var selectedPriority: TaskPriority = .medium
     @State private var selectedCategory: TaskCategory = .work
-    @State private var selectedStatus: TaskStatus = .inProgress
+    @State private var selectedStatus: TaskStatus = .ready
     @State private var showDueDatePicker = false
     @State private var toastMessage : String?
     @State private var isEnableAddReminder = false
@@ -82,8 +82,8 @@ struct AddTaskView: View {
             .overlay {
                 if let message = toastMessage {
                     ToastView(message: message)
-                    .transition(.move(edge: .bottom).combined(with: .opacity))
-                    .animation(.easeInOut(duration: 0.5), value: true)
+                        .transition(.move(edge: .bottom).combined(with: .opacity))
+                        .animation(.easeInOut(duration: 0.5), value: true )
                 }
             }
             .onReceive(viewModel.$addedTask, perform: { newTask in
@@ -138,6 +138,11 @@ struct AddTaskView: View {
             priorityPicker
             categoryPicker
             statusPicker
+            
+            if let _ = task {
+               detailDesField
+                Spacer()
+            }
         }
     }
     
@@ -162,6 +167,31 @@ struct AddTaskView: View {
                         .stroke(Color.gray.opacity(0.1), lineWidth: 1)
                 )
         }
+    }
+    
+    private var detailDesField: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Label("Task Detail", systemImage: "doc.text")
+                .foregroundColor(.secondary)
+            
+            TextEditor(text: $detail)
+                .frame(minHeight: 100, maxHeight: 160)
+                .padding(1)
+                .background(Color(.white))
+                .cornerRadius(8)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 8)
+                        .stroke(Color.gray.opacity(0.1), lineWidth: 1)
+                )
+            
+            Button(action: {
+                // Action to generate detailed description
+            }) {
+                Label("Generate task detail with AI", systemImage: "wand.and.stars")
+                    .foregroundColor(.blue)
+            }
+        }
+        .padding(.vertical, 8)
     }
     
     private var dueDatePickerButton: some View {

@@ -11,6 +11,7 @@ struct TaskListView: View {
     var category: String?
     
     @StateObject private var viewModel = TaskListViewModel()
+    @State private var isTodayTasks = true
     @State private var showingSortOptions = false
    
     var body: some View {
@@ -21,7 +22,7 @@ struct TaskListView: View {
             .navigationTitle(navigationTitle)
             .navigationBarTitleDisplayMode(.automatic)
             .onAppear {
-                viewModel.fetchTasks(category: category)
+                viewModel.fetchTasks(category: category, isTodayTasks: isTodayTasks)
             }
             .toolbar {
                 sortMenu
@@ -60,7 +61,7 @@ struct TaskListView: View {
     }
     
     private var navigationTitle: String {
-        category == nil ? "Tasks" : category!
+        category == nil ? "Tasks for Today" : category!
     }
     
     private var sortMenu: some ToolbarContent {

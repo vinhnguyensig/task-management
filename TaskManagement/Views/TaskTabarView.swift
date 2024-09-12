@@ -8,11 +8,11 @@
 import SwiftUI
 
 struct TaskTabBarView: View {
-    @State private var selectedTab: Tab = .home
+    @State private var selectedTab: Tab = .tasks
     @State private var showAddTaskView: Bool = false
 
     enum Tab {
-        case home, tasks, add, calendar, menu
+        case tasks, home, add, calendar, menu
     }
 
     var body: some View {
@@ -36,10 +36,10 @@ struct TaskTabBarView: View {
     @ViewBuilder
     private func contentView(for tab: Tab) -> some View {
         switch tab {
-        case .home:
-            DashboardView()
         case .tasks:
             TaskListView()
+        case .home:
+            DashboardView()
         case .calendar:
             TaskCalendarView()
         case .menu:
@@ -58,9 +58,9 @@ struct TaskTabBarView: View {
                 .edgesIgnoringSafeArea(.bottom)
             
             HStack {
-                TabBarButton(icon: "gauge.with.dots.needle.67percent", selectedTab: $selectedTab, currentTab: .home)
-                Spacer()
                 TabBarButton(icon: "list.bullet.clipboard", selectedTab: $selectedTab, currentTab: .tasks)
+                Spacer()
+                TabBarButton(icon: "gauge.with.dots.needle.67percent", selectedTab: $selectedTab, currentTab: .home)
                 Spacer()
                 Button(action: {
                     showAddTaskView = true

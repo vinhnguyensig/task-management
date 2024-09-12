@@ -72,6 +72,27 @@ class TaskManagerDB {
         }
     }
     
+    func fetchTodayTasks(completion: @escaping (Result<[Task], Error>) -> Void) {
+        getRealm { result in
+            switch result {
+            case .success(let realm):
+                let calendar = Calendar.current
+                let startOfDay = calendar.startOfDay(for: Date())
+                if let endOfDay = calendar.date(byAdding: .day, value: 1, to: startOfDay) {
+                    let predicate = NSPredicate(format: "dueDate >= %@ AND dueDate < %@", startOfDay as NSDate, endOfDay as NSDate)
+                    let taskEntities = realm.objects(TaskEntity.self).filter(predicate)
+                    let tasks = Array(taskEntities.map { self.task(from: $0) })
+                    completion(.success(tasks))
+                } else {
+                    completion(.success([]))
+                }
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
+
+    
     func updateTask(task: Task, completion: @escaping (Error?) -> Void) {
         getRealm { result in
             switch result {

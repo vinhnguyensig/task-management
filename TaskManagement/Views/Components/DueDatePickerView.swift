@@ -13,7 +13,7 @@ struct DueDatePickerView: View {
     @Environment(\.dismiss) var dismiss
     
     @Binding var selectedDate: Date
-    @State private var selectedTime: Date = Date().addingTimeInterval(60*60*12)
+    @State private var selectedTime: Date? = nil
     @State private var isExpanded: Bool = true
     
     var body: some View {
@@ -22,30 +22,21 @@ struct DueDatePickerView: View {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack {
                         Button(action: {
-                            // Handle tomorrow
+                            selectedDate = Calendar.current.date(byAdding: .day, value: 1, to: Date()) ?? Date()
                         }) {
                             Label("Tomorrow", systemImage: "sun.max.fill")
                                 .foregroundColor(.blue)
                                 .padding(.horizontal)
                         }
-                        
+                        Spacer()
                         Button(action: {
-                            // Handle next week
+                            selectedDate = Calendar.current.date(byAdding: .day, value: 7, to: Date()) ?? Date()
                         }) {
                             Label("Next Week", systemImage: "arrow.right.circle.fill")
                                 .foregroundColor(.blue)
                                 .padding(.horizontal)
                         }
                        
-                        Button(action: {
-                            // Handle no date
-                        }) {
-                            Label("No Date", systemImage: "minus.circle")
-                                .foregroundColor(.gray)
-                                .padding(.horizontal)
-                        }
-                        
-                        Spacer()
                     }
                 }
                 .padding()
@@ -58,9 +49,16 @@ struct DueDatePickerView: View {
                 Divider()
                 
                 // Time Picker
-                DatePicker("Select Time", selection: $selectedTime, displayedComponents: .hourAndMinute)
-                    .datePickerStyle(.compact)
-                    .padding(.horizontal)
+                DatePicker("Select Time", selection: Binding(
+                    get: {
+                        selectedTime ?? Date()
+                    },
+                    set: { newValue in
+                        selectedTime = newValue
+                    }
+                ), displayedComponents: .hourAndMinute)
+                .datePickerStyle(.compact)
+                .padding(.horizontal)
                 
                 Spacer()
             }
@@ -77,6 +75,15 @@ struct DueDatePickerView: View {
                 }
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Done") {
+                        if let selectedTime = selectedTime {
+                                    // Combine the selected date and time
+                                    let calendar = Calendar.current
+                                    let timeComponents = calendar.dateComponents([.hour, .minute], from: selectedTime)
+                                    selectedDate = calendar.date(bySettingHour: timeComponents.hour ?? 0,
+                                                                 minute: timeComponents.minute ?? 0,
+                                                                 second: 0,
+                                                                 of: selectedDate) ?? selectedDate
+                                }
                         dismiss()
                     }
                 }

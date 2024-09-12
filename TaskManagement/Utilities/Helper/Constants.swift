@@ -10,4 +10,5 @@ import Foundation
 struct Constants {
     static let notificationPermissionDeniedMessage = "Notification permission denied. Please open Settings and enable notifications for this app to stay updated."
     static let taskNotificationInfo = "TaskNotificationInfo"
+    static let isReopenApp = "ReopenApp"
 }
