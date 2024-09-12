@@ -18,9 +18,9 @@ class TaskListViewModel: ObservableObject {
     @Published var searchQuery: String = ""
     @Published var sortOrder: SortOrder = .descending
     @Published var sortCriteria: SortCriteria = .creationDate
+    @Published var currentFilter: TaskFilter = .all
     
     var isTodayTask = true
-    var isFilter = false
     
     private var currentCategory: String?
     private var notificationObserver: AnyCancellable?
@@ -33,6 +33,13 @@ class TaskListViewModel: ObservableObject {
     enum SortCriteria {
         case position
         case creationDate
+    }
+    
+    enum TaskFilter {
+        case all
+        case inProgress
+        case completed
+        case backlog
     }
     
     // MARK: - Initialization
@@ -52,7 +59,7 @@ class TaskListViewModel: ObservableObject {
                 print(self?.errorMessage ?? "Unknown error")
             }
         }
-        isFilter = false
+        
         if let category = category {
             currentCategory = category
             TaskManagerDB.shared.fetchTasks(by: category, completion: fetchMethod)
@@ -156,7 +163,6 @@ class TaskListViewModel: ObservableObject {
     }
     
     func applyFilter(status: TaskStatus? = nil, priority: TaskPriority? = nil, isCompleted: Bool? = nil) {
-        isFilter = false
         filterTasks = tasks.filter { task in
             var statusMatches = true
             var priorityMatches = true
@@ -164,18 +170,22 @@ class TaskListViewModel: ObservableObject {
             
             if let status = status {
                 statusMatches = task.status == status
-                isFilter = true
+                if status == .backlog {
+                    currentFilter = .backlog
+                } else {
+                    currentFilter = .all
+                }
             }
             
             if let priority = priority {
                 priorityMatches = task.priority == priority
-                isFilter = true
             }
             
             if let isCompleted = isCompleted {
                 isCompletedMatches = task.isCompleted == isCompleted
-                isFilter = true
+                currentFilter = isCompleted ? .completed : .inProgress
             }
+           
             return statusMatches && priorityMatches && isCompletedMatches
         }
     }

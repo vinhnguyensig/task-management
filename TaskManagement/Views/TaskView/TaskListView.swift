@@ -13,7 +13,7 @@ struct TaskListView: View {
     @StateObject private var viewModel = TaskListViewModel()
     @State private var isTodayTasks = true
     @State private var showingSortOptions = false
-   
+    
     @State private var showConfetti = false
     @State private var confettiCounter = 0
     
@@ -28,10 +28,8 @@ struct TaskListView: View {
                 viewModel.fetchTasks(category: category, isTodayTasks: isTodayTasks)
             }
             .toolbar {
-                filterMenu
                 sortMenu
             }
-            .searchable(text: $viewModel.searchQuery)
             .alert(isPresented: .constant(viewModel.errorMessage != nil)) {
                 Alert(
                     title: Text("Error"),
@@ -57,7 +55,7 @@ struct TaskListView: View {
     
     private var taskListView: some View {
         List {
-            ForEach(viewModel.isFilter ? viewModel.filterTasks : viewModel.tasks) { task in
+            ForEach(viewModel.tasks) { task in
                 TaskRowView(task: task, onToggleComplete: { task in
                     if !task.isCompleted {
                         confettiCounter += 1
@@ -86,23 +84,44 @@ struct TaskListView: View {
                         viewModel.applyFilter()
                     }) {
                         Label("Show All", systemImage: "list.bullet.clipboard")
+                            .foregroundColor(viewModel.currentFilter == .all ? .blue : .primary)
+                            .overlay(
+                                viewModel.currentFilter == .all ? Image(systemName: "checkmark").foregroundColor(.blue) : nil,
+                                alignment: .trailing
+                            )
                     }
                     
                     Button(action: {
                         viewModel.applyFilter(isCompleted: false)
                     }) {
                         Label("In Progress", systemImage: "figure.run")
+                            .foregroundColor(viewModel.currentFilter == .inProgress ? .blue : .primary)
+                            .overlay(
+                                viewModel.currentFilter == .inProgress ? Image(systemName: "checkmark").foregroundColor(.blue) : nil,
+                                alignment: .trailing
+                            )
                     }
+                    
                     Button(action: {
                         viewModel.applyFilter(isCompleted: true)
                     }) {
                         Label("Completed", systemImage: "checkmark.circle.fill")
+                            .foregroundColor(viewModel.currentFilter == .completed ? .blue : .primary)
+                            .overlay(
+                                viewModel.currentFilter == .completed ? Image(systemName: "checkmark").foregroundColor(.blue) : nil,
+                                alignment: .trailing
+                            )
                     }
                     
                     Button(action: {
                         viewModel.applyFilter(status: .backlog)
                     }) {
                         Label("Backlog", systemImage: "tray.fill")
+                            .foregroundColor(viewModel.currentFilter == .backlog ? .blue : .primary)
+                            .overlay(
+                                viewModel.currentFilter == .backlog ? Image(systemName: "checkmark").foregroundColor(.blue) : nil,
+                                alignment: .trailing
+                            )
                     }
                 }
             } label: {
@@ -111,7 +130,8 @@ struct TaskListView: View {
             }
         }
     }
-
+    
+    
     
     private var sortMenu: some ToolbarContent {
         ToolbarItem(placement: .navigationBarTrailing) {

@@ -29,7 +29,10 @@ struct TaskGroupView: View {
                     } label: {
                         let categoryTitle = taskGroup.category?.rawValue ?? "Others"
                         let totalTasks = taskGroup.tasks.count
-                        let totalProgress = taskGroup.tasks.reduce(0) { $0 + $1.progress } / Double(totalTasks)
+                        let completedTasks = taskGroup.tasks.filter {
+                            $0.isCompleted == true
+                        }
+                        let totalProgress = Double(completedTasks.count) / Double(totalTasks)
                         let categoryColor = taskGroup.category?.color ?? .gray
                         let categoryIcon = taskGroup.category?.icon ?? "questionmark.circle"
                         
