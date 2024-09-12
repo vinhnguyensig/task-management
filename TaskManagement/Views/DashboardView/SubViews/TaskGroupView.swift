@@ -31,7 +31,7 @@ struct TaskGroupView: View {
                         let totalTasks = taskGroup.tasks.count
                         let totalProgress = taskGroup.tasks.reduce(0) { $0 + $1.progress } / Double(totalTasks)
                         let categoryColor = taskGroup.category?.color ?? .gray
-                        let categoryIcon = taskGroup.category?.icon ?? Image(systemName: "questionmark.circle")
+                        let categoryIcon = taskGroup.category?.icon ?? "questionmark.circle"
                         
                         TaskGroupCard(
                             title: categoryTitle,
@@ -58,11 +58,11 @@ struct TaskGroupCard: View {
     let tasks: Int
     let progress: Double
     let color: Color
-    let icon: Image
+    let icon: String
 
     var body: some View {
         HStack {
-            icon
+            Image(systemName: icon)
                 .font(.title)
                 .foregroundColor(color)
                 .padding(.trailing, 8)

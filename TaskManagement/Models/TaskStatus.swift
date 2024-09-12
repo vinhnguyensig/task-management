@@ -33,16 +33,16 @@ enum TaskStatus: String, CaseIterable, Codable {
     }
     
     // Icon associated with each status
-    var icon: Image {
+    var icon: String {
         switch self {
-        case .backlog: return Image(systemName: "note")
-        case .ready: return Image(systemName: "figure.dance")
-        case .inProgress: return Image(systemName: "figure.run")
-        case .completed: return Image(systemName: "circle.badge.checkmark")
-        case .done: return Image(systemName: "checkmark.seal.fill")
-        case .onHold: return Image(systemName: "pause.circle.fill")
-        case .canceled: return Image(systemName: "xmark.square.fill")
-        case .inReview: return Image(systemName: "questionmark.circle.fill")
+        case .backlog: return "note"
+        case .ready: return "figure.dance"
+        case .inProgress: return "figure.run"
+        case .completed: return "circle.badge.checkmark"
+        case .done: return "checkmark.seal.fill"
+        case .onHold: return "pause.circle.fill"
+        case .canceled: return "xmark.square.fill"
+        case .inReview: return "questionmark.circle.fill"
         }
     }
 }

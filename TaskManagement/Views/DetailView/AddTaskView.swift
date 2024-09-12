@@ -257,8 +257,8 @@ struct AddTaskView: View {
         Picker("Category", selection: $selectedCategory) {
             ForEach(TaskCategory.allCases, id: \.self) { category in
                 HStack {
-                    category.icon
-                        .foregroundColor(category.color)
+                    Image(systemName: category.icon)
+                         .foregroundColor(category.color)
                     Text(category.rawValue.capitalized)
                 }
                 .tag(category)
@@ -270,8 +270,8 @@ struct AddTaskView: View {
         Picker("Status", selection: $selectedStatus) {
             ForEach(TaskStatus.allCases, id: \.self) { status in
                 HStack {
-                    status.icon
-                        .foregroundColor(status.color)
+                    Image(systemName: status.icon)
+                         .foregroundColor(status.color)
                     Text(status.rawValue.capitalized)
                 }
                 .tag(status)

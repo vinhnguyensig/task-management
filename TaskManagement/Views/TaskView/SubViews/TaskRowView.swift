@@ -85,8 +85,8 @@ struct TaskInfoView: View {
             
             Spacer()
             
-            task.category.icon
-                .foregroundColor(task.category.color)
+            Image(systemName: task.category.icon)
+                 .foregroundColor(task.category.color)
                 .font(.system(size: 18))
                 .padding(.trailing, 4)
             

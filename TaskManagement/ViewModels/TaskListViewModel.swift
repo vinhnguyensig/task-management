@@ -16,7 +16,7 @@ class TaskListViewModel: ObservableObject {
     @Published var errorMessage: String?
     @Published var searchQuery: String = ""
     @Published var sortOrder: SortOrder = .descending
-    @Published var sortCriteria: SortCriteria = .position
+    @Published var sortCriteria: SortCriteria = .creationDate
 
     var isTodayTask = true
 

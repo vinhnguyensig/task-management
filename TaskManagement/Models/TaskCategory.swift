@@ -37,19 +37,19 @@ enum TaskCategory: String, CaseIterable, Codable {
         }
     }
     
-    var icon: Image {
+    var icon: String {
         switch self {
-        case .work: return Image(systemName: "briefcase.fill")
-        case .personal: return Image(systemName: "person.fill")
-        case .shopping: return Image(systemName: "cart.fill")
-        case .health: return Image(systemName: "heart.fill")
-        case .finances: return Image(systemName: "creditcard.fill")
-        case .home: return Image(systemName: "house.fill")
-        case .family: return Image(systemName: "person.2.fill")
-        case .learning: return Image(systemName: "book.closed.fill")
-        case .travel: return Image(systemName: "airplane.departure")
-        case .events: return Image(systemName: "calendar")
-        case .others: return Image(systemName: "list.star")
+        case .work: return "briefcase.fill"
+        case .personal: return "person.fill"
+        case .shopping: return "cart.fill"
+        case .health: return "heart.fill"
+        case .finances: return "creditcard.fill"
+        case .home: return "house.fill"
+        case .family: return "person.2.fill"
+        case .learning: return "book.closed.fill"
+        case .travel: return "airplane.departure"
+        case .events: return "calendar"
+        case .others: return "list.star"
         }
     }
 }

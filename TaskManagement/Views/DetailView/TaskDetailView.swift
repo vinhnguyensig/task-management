@@ -49,8 +49,8 @@ struct TaskDetailView: View {
                         Spacer()
                         
                         // Category
-                        task.category.icon
-                            .foregroundColor(task.category.color)
+                        Image(systemName: task.category.icon)
+                             .foregroundColor(task.category.color)
                         Text(task.category.rawValue.capitalized)
                             .font(.subheadline)
                             .foregroundColor(.primary)
@@ -59,7 +59,7 @@ struct TaskDetailView: View {
                         Spacer()
                         
                         // Status
-                        task.status.icon
+                        Image(systemName: task.status.icon)
                             .foregroundColor(task.status.color)
                         Text(task.status.rawValue.capitalized)
                             .font(.subheadline)

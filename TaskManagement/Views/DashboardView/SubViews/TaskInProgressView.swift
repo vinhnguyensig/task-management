@@ -61,8 +61,9 @@ struct TaskInProgress: View {
                         .font(.caption)
                         .foregroundColor(.secondary)
                     Spacer()
-                    task.category.icon
+                   Image(systemName: task.category.icon)
                         .foregroundColor(task.category.color)
+                    PriorityIndicator(priority: task.priority)
                 }
                 Text(task.title)
                     .font(.body)
