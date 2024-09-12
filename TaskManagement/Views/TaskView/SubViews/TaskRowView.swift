@@ -9,48 +9,92 @@ import Foundation
 import SwiftUI
 
 struct TaskRowView: View {
-    @ObservedObject var viewModel: TaskListViewModel
-    
     let task: Task
+    let onToggleComplete: (Task) -> Void
+    let onTaskTapped: (Task) -> Void
     @State private var isShowDetail = false
+    @State private var isHighlighted = false
     
     var body: some View {
-        
-        Button(action: {
-            viewModel.registerObserveTaskInfo()
-            isShowDetail = true
-        }, label: {
-            HStack {
-                VStack(alignment: .leading) {
-                    Text(task.title)
-                        .font(.headline)
-                        .foregroundColor(.primary)
-                    if let dueDate = task.dueDate {
-                        Text("Due date: \(Utils.taskDateFormatter(dueDate))")
-                            .font(.subheadline)
-                            .foregroundColor(.gray)
-                    }
-                }
-                
-                Spacer()
-                
-                if task.status == .done {
-                    Image(systemName: "checkmark.circle.fill")
-                        .foregroundColor(.green)
-                }
-                
-                PriorityIndicator(priority: task.priority)
+        HStack {
+            // Checkmark Button to toggle task completion
+            CheckmarkButton(isCompleted: task.isCompleted) {
+                onToggleComplete(task)
             }
-            .padding()
-            .sheet(isPresented: $isShowDetail, content: {
-                TaskDetailView(task: task)
-                    .presentationDetents([.medium, .large])
-            })
-        })
-        
+
+            // Task info and category icon
+            TaskInfoView(task: task)
+                .onTapGesture {
+                    highlightRow()
+                    onTaskTapped(task)
+                    isShowDetail = true
+                }
+                .sheet(isPresented: $isShowDetail, content: {
+                    TaskDetailView(task: task)
+                        .presentationDetents([.medium, .large])
+                })
+        }
+        .padding()
+        .background(isHighlighted ? Color.gray.opacity(0.2) : Color.clear)
+        .animation(.easeInOut(duration: 0.2), value: isHighlighted)
+    }
+    
+    private func highlightRow() {
+        isHighlighted = true
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            isHighlighted = false
+        }
     }
 }
 
+// Refactored reusable checkmark button
+struct CheckmarkButton: View {
+    let isCompleted: Bool
+    let onToggle: () -> Void
+    
+    var body: some View {
+        Button(action: onToggle) {
+            Image(systemName: isCompleted ? "checkmark.circle.fill" : "circle")
+                .foregroundColor(isCompleted ? .green : .secondary)
+                .font(.system(size: 20))
+        }
+        .buttonStyle(PlainButtonStyle())
+    }
+}
+
+// Refactored reusable task info view
+struct TaskInfoView: View {
+    let task: Task
+    
+    var body: some View {
+        HStack {
+            VStack(alignment: .leading) {
+                Text(task.title)
+                    .font(.headline)
+                    .foregroundColor(.primary)
+                    .lineLimit(2)
+                    .padding(4)
+                
+                if let dueDate = task.dueDate {
+                    Text("Due date: \(Utils.taskDateFormatter(dueDate))")
+                        .font(.subheadline)
+                        .foregroundColor(.gray)
+                }
+            }
+            
+            Spacer()
+            
+            task.category.icon
+                .foregroundColor(task.category.color)
+                .font(.system(size: 18))
+                .padding(.trailing, 4)
+            
+            PriorityIndicator(priority: task.priority)
+        }
+    }
+}
+
+// View for showing priority indicator (unchanged)
 struct PriorityIndicator: View {
     let priority: TaskPriority
     
@@ -66,4 +110,3 @@ struct PriorityIndicator: View {
         }
     }
 }
-

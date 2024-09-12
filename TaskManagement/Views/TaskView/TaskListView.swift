@@ -53,7 +53,11 @@ struct TaskListView: View {
     private var taskListView: some View {
         List {
             ForEach(viewModel.filteredTasks(by: nil)) { task in
-                TaskRowView(viewModel: viewModel, task: task)
+                TaskRowView(task: task, onToggleComplete: { task in
+                    viewModel.toggleTaskCompletion(task: task)
+                }, onTaskTapped: { task in
+                    viewModel.registerObserveTaskInfo()
+                })
             }
             .onDelete(perform: viewModel.deleteTask)
             .onMove(perform: viewModel.moveTask)
@@ -90,12 +94,12 @@ struct TaskListView: View {
     
     private var sortByPositionButton: some View {
         Button(action: {
-            viewModel.toggleSortByPosition()
+            viewModel.toggleSortCriteria()
         }) {
             HStack {
                 Text("Sort by Position")
                 Spacer()
-                Image(systemName: viewModel.sortByPosition ? "list.number" : "list.bullet")
+                Image(systemName: viewModel.sortCriteria == .position ? "list.number" : "list.bullet")
             }
         }
     }
