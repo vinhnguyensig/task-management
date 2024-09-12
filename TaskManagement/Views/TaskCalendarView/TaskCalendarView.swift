@@ -27,17 +27,17 @@ struct TaskCalendarView: View {
 
                 if !viewModel.taskGroups.isEmpty {
                     ScrollView {
-                        LazyVStack(spacing: 16) {  // Increased spacing for visual clarity
+                        LazyVStack(spacing: 8) {
                             ForEach(viewModel.taskGroups, id: \.key) { date, tasks in
                                 TaskSectionView(date: date, tasks: tasks, onToggleComplete: { task in
                                     // Handle toggle complete
                                 }, onTaskTapped: { task in
                                     // Handle task tapped
                                 })
-                                .transition(.slide)  // Smooth transition when sections appear
+                                .transition(.slide)
                             }
                         }
-                        .padding(.horizontal, 16) // Consistent horizontal padding
+                        .padding(.horizontal, 8)
                     }
                 } else {
                     //EmptyStateView()
@@ -48,7 +48,7 @@ struct TaskCalendarView: View {
             }
             .navigationTitle("Task Calendar")
             .navigationBarTitleDisplayMode(.inline)
-            .background(Color(UIColor.systemGroupedBackground)) // Adapt background color
+            .background(Color(UIColor.systemGroupedBackground))
         }
     }
 }
@@ -60,12 +60,12 @@ struct SectionHeaderView: View {
         HStack(alignment: .bottom) {
             Text(Utils.formattedDate(date))
                 .font(.headline)
-                .foregroundColor(.primary)  // Ensure the text adapts to light/dark mode
+                .foregroundColor(.secondary)
                 .padding(.vertical, 8)
                 .padding(.leading)
-            Spacer()  // Ensure the text doesn't feel cramped
+            Spacer()
         }
-        .background(Color(UIColor.secondarySystemGroupedBackground))  // Improved contrast for header
+        .background(Color(UIColor.secondarySystemGroupedBackground))
         .cornerRadius(8)
         .shadow(color: .black.opacity(0.05), radius: 2, x: 0, y: 2)
     }
@@ -83,15 +83,15 @@ struct TaskSectionView: View {
 
             ForEach(tasks) { task in
                 TaskRowView(task: task, onToggleComplete: onToggleComplete, onTaskTapped: onTaskTapped)
-                    .padding(.vertical, 4)  // Added padding for each row
+                    .padding(.vertical, 4)
                     .listRowInsets(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))
                     .background(Color(UIColor.systemBackground))
                     .cornerRadius(8)
                     .shadow(color: .black.opacity(0.05), radius: 1, x: 0, y: 1)
-                    .contentShape(Rectangle()) // Ensures the entire row is tappable
+                    .contentShape(Rectangle())
             }
         }
-        .padding(.horizontal, 16) // Consistent padding for section
-        .padding(.bottom, 16) // Additional bottom padding for spacing between sections
+        .padding(.horizontal, 8)
+        .padding(.bottom, 16)
     }
 }
