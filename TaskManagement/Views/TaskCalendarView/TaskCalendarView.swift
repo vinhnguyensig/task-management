@@ -26,21 +26,40 @@ struct TaskCalendarView: View {
                 DueDateCalendarView(viewModel: viewModel, selectedDate: $selectedDate, isExpanded: $isExpanded)
 
                 if !viewModel.taskGroups.isEmpty {
-                    ScrollView {
-                        LazyVStack(spacing: 8) {
-                            ForEach(viewModel.taskGroups, id: \.key) { date, tasks in
-                                TaskSectionView(date: date, tasks: tasks, onToggleComplete: { task in
-                                    // Handle toggle complete
-                                }, onTaskTapped: { task in
-                                    // Handle task tapped
-                                })
-                                .transition(.slide)
+                    ScrollViewReader { scrollProxy in
+                        ScrollView {
+                            LazyVStack(spacing: 8) {
+                                ForEach(viewModel.taskGroups, id: \.key) { date, tasks in
+                                    TaskSectionView(date: date, tasks: tasks, onToggleComplete: { task in
+                                        // Handle toggle complete
+                                    }, onTaskTapped: { task in
+                                        // Handle task tapped
+                                    })
+                                    .id(date)
+                                    .background(
+                                        GeometryReader { geo in
+                                            Color.clear
+                                                .onChange(of: geo.frame(in: .global).minY) { newY in
+                                                    // Update selectedDate based on scrolling position
+                                                    if newY < UIScreen.main.bounds.height / 2 && newY > 0 {
+                                                        selectedDate = date
+                                                    }
+                                                }
+                                        }
+                                    )
+                                }
+                            }
+                            .padding(.horizontal, 8)
+                        }
+                        .onChange(of: selectedDate) { newDate in
+                            // Optionally scroll to the newly selected date if needed
+                            withAnimation {
+                                scrollProxy.scrollTo(newDate, anchor: .top)
                             }
                         }
-                        .padding(.horizontal, 8)
                     }
                 } else {
-                    //EmptyStateView()
+                   // EmptyStateView()
                 }
             }
             .task {
