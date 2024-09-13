@@ -10,8 +10,8 @@ import Combine
 
 @MainActor
 class DashboardViewModel: ObservableObject {
-    @Published var tasksByCategory: [(category: TaskCategory?, tasks: [Task])] = []
-    @Published var tasksInProgress: [Task] = []
+    @Published var tasksByCategory: [(category: TaskCategory?, tasks: [TaskModel])] = []
+    @Published var tasksInProgress: [TaskModel] = []
     @Published var tasksTodayStatus: String = ""
     @Published var tasksTodayProgress: Double = 0.1
     @Published var errorMessage: String?

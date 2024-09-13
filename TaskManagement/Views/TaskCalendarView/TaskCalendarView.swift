@@ -127,7 +127,7 @@ struct TaskCalendarView: View {
     }
     
     // Helper for task toggle completion
-    private func toggleTaskCompletion(_ task: Task) {
+    private func toggleTaskCompletion(_ task: TaskModel) {
         if !task.isCompleted {
             confettiCounter += 1
         }
@@ -135,7 +135,7 @@ struct TaskCalendarView: View {
     }
 
     // Helper for task tapped interaction
-    private func taskTapped(_ task: Task) {
+    private func taskTapped(_ task: TaskModel) {
         viewModel.registerObserveTaskInfo()
     }
 }

@@ -10,9 +10,9 @@ import SwiftUI
 struct TaskDueDateSectionView: View {
     @ObservedObject var viewModel: TaskCalendarViewModel
     let date: Date
-    let tasks: [Task]
-    let onToggleComplete: (Task) -> Void
-    let onTaskTapped: (Task) -> Void
+    let tasks: [TaskModel]
+    let onToggleComplete: (TaskModel) -> Void
+    let onTaskTapped: (TaskModel) -> Void
 
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {

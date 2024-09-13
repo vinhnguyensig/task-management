@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct TaskDetailView: View {
-    @State var task: Task
+    @State var task: TaskModel
     @StateObject var viewModel = TaskDetailsViewModel()
     @StateObject var reminderViewModel = TaskReminderViewModel()
     @StateObject private var editviewModel = TaskEditViewModel()
@@ -277,7 +277,7 @@ private extension TaskDetailView {
         isAddReminder = reminderViewModel.isSetReminder(id: task.id)
     }
     
-    func updateTaskInfo(info: Task?) {
+    func updateTaskInfo(info: TaskModel?) {
         if let nTask = info {
             task = nTask
         }

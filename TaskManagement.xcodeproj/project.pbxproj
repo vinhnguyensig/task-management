@@ -46,6 +46,9 @@
 		1FBC24492C94304A006FB7AE /* ShareService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FBC24482C94304A006FB7AE /* ShareService.swift */; };
 		1FBC244B2C9448D1006FB7AE /* ComingSoonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FBC244A2C9448D1006FB7AE /* ComingSoonView.swift */; };
 		1FBC244E2C945585006FB7AE /* WalkthroughView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FBC244D2C945585006FB7AE /* WalkthroughView.swift */; };
+		1FBC24522C948AF6006FB7AE /* OpenAIAPIEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FBC244F2C948AF6006FB7AE /* OpenAIAPIEndpoint.swift */; };
+		1FBC24532C948AF6006FB7AE /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FBC24502C948AF6006FB7AE /* NetworkError.swift */; };
+		1FBC24552C94939D006FB7AE /* ChatAIViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FBC24542C94939D006FB7AE /* ChatAIViewModel.swift */; };
 		1FCC9AAE2C92975F00046ACF /* RoundedCross.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCC9AA52C92975F00046ACF /* RoundedCross.swift */; };
 		1FCC9AAF2C92975F00046ACF /* SlimRectangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCC9AA62C92975F00046ACF /* SlimRectangle.swift */; };
 		1FCC9AB02C92975F00046ACF /* Triangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCC9AA72C92975F00046ACF /* Triangle.swift */; };
@@ -133,6 +136,9 @@
 		1FBC24482C94304A006FB7AE /* ShareService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareService.swift; sourceTree = "<group>"; };
 		1FBC244A2C9448D1006FB7AE /* ComingSoonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComingSoonView.swift; sourceTree = "<group>"; };
 		1FBC244D2C945585006FB7AE /* WalkthroughView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalkthroughView.swift; sourceTree = "<group>"; };
+		1FBC244F2C948AF6006FB7AE /* OpenAIAPIEndpoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenAIAPIEndpoint.swift; sourceTree = "<group>"; };
+		1FBC24502C948AF6006FB7AE /* NetworkError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
+		1FBC24542C94939D006FB7AE /* ChatAIViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatAIViewModel.swift; sourceTree = "<group>"; };
 		1FCC9AA52C92975F00046ACF /* RoundedCross.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundedCross.swift; sourceTree = "<group>"; };
 		1FCC9AA62C92975F00046ACF /* SlimRectangle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SlimRectangle.swift; sourceTree = "<group>"; };
 		1FCC9AA72C92975F00046ACF /* Triangle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Triangle.swift; sourceTree = "<group>"; };
@@ -330,6 +336,15 @@
 			path = WalkthroughView;
 			sourceTree = "<group>";
 		};
+		1FBC24512C948AF6006FB7AE /* Endpoint */ = {
+			isa = PBXGroup;
+			children = (
+				1FBC244F2C948AF6006FB7AE /* OpenAIAPIEndpoint.swift */,
+				1FBC24502C948AF6006FB7AE /* NetworkError.swift */,
+			);
+			path = Endpoint;
+			sourceTree = "<group>";
+		};
 		1FCC9AA82C92975F00046ACF /* Shapes */ = {
 			isa = PBXGroup;
 			children = (
@@ -386,6 +401,7 @@
 				1FDA7F1B2C8E9E9700B969A1 /* TaskEditViewModel.swift */,
 				1F990AF52C91305B003B5117 /* TaskCalendarViewModel.swift */,
 				1F94776C2C91EC5300480444 /* TaskReminderViewModel.swift */,
+				1FBC24542C94939D006FB7AE /* ChatAIViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -495,6 +511,7 @@
 		1FDA7F3A2C8EA13B00B969A1 /* NetworkService */ = {
 			isa = PBXGroup;
 			children = (
+				1FBC24512C948AF6006FB7AE /* Endpoint */,
 				1FDA7F3D2C8EA1FA00B969A1 /* NetworkClient.swift */,
 			);
 			path = NetworkService;
@@ -712,6 +729,7 @@
 				1FCC9AB12C92975F00046ACF /* ConfettiSwiftUI.swift in Sources */,
 				1FDA7F132C8E9E2200B969A1 /* TaskCategory.swift in Sources */,
 				1FAF293B2C8FDDB200686EA3 /* TaskTabarView.swift in Sources */,
+				1FBC24532C948AF6006FB7AE /* NetworkError.swift in Sources */,
 				1FCC9AAE2C92975F00046ACF /* RoundedCross.swift in Sources */,
 				1FDA7F282C8E9F2200B969A1 /* TaskDetailView.swift in Sources */,
 				1FBC24492C94304A006FB7AE /* ShareService.swift in Sources */,
@@ -740,6 +758,7 @@
 				1FAF29472C9053B900686EA3 /* SideMenuView.swift in Sources */,
 				1FBC24422C93E2B9006FB7AE /* View+Extension.swift in Sources */,
 				1FCC9AB42C92A6DB00046ACF /* HapticManager.swift in Sources */,
+				1FBC24522C948AF6006FB7AE /* OpenAIAPIEndpoint.swift in Sources */,
 				1FDA7F0D2C8E9DE500B969A1 /* Task.swift in Sources */,
 				1F341FD02C8EF71F0098C834 /* DashboardViewModel.swift in Sources */,
 				1F341FD92C8F07530098C834 /* Color+Extension.swift in Sources */,
@@ -747,6 +766,7 @@
 				1FAF29412C90040F00686EA3 /* DueDatePicker.swift in Sources */,
 				1FBC243E2C93E05A006FB7AE /* TaskDueDateSectionView.swift in Sources */,
 				1FAF29442C90527900686EA3 /* TaskCalendarView.swift in Sources */,
+				1FBC24552C94939D006FB7AE /* ChatAIViewModel.swift in Sources */,
 				1F8A70D12C8E95BE00D99C9A /* TaskManagementApp.swift in Sources */,
 				1FDA7F162C8E9E6A00B969A1 /* TaskListViewModel.swift in Sources */,
 				1FDA7F442C8EBFBD00B969A1 /* TaskEntity.swift in Sources */,

@@ -9,9 +9,9 @@ import Foundation
 import SwiftUI
 
 struct TaskRowView: View {
-    let task: Task
-    let onToggleComplete: (Task) -> Void
-    let onTaskTapped: (Task) -> Void
+    let task: TaskModel
+    let onToggleComplete: (TaskModel) -> Void
+    let onTaskTapped: (TaskModel) -> Void
     @State private var isShowDetail = false
     @State private var isHighlighted = false
     
@@ -66,7 +66,7 @@ struct CheckmarkButton: View {
 
 // Refactored reusable task info view
 struct TaskInfoView: View {
-    let task: Task
+    let task: TaskModel
     
     var body: some View {
         HStack {

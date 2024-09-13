@@ -11,7 +11,7 @@ import Combine
 
 @MainActor
 class TaskDetailsViewModel: ObservableObject {
-    @Published var task: Task?
+    @Published var task: TaskModel?
     
     private var notificationObserver: AnyCancellable?
     
@@ -19,7 +19,7 @@ class TaskDetailsViewModel: ObservableObject {
         if notificationObserver == nil {
             notificationObserver = NotificationCenter.default.publisher(for: Notification.Name(Constants.taskNotificationInfo))
                 .sink {[weak self] notification in
-                    if let userInfo = notification.userInfo, let taskInfo = userInfo["task"] as? Task {
+                    if let userInfo = notification.userInfo, let taskInfo = userInfo["task"] as? TaskModel {
                         self?.task = taskInfo
                     }
                 }

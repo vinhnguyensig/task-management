@@ -10,7 +10,7 @@ import Combine
 
 @MainActor
 class TaskCalendarViewModel: ObservableObject {
-    @Published var taskGroups: [(key: Date, value: [Task])] = []
+    @Published var taskGroups: [(key: Date, value: [TaskModel])] = []
    // @Published var selectedDate: Date?
     @Published var errorMessage: String?
     
@@ -36,7 +36,7 @@ class TaskCalendarViewModel: ObservableObject {
         }
     }
     
-    func groupedTasksByDate(tasks: [Task]) {
+    func groupedTasksByDate(tasks: [TaskModel]) {
         let calendar = Calendar.current
         let groupedTasks = Dictionary(grouping: tasks) { task in
             task.dueDate.map { calendar.startOfDay(for: $0) } ?? Date()
@@ -44,9 +44,9 @@ class TaskCalendarViewModel: ObservableObject {
         taskGroups = groupedTasks.sorted { $0.key < $1.key }
     }
     
-    func tasksInDates(tasks: [Task]) {
+    func tasksInDates(tasks: [TaskModel]) {
         let dates = datesOfYear()
-        var groupDates: [(key: Date, value: [Task])] = []
+        var groupDates: [(key: Date, value: [TaskModel])] = []
         
         for date in dates {
             // Filter tasks for the specific date
@@ -58,7 +58,7 @@ class TaskCalendarViewModel: ObservableObject {
             if !tasksForDate.isEmpty {
                 groupDates.append((key: date, value: tasksForDate))
             } else {
-                groupDates.append((key: date, value: [Task]()))
+                groupDates.append((key: date, value: [TaskModel]()))
             }
         }
         
@@ -88,7 +88,7 @@ class TaskCalendarViewModel: ObservableObject {
     func deleteTask(at offsets: IndexSet) {
     }
     
-    func toggleTaskCompletion(task: Task) {
+    func toggleTaskCompletion(task: TaskModel) {
         var editTask = task
         editTask.isCompleted.toggle()
         editTask.status = editTask.isCompleted ? TaskStatus.completed : TaskStatus.ready

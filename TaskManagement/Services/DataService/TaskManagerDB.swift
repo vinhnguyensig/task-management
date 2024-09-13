@@ -26,7 +26,7 @@ class TaskManagerDB {
     
     // MARK: - CRUD Operations
     
-    func createTask(task: Task, completion: @escaping (Error?) -> Void) {
+    func createTask(task: TaskModel, completion: @escaping (Error?) -> Void) {
         getRealm { result in
             switch result {
             case .success(let realm):
@@ -45,7 +45,7 @@ class TaskManagerDB {
         }
     }
     
-    func getAllTasks(completion: @escaping (Result<[Task], Error>) -> Void) {
+    func getAllTasks(completion: @escaping (Result<[TaskModel], Error>) -> Void) {
         getRealm { result in
             switch result {
             case .success(let realm):
@@ -58,7 +58,7 @@ class TaskManagerDB {
         }
     }
     
-    func fetchTasks(by category: String, completion: @escaping (Result<[Task], Error>) -> Void) {
+    func fetchTasks(by category: String, completion: @escaping (Result<[TaskModel], Error>) -> Void) {
         getRealm { result in
             switch result {
             case .success(let realm):
@@ -72,7 +72,7 @@ class TaskManagerDB {
         }
     }
     
-    func fetchTodayTasks(completion: @escaping (Result<[Task], Error>) -> Void) {
+    func fetchTodayTasks(completion: @escaping (Result<[TaskModel], Error>) -> Void) {
         getRealm { result in
             switch result {
             case .success(let realm):
@@ -93,7 +93,7 @@ class TaskManagerDB {
     }
 
     
-    func updateTask(task: Task, completion: @escaping (Error?) -> Void) {
+    func updateTask(task: TaskModel, completion: @escaping (Error?) -> Void) {
         getRealm { result in
             switch result {
             case .success(let realm):
@@ -112,7 +112,7 @@ class TaskManagerDB {
         }
     }
     
-    func updateTaskPositions(_ tasks: [Task], completion: @escaping (Error?) -> Void) {
+    func updateTaskPositions(_ tasks: [TaskModel], completion: @escaping (Error?) -> Void) {
         getRealm { result in
             switch result {
             case .success(let realm):
@@ -139,7 +139,7 @@ class TaskManagerDB {
         }
     }
     
-    func deleteTask(task: Task, completion: @escaping (Error?) -> Void) {
+    func deleteTask(task: TaskModel, completion: @escaping (Error?) -> Void) {
         getRealm { result in
             switch result {
             case .success(let realm):
@@ -162,7 +162,7 @@ class TaskManagerDB {
         }
     }
     
-    func getTask(byID id: ObjectId, completion: @escaping (Result<Task?, Error>) -> Void) {
+    func getTask(byID id: ObjectId, completion: @escaping (Result<TaskModel?, Error>) -> Void) {
         getRealm { result in
             switch result {
             case .success(let realm):
@@ -175,7 +175,7 @@ class TaskManagerDB {
         }
     }
     
-    func getInProgressTasks(completion: @escaping (Result<[Task], Error>) -> Void) {
+    func getInProgressTasks(completion: @escaping (Result<[TaskModel], Error>) -> Void) {
         getRealm { result in
             switch result {
             case .success(let realm):
@@ -190,7 +190,7 @@ class TaskManagerDB {
     }
 
     
-    func getCompletedTasks(completion: @escaping (Result<[Task], Error>) -> Void) {
+    func getCompletedTasks(completion: @escaping (Result<[TaskModel], Error>) -> Void) {
         getRealm { result in
             switch result {
             case .success(let realm):
@@ -205,7 +205,7 @@ class TaskManagerDB {
     
     // MARK: - Private Helpers
     
-    private func taskEntity(from task: Task) -> TaskEntity {
+    private func taskEntity(from task: TaskModel) -> TaskEntity {
         let entity = TaskEntity()
         entity.id = task.id.isEmpty ? ObjectId.generate() : (try? ObjectId(string: task.id)) ?? ObjectId.generate()
         entity.title = task.title
@@ -225,8 +225,8 @@ class TaskManagerDB {
         return entity
     }
     
-    private func task(from entity: TaskEntity) -> Task {
-        return Task(id: entity.id.stringValue,
+    private func task(from entity: TaskEntity) -> TaskModel {
+        return TaskModel(id: entity.id.stringValue,
                     title: entity.title,
                     startDate: entity.startDate,
                     dueDate: entity.dueDate,

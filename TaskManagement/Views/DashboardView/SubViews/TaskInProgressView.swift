@@ -46,7 +46,7 @@ struct TaskInProgressView: View {
 
 struct TaskInProgress: View {
     @ObservedObject var viewModel: DashboardViewModel
-    let task: Task
+    let task: TaskModel
     
     @State private var isShowDetail = false
     var body: some View {

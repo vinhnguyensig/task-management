@@ -31,7 +31,7 @@ class TaskReminderViewModel: ObservableObject {
             .store(in: &anyCancleables)
     }
     
-    func setReminder(task: Task) {
+    func setReminder(task: TaskModel) {
         if recentAddedReminder == task.id {
             return
         }

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct AddTaskView: View {
-    var task: Task?
+    var task: TaskModel?
     
     @StateObject var viewModel = TaskEditViewModel()
     @StateObject var reminderViewModel = TaskReminderViewModel()
@@ -243,7 +243,7 @@ struct AddTaskView: View {
         )
     }
 
-    private func updateTask(editTask: Task) {
+    private func updateTask(editTask: TaskModel) {
         viewModel.updateTask(
             id: editTask.id,
             title: title,
@@ -277,7 +277,7 @@ struct AddTaskView: View {
         }
     }
 
-    private func handleNewTask(newTask: Task?) {
+    private func handleNewTask(newTask: TaskModel?) {
         guard let addedTask = newTask else { return }
         toastMessage = "Added Task"
         if isEnableAddReminder {
@@ -286,7 +286,7 @@ struct AddTaskView: View {
         clearForm()
     }
 
-    private func handleUpdatedTask(editTask: Task?) {
+    private func handleUpdatedTask(editTask: TaskModel?) {
         guard let uptask = editTask else { return }
         toastMessage = "Updated Task"
         if isEnableAddReminder {

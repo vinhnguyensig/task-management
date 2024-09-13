@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Task: Identifiable, Codable {
+struct TaskModel: Identifiable, Codable {
     let id: String
     var title: String
     var startDate: Date?

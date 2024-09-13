@@ -12,8 +12,8 @@ import Combine
 class TaskListViewModel: ObservableObject {
     
     // Published properties for observing in the UI
-    @Published var tasks: [Task] = []
-    @Published var filterTasks: [Task] = []
+    @Published var tasks: [TaskModel] = []
+    @Published var filterTasks: [TaskModel] = []
     @Published var errorMessage: String?
     @Published var searchQuery: String = ""
     @Published var sortOrder: SortOrder = .descending
@@ -51,7 +51,7 @@ class TaskListViewModel: ObservableObject {
     // MARK: - Task Management Methods
     
     func fetchTasks(category: String? = nil, isTodayTasks: Bool = false) {
-        let fetchMethod: (Result<[Task], Error>) -> Void = { [weak self] result in
+        let fetchMethod: (Result<[TaskModel], Error>) -> Void = { [weak self] result in
             switch result {
             case .success(let loadedTasks):
                 self?.tasks = self?.sortTasks(loadedTasks) ?? []
@@ -106,7 +106,7 @@ class TaskListViewModel: ObservableObject {
         }
     }
     
-    func toggleTaskCompletion(task: Task) {
+    func toggleTaskCompletion(task: TaskModel) {
         var editTask = task
         editTask.isCompleted.toggle()
         editTask.status = editTask.isCompleted ? TaskStatus.completed : TaskStatus.ready
@@ -124,7 +124,7 @@ class TaskListViewModel: ObservableObject {
     
     // MARK: - Sorting
     
-    func sortTasks(_ tasks: [Task]) -> [Task] {
+    func sortTasks(_ tasks: [TaskModel]) -> [TaskModel] {
         switch sortCriteria {
         case .position:
             return sortOrder == .ascending
@@ -153,7 +153,7 @@ class TaskListViewModel: ObservableObject {
     
     // MARK: - Filtering, Searching, and Refreshing
     
-    func filteredTasks(by category: TaskCategory?) -> [Task] {
+    func filteredTasks(by category: TaskCategory?) -> [TaskModel] {
         return tasks.filter { task in
             (category == nil || task.category == category) &&
             (searchQuery.isEmpty || task.title.lowercased().contains(searchQuery.lowercased()))
