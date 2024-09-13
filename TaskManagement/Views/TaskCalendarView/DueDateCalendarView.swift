@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct DueDateCalendarView: View {
-    @StateObject var viewModel: TaskCalendarViewModel
+    @ObservedObject var viewModel: TaskCalendarViewModel
     @Binding var selectedDate: Date
     @Binding var isExpanded: Bool
     
@@ -35,7 +35,7 @@ struct DueDateCalendarView: View {
 struct CalendarHeaderView: View {
     @Binding var selectedDate: Date
     @Binding var isExpanded: Bool
-    var viewModel: TaskCalendarViewModel
+    @ObservedObject var viewModel: TaskCalendarViewModel
     private let calendar = Calendar.current
     
     var body: some View {
@@ -52,11 +52,13 @@ struct CalendarHeaderView: View {
             Spacer()
 
             if !calendar.isSameDay(selectedDate, Date()) {
-                Button(action: resetToToday) {
+                Button(action:
+                    resetToToday
+                ) {
                     HStack {
                         Image(systemName: "calendar")
                         Text("\(calendar.component(.day, from: Date()))")
-                            .bold()
+                            .font(.caption)
                     }
                     .padding(8)
                     .background(Color.blue.opacity(0.2))
@@ -78,6 +80,7 @@ struct CalendarHeaderView: View {
     }
 
     private func resetToToday() {
+        viewModel.isSelectedDate = true
         selectedDate = Date()
     }
 
