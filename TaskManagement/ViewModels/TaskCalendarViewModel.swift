@@ -14,6 +14,7 @@ class TaskCalendarViewModel: ObservableObject {
     @Published var errorMessage: String?
     
     var isSelectedDate = false
+    var isSelectedToday = false
     
     init() {
         loadTasks()

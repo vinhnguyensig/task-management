@@ -72,7 +72,7 @@ struct TaskCalendarView: View {
                 .padding(.horizontal, 8)
             }
             .onAppear {
-                //scrollToSelectedDate(selectedDate, using: scrollProxy)
+                scrollToSelectedDate(selectedDate, using: scrollProxy)
             }
             .onChange(of: selectedDate) { newDate in
                 if viewModel.isSelectedDate {
@@ -107,13 +107,11 @@ struct TaskCalendarView: View {
             pendingDate = date
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
                 if pendingDate == date {
-                    viewModel.isSelectedDate = false
                     selectedDate = date
                 }
             }
         }
     }
-    
     
     // Helper for task toggle completion
     private func toggleTaskCompletion(_ task: Task) {

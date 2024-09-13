@@ -37,6 +37,7 @@
 		1FAF29472C9053B900686EA3 /* SideMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FAF29462C9053B900686EA3 /* SideMenuView.swift */; };
 		1FAF294B2C9058EB00686EA3 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FAF294A2C9058EB00686EA3 /* NotificationService.swift */; };
 		1FAF294D2C90693800686EA3 /* UserDefaultManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FAF294C2C90693800686EA3 /* UserDefaultManager.swift */; };
+		1FBC243A2C93CFC6006FB7AE /* CalendarDateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FBC24392C93CFC6006FB7AE /* CalendarDateView.swift */; };
 		1FCC9AAE2C92975F00046ACF /* RoundedCross.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCC9AA52C92975F00046ACF /* RoundedCross.swift */; };
 		1FCC9AAF2C92975F00046ACF /* SlimRectangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCC9AA62C92975F00046ACF /* SlimRectangle.swift */; };
 		1FCC9AB02C92975F00046ACF /* Triangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCC9AA72C92975F00046ACF /* Triangle.swift */; };
@@ -116,6 +117,7 @@
 		1FAF29482C90563F00686EA3 /* TaskManagement.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TaskManagement.entitlements; sourceTree = "<group>"; };
 		1FAF294A2C9058EB00686EA3 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		1FAF294C2C90693800686EA3 /* UserDefaultManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaultManager.swift; sourceTree = "<group>"; };
+		1FBC24392C93CFC6006FB7AE /* CalendarDateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarDateView.swift; sourceTree = "<group>"; };
 		1FCC9AA52C92975F00046ACF /* RoundedCross.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundedCross.swift; sourceTree = "<group>"; };
 		1FCC9AA62C92975F00046ACF /* SlimRectangle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SlimRectangle.swift; sourceTree = "<group>"; };
 		1FCC9AA72C92975F00046ACF /* Triangle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Triangle.swift; sourceTree = "<group>"; };
@@ -263,6 +265,7 @@
 		1FAF29422C90525400686EA3 /* TaskCalendarView */ = {
 			isa = PBXGroup;
 			children = (
+				1FBC24382C93CF9E006FB7AE /* SubViews */,
 				1FAF29432C90527900686EA3 /* TaskCalendarView.swift */,
 				1F990AF32C911454003B5117 /* DueDateCalendarView.swift */,
 				1FAF29402C90040F00686EA3 /* DueDatePicker.swift */,
@@ -284,6 +287,14 @@
 				1FAF294A2C9058EB00686EA3 /* NotificationService.swift */,
 			);
 			path = NotificationService;
+			sourceTree = "<group>";
+		};
+		1FBC24382C93CF9E006FB7AE /* SubViews */ = {
+			isa = PBXGroup;
+			children = (
+				1FBC24392C93CFC6006FB7AE /* CalendarDateView.swift */,
+			);
+			path = SubViews;
 			sourceTree = "<group>";
 		};
 		1FCC9AA82C92975F00046ACF /* Shapes */ = {
@@ -660,6 +671,7 @@
 				1FAF294B2C9058EB00686EA3 /* NotificationService.swift in Sources */,
 				1FAF294D2C90693800686EA3 /* UserDefaultManager.swift in Sources */,
 				1FDA7F482C8EE0B000B969A1 /* AddTaskView.swift in Sources */,
+				1FBC243A2C93CFC6006FB7AE /* CalendarDateView.swift in Sources */,
 				1FCC9AB12C92975F00046ACF /* ConfettiSwiftUI.swift in Sources */,
 				1FDA7F132C8E9E2200B969A1 /* TaskCategory.swift in Sources */,
 				1FAF293B2C8FDDB200686EA3 /* TaskTabarView.swift in Sources */,
