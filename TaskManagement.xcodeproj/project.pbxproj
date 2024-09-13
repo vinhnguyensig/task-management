@@ -38,7 +38,6 @@
 		1FAF294B2C9058EB00686EA3 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FAF294A2C9058EB00686EA3 /* NotificationService.swift */; };
 		1FAF294D2C90693800686EA3 /* UserDefaultManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FAF294C2C90693800686EA3 /* UserDefaultManager.swift */; };
 		1FBC243A2C93CFC6006FB7AE /* CalendarDateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FBC24392C93CFC6006FB7AE /* CalendarDateView.swift */; };
-		1FBC243C2C93E003006FB7AE /* DateSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FBC243B2C93E003006FB7AE /* DateSectionHeaderView.swift */; };
 		1FBC243E2C93E05A006FB7AE /* TaskDueDateSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FBC243D2C93E05A006FB7AE /* TaskDueDateSectionView.swift */; };
 		1FBC24402C93E09D006FB7AE /* EmtyTaskDueDateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FBC243F2C93E09D006FB7AE /* EmtyTaskDueDateView.swift */; };
 		1FBC24422C93E2B9006FB7AE /* View+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FBC24412C93E2B9006FB7AE /* View+Extension.swift */; };
@@ -122,7 +121,6 @@
 		1FAF294A2C9058EB00686EA3 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		1FAF294C2C90693800686EA3 /* UserDefaultManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaultManager.swift; sourceTree = "<group>"; };
 		1FBC24392C93CFC6006FB7AE /* CalendarDateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarDateView.swift; sourceTree = "<group>"; };
-		1FBC243B2C93E003006FB7AE /* DateSectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateSectionHeaderView.swift; sourceTree = "<group>"; };
 		1FBC243D2C93E05A006FB7AE /* TaskDueDateSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDueDateSectionView.swift; sourceTree = "<group>"; };
 		1FBC243F2C93E09D006FB7AE /* EmtyTaskDueDateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmtyTaskDueDateView.swift; sourceTree = "<group>"; };
 		1FBC24412C93E2B9006FB7AE /* View+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extension.swift"; sourceTree = "<group>"; };
@@ -302,7 +300,6 @@
 			isa = PBXGroup;
 			children = (
 				1FBC24392C93CFC6006FB7AE /* CalendarDateView.swift */,
-				1FBC243B2C93E003006FB7AE /* DateSectionHeaderView.swift */,
 				1FBC243D2C93E05A006FB7AE /* TaskDueDateSectionView.swift */,
 				1FBC243F2C93E09D006FB7AE /* EmtyTaskDueDateView.swift */,
 			);
@@ -718,7 +715,6 @@
 				1FDA7F0F2C8E9DFB00B969A1 /* TaskPriority.swift in Sources */,
 				1FAF29412C90040F00686EA3 /* DueDatePicker.swift in Sources */,
 				1FBC243E2C93E05A006FB7AE /* TaskDueDateSectionView.swift in Sources */,
-				1FBC243C2C93E003006FB7AE /* DateSectionHeaderView.swift in Sources */,
 				1FAF29442C90527900686EA3 /* TaskCalendarView.swift in Sources */,
 				1F8A70D12C8E95BE00D99C9A /* TaskManagementApp.swift in Sources */,
 				1FDA7F162C8E9E6A00B969A1 /* TaskListViewModel.swift in Sources */,

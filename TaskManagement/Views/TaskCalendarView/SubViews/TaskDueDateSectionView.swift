@@ -14,7 +14,7 @@ struct TaskDueDateSectionView: View {
     let onTaskTapped: (Task) -> Void
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
+        VStack(alignment: .leading, spacing: 4) {
             DateSectionHeaderView(date: date)
             ForEach(tasks) { task in
                 TaskRowView(task: task, onToggleComplete: onToggleComplete, onTaskTapped: onTaskTapped)
@@ -26,11 +26,29 @@ struct TaskDueDateSectionView: View {
     }
 }
 
+struct DateSectionHeaderView: View {
+    let date: Date
+
+    var body: some View {
+        HStack(alignment: .bottom) {
+            Text(Utils.formattedDate(date))
+                .font(.headline)
+                .foregroundColor(.secondary)
+                .padding(.vertical, 4)
+                .padding(.leading)
+            Spacer()
+        }
+        .background(Color(UIColor.systemGroupedBackground))
+        .cornerRadius(4)
+        .shadow(color: .black.opacity(0.05), radius: 2, x: 0, y: 2)
+    }
+}
+
 struct TaskRowModifier: ViewModifier {
     func body(content: Content) -> some View {
         content
-            .padding(.vertical, 4)
-            .listRowInsets(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))
+            .padding(.vertical, 1)
+            .listRowInsets(EdgeInsets(top: 1, leading: 16, bottom: 1, trailing: 16))
             .background(Color(UIColor.systemBackground))
             .cornerRadius(8)
             .shadow(color: .black.opacity(0.05), radius: 1, x: 0, y: 1)
