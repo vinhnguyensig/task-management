@@ -19,7 +19,7 @@ struct DueDateCalendarView: View {
             CalendarHeaderView(selectedDate: $selectedDate, isExpanded: $isExpanded, viewModel: viewModel)
 
             if isExpanded {
-                FullMonthView(selectedDate: $selectedDate, daysOfTheMonth: daysOfTheMonth())
+                FullMonthView(viewModel: viewModel, selectedDate: $selectedDate, daysOfTheMonth: daysOfTheMonth())
             } else {
                 DueDatePicker(viewModel: viewModel, selectedDate: $selectedDate)
             }
@@ -94,6 +94,7 @@ struct CalendarHeaderView: View {
 
 // MARK: - Full Month View
 struct FullMonthView: View {
+    @ObservedObject var viewModel: TaskCalendarViewModel
     @Binding var selectedDate: Date
     var daysOfTheMonth: [Date]
     private let calendar = Calendar.current
@@ -101,7 +102,13 @@ struct FullMonthView: View {
     var body: some View {
         LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 7)) {
             ForEach(daysOfTheMonth, id: \.self) { day in
-                Button(action: { selectedDate = day }) {
+                Button(action: {
+                    ShareService.shared.currentSelectedDate = day
+                    viewModel.isSelectedDate = true
+                    withAnimation {
+                        selectedDate = day
+                    }
+                }) {
                     Text("\(calendar.component(.day, from: day))")
                         .foregroundColor(isSameDay(day, selectedDate) ? .white : .primary)
                         .frame(width: 40, height: 40)

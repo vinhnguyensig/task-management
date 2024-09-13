@@ -11,4 +11,5 @@ class ShareService {
     static let shared = ShareService()
     
     var currentSelectedDate: Date?
+    var currentCategory: String?
 }

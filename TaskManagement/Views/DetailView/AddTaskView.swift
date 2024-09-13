@@ -81,8 +81,10 @@ struct AddTaskView: View {
                     }
                 } else {
                     if let currentDate = ShareService.shared.currentSelectedDate {
-                        print(" currentDate = ", currentDate)
                         dueDate = currentDate
+                    }
+                    if let category = ShareService.shared.currentCategory {
+                        selectedCategory = TaskCategory(rawValue: category) ?? .work
                     }
                 }
             }

@@ -39,6 +39,11 @@ struct DueDatePicker: View {
                 scrollViewProxy.scrollTo(newDate, anchor: .center)
                 ShareService.shared.currentSelectedDate = newDate
             }
+            .onAppear {
+                if let date = ShareService.shared.currentSelectedDate {
+                    scrollViewProxy.scrollTo(date, anchor: .center)
+                }
+            }
         }
     }
     

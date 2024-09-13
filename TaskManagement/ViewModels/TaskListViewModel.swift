@@ -63,6 +63,7 @@ class TaskListViewModel: ObservableObject {
         
         if let category = category {
             currentCategory = category
+            ShareService.shared.currentCategory = category
             TaskManagerDB.shared.fetchTasks(by: category, completion: fetchMethod)
         } else if isTodayTasks {
             isTodayTask = true
