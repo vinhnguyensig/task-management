@@ -58,12 +58,17 @@ class TaskEditViewModel: ObservableObject {
                            isCompleted: isCompleted,
                            position: position,
                            attachments: [])
+        updateTask(editTask: editTask)
+    }
+    
+    func updateTask(editTask: Task) {
         TaskManagerDB.shared.updateTask(task: editTask) { [weak self] error in
             if let error = error {
                 self?.errorMessage = "Error adding task: \(error.localizedDescription)"
                 print(self?.errorMessage ?? "Unknown error")
             } else {
                 self?.updatedTask = editTask
+                self?.isShouldPostNotify = true
             }
         }
     }

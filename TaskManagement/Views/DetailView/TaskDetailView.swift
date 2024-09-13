@@ -11,6 +11,7 @@ struct TaskDetailView: View {
     @State var task: Task
     @StateObject var viewModel = TaskDetailsViewModel()
     @StateObject var reminderViewModel = TaskReminderViewModel()
+    @StateObject private var editviewModel = TaskEditViewModel()
     
     @Environment(\.dismiss) var dismiss
     
@@ -18,7 +19,16 @@ struct TaskDetailView: View {
     @State private var detail: String = ""
     @State private var isAddReminder = false
     @State private var isNavigateEdit = false
-  
+    
+    @State private var selectedStatus = TaskStatus.ready
+    @State private var isSelectedStatus = false
+    
+    @State private var selectedCategory = TaskCategory.work
+    @State private var isSelectedCategory = false
+    
+    @State private var selectedPriority = TaskPriority.medium
+    @State private var isSelectedPriority = false
+    
     var body: some View {
         NavigationStack {
             ScrollView {
@@ -35,7 +45,8 @@ struct TaskDetailView: View {
             }
             .frame(maxWidth: .infinity)
             .onAppear(perform: setupView)
-            .navigationTitle(task.category.rawValue)
+            .onDisappear{ handleDisappear() }
+            .navigationTitle(task.status.rawValue)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
@@ -57,6 +68,13 @@ struct TaskDetailView: View {
                 AddTaskView(task: task)
             }
             .onReceive(viewModel.$task, perform: updateTaskInfo)
+        }
+    }
+    
+    private func handleDisappear() {
+        if editviewModel.isShouldPostNotify {
+            editviewModel.isShouldPostNotify = false
+            NotificationCenter.default.post(name: Notification.Name(Constants.taskNotificationInfo), object: nil, userInfo: ["reload": true])
         }
     }
 }
@@ -95,6 +113,21 @@ private extension TaskDetailView {
             .foregroundColor(.white)
             .font(.subheadline)
             .accessibilityLabel("Priority: \(task.priority.rawValue)")
+            .onTapGesture {
+               isSelectedPriority = true
+            }
+            .actionSheet(isPresented: $isSelectedPriority) {
+                ActionSheet(
+                        title: Text("Select Status"),
+                        buttons: TaskPriority.allCases.map { priority in
+                            .default(Text(priority.rawValue)) {
+                                selectedPriority = priority
+                                task.priority = priority
+                                editviewModel.updateTask(editTask: task)
+                            }
+                        } + [.cancel()]
+                    )
+            }
     }
     
     var taskCategoryLabel: some View {
@@ -106,6 +139,21 @@ private extension TaskDetailView {
                 .foregroundColor(.primary)
                 .padding(.leading, 2)
         }
+        .onTapGesture {
+           isSelectedCategory = true
+        }
+        .actionSheet(isPresented: $isSelectedCategory) {
+            ActionSheet(
+                    title: Text("Select Status"),
+                    buttons: TaskCategory.allCases.map { category in
+                        .default(Text(category.rawValue)) {
+                            selectedCategory = category
+                            task.category = category
+                            editviewModel.updateTask(editTask: task)
+                        }
+                    } + [.cancel()]
+                )
+        }
     }
     
     var taskStatusLabel: some View {
@@ -115,6 +163,22 @@ private extension TaskDetailView {
             Text(task.status.rawValue.capitalized)
                 .font(.subheadline)
                 .foregroundColor(.primary)
+        }
+        .onTapGesture {
+           isSelectedStatus = true
+        }
+        .actionSheet(isPresented: $isSelectedStatus) {
+            ActionSheet(
+                    title: Text("Select Status"),
+                    buttons: TaskStatus.allCases.map { status in
+                        .default(Text(status.rawValue)) {
+                            selectedStatus = status
+                            task.status = status
+                            task.isCompleted = isTaskCompleted
+                            editviewModel.updateTask(editTask: task)
+                        }
+                    } + [.cancel()]
+                )
         }
     }
     
@@ -207,6 +271,10 @@ private extension TaskDetailView {
                 .foregroundColor(.blue)
         }
     }
+    
+    private var isTaskCompleted: Bool {
+        [.completed, .inReview, .done].contains(selectedStatus)
+    }
 }
 
 // MARK: - Helper Methods
@@ -215,6 +283,7 @@ private extension TaskDetailView {
     func setupView() {
         brief = task.brief ?? ""
         detail = task.detail ?? ""
+        selectedStatus = task.status
         isAddReminder = reminderViewModel.isSetReminder(id: task.id)
     }
     

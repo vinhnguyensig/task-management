@@ -23,7 +23,6 @@ struct TaskListView: View {
                 taskContent
             }
             .navigationTitle(navigationTitle)
-            .navigationBarTitleDisplayMode(.automatic)
             .onAppear {
                 viewModel.fetchTasks(category: category, isTodayTasks: isTodayTasks)
             }
@@ -49,6 +48,7 @@ struct TaskListView: View {
                 EmptyTaskView()
             } else {
                 taskListView
+                Spacer()
             }
         }
     }
