@@ -6,21 +6,27 @@ on:
       - develop
 
 jobs:
-  build:
+  build-and-test:
     runs-on: macos-latest
 
     steps:
-      # Check out the repository
       - uses: actions/checkout@v2
 
-      # Clean Derived Data and Cache
-      - name: Clean Derived Data and Cache
+      - name: Cache CocoaPods dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/Library/Caches/CocoaPods
+            Pods
+          key: ${{ runner.os }}-pods-${{ hashFiles('Podfile.lock') }}
+          restore-keys: ${{ runner.os }}-pods-
+
+      - name: Clean Build Artifacts
         run: |
           rm -rf ~/Library/Developer/Xcode/DerivedData/*
           rm -rf ~/Library/Developer/Xcode/iOS\ DeviceSupport/*
           rm -rf ~/Library/Developer/Xcode/Archives/*
 
-      # Remove Unused Simulators
       - name: Remove Unused Simulators
         run: |
           xcrun simctl delete unavailable
@@ -31,7 +37,6 @@ jobs:
       - name: Install dependencies
         run: pod install
 
-      # Build the project
       - name: Build for iOS Simulator
         run: |
           xcodebuild clean build \
@@ -39,16 +44,18 @@ jobs:
             -scheme TaskManagement \
             -sdk iphonesimulator \
             -configuration Debug \
-            -destination 'platform=iOS Simulator,name=iPhone 15 Pro Max' \
+            -destination 'platform=iOS Simulator,OS=17.0,name=iPhone 15 Pro Max' \
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGN_IDENTITY="" \
             PROVISIONING_PROFILE_SPECIFIER=""
+            INDEX_WHILE_BUILDING=NO
 
-      # Run tests
       - name: Run Unit Tests on iOS Simulator
         run: |
           xcodebuild clean test \
             -workspace TaskManagement.xcworkspace \
             -scheme TaskManagement \
             -sdk iphonesimulator \
-            -destination 'platform=iOS Simulator,name=iPhone 15 Pro Max'
+            -destination 'platform=iOS Simulator,OS=17.0,name=iPhone 15 Pro Max' | xcpretty
+
+      # Add a step for UI tests if needed
