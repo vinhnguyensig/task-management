@@ -24,6 +24,7 @@ struct TaskTabBarView: View {
                 Spacer()
                 customTabBar
             }
+            .navigationBarBackButtonHidden()
             .sheet(isPresented: $showAddTaskView, onDismiss: {
             }) {
                 AddTaskView()

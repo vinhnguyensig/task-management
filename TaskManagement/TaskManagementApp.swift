@@ -17,8 +17,7 @@ struct TaskManagementApp: App {
             if let _ = UserDefaultsManager.get(forKey: Constants.isReopenApp) {
                 TaskTabBarView()
             } else {
-                // Display walkthrough
-                TaskTabBarView()
+                WalkthroughView()
             }
         }
     }

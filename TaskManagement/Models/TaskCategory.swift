@@ -10,15 +10,15 @@ import SwiftUI
 
 enum TaskCategory: String, CaseIterable, Codable {
     case work = "Work"
+    case events = "Events"
+    case learning = "Learning"
     case personal = "Personal"
     case shopping = "Shopping"
     case health = "Health & Fitness"
     case finances = "Finances"
     case home = "Home"
     case family = "Family"
-    case learning = "Learning"
     case travel = "Travel"
-    case events = "Events"
     case others = "Others"
     
     var color: Color {

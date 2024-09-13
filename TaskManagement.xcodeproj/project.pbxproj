@@ -45,6 +45,7 @@
 		1FBC24462C942DAA006FB7AE /* LaunchIC.png in Resources */ = {isa = PBXBuildFile; fileRef = 1FBC24452C942DAA006FB7AE /* LaunchIC.png */; };
 		1FBC24492C94304A006FB7AE /* ShareService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FBC24482C94304A006FB7AE /* ShareService.swift */; };
 		1FBC244B2C9448D1006FB7AE /* ComingSooView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FBC244A2C9448D1006FB7AE /* ComingSooView.swift */; };
+		1FBC244E2C945585006FB7AE /* WalkthroughView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FBC244D2C945585006FB7AE /* WalkthroughView.swift */; };
 		1FCC9AAE2C92975F00046ACF /* RoundedCross.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCC9AA52C92975F00046ACF /* RoundedCross.swift */; };
 		1FCC9AAF2C92975F00046ACF /* SlimRectangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCC9AA62C92975F00046ACF /* SlimRectangle.swift */; };
 		1FCC9AB02C92975F00046ACF /* Triangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCC9AA72C92975F00046ACF /* Triangle.swift */; };
@@ -131,6 +132,7 @@
 		1FBC24452C942DAA006FB7AE /* LaunchIC.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LaunchIC.png; sourceTree = "<group>"; };
 		1FBC24482C94304A006FB7AE /* ShareService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareService.swift; sourceTree = "<group>"; };
 		1FBC244A2C9448D1006FB7AE /* ComingSooView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComingSooView.swift; sourceTree = "<group>"; };
+		1FBC244D2C945585006FB7AE /* WalkthroughView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalkthroughView.swift; sourceTree = "<group>"; };
 		1FCC9AA52C92975F00046ACF /* RoundedCross.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundedCross.swift; sourceTree = "<group>"; };
 		1FCC9AA62C92975F00046ACF /* SlimRectangle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SlimRectangle.swift; sourceTree = "<group>"; };
 		1FCC9AA72C92975F00046ACF /* Triangle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Triangle.swift; sourceTree = "<group>"; };
@@ -278,6 +280,7 @@
 		1FAF29422C90525400686EA3 /* TaskCalendarView */ = {
 			isa = PBXGroup;
 			children = (
+				1FBC244C2C94556D006FB7AE /* WalkthroughView */,
 				1FBC24382C93CF9E006FB7AE /* SubViews */,
 				1FAF29432C90527900686EA3 /* TaskCalendarView.swift */,
 				1F990AF32C911454003B5117 /* DueDateCalendarView.swift */,
@@ -318,6 +321,14 @@
 				1FBC24482C94304A006FB7AE /* ShareService.swift */,
 			);
 			path = ShareService;
+			sourceTree = "<group>";
+		};
+		1FBC244C2C94556D006FB7AE /* WalkthroughView */ = {
+			isa = PBXGroup;
+			children = (
+				1FBC244D2C945585006FB7AE /* WalkthroughView.swift */,
+			);
+			path = WalkthroughView;
 			sourceTree = "<group>";
 		};
 		1FCC9AA82C92975F00046ACF /* Shapes */ = {
@@ -743,6 +754,7 @@
 				1FCC9AB22C92975F00046ACF /* View+ConfettiCannon.swift in Sources */,
 				1FBC24402C93E09D006FB7AE /* EmtyTaskDueDateView.swift in Sources */,
 				1FDA7F1C2C8E9E9700B969A1 /* TaskEditViewModel.swift in Sources */,
+				1FBC244E2C945585006FB7AE /* WalkthroughView.swift in Sources */,
 				1F94776D2C91EC5300480444 /* TaskReminderViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
