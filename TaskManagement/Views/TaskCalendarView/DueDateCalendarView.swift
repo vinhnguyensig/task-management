@@ -82,7 +82,7 @@ struct CalendarHeaderView: View {
     private func resetToToday() {
         viewModel.isSelectedToday = true
         viewModel.isSelectedDate = true
-        selectedDate = Date()
+        selectedDate = calendar.startOfDay(for: Date())
     }
 
     private func toggleExpand() {

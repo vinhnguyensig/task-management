@@ -30,9 +30,6 @@ struct DueDatePicker: View {
                 }
                 .padding(.horizontal)
                 .frame(height: 70)
-                .onAppear {
-                    scrollViewProxy.scrollTo(selectedDate, anchor: .center)
-                }
             }
             .onChange(of: selectedDate) { newDate in
                 if viewModel.isSelectedDate {
@@ -42,7 +39,7 @@ struct DueDatePicker: View {
             }
         }
     }
-
+    
     // MARK: - Private Methods
 
     private func dates() -> [Date] {

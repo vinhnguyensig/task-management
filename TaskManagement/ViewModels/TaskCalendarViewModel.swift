@@ -68,7 +68,7 @@ class TaskCalendarViewModel: ObservableObject {
         
         // Show +/- 1 week from current date
         let today = calendar.startOfDay(for: Date())
-        guard let startDate = calendar.date(byAdding: .day, value: -2, to: today),
+        guard let startDate = calendar.date(byAdding: .day, value: 0, to: today),
               let endDate = calendar.date(byAdding: .day, value: 360, to: today) else {
             return dates
         }

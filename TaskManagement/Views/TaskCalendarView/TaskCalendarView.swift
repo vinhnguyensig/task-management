@@ -15,14 +15,12 @@
 import Foundation
 import SwiftUI
 
-import SwiftUI
-
 struct TaskCalendarView: View {
     @StateObject var viewModel = TaskCalendarViewModel()
     @State private var selectedDate: Date = Date()
     @State private var isExpanded: Bool = false
     @State private var pendingDate: Date?
-
+    
     var body: some View {
         NavigationStack {
             VStack {
@@ -32,7 +30,7 @@ struct TaskCalendarView: View {
             .task {
                 viewModel.loadTasks()
             }
-            .navigationTitle("Task Calendar")
+            .navigationTitle("Due Dates")
             .navigationBarTitleDisplayMode(.inline)
             .background(Color(UIColor.systemGroupedBackground))
         }
@@ -53,7 +51,7 @@ struct TaskCalendarView: View {
             if !viewModel.taskGroups.isEmpty {
                 TaskGroupListView
             } else {
-                EmptyStateView()
+                EmtyTaskDueDateView()
             }
         }
     }
@@ -64,20 +62,26 @@ struct TaskCalendarView: View {
             ScrollView {
                 LazyVStack(spacing: 8) {
                     ForEach(viewModel.taskGroups, id: \.key) { date, tasks in
-                        TaskSectionView(date: date, tasks: tasks, onToggleComplete: toggleTaskCompletion, onTaskTapped: taskTapped)
+                        TaskDueDateSectionView(date: date, tasks: tasks, onToggleComplete: toggleTaskCompletion, onTaskTapped: taskTapped)
                             .id(date)
                             .background(geometryReaderForScrollPosition(date: date))
                     }
                 }
                 .padding(.horizontal, 8)
             }
-            .onAppear {
-                scrollToSelectedDate(selectedDate, using: scrollProxy)
-            }
             .onChange(of: selectedDate) { newDate in
                 if viewModel.isSelectedDate {
                     scrollToSelectedDate(newDate, using: scrollProxy)
                 }
+            }
+        }
+    }
+
+    private func scrollToToday(using scrollProxy: ScrollViewProxy) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            if let todayDate = viewModel.taskGroups.first(where: { Calendar.current.isDateInToday($0.key) })?.key {
+                scrollProxy.scrollTo(todayDate, anchor: .top)
+                viewModel.isSelectedDate = false
             }
         }
     }
@@ -121,65 +125,5 @@ struct TaskCalendarView: View {
     // Helper for task tapped interaction
     private func taskTapped(_ task: Task) {
         // Handle task tapped logic
-    }
-}
-
-struct SectionHeaderView: View {
-    let date: Date
-
-    var body: some View {
-        HStack(alignment: .bottom) {
-            Text(Utils.formattedDate(date))
-                .font(.headline)
-                .foregroundColor(.secondary)
-                .padding(.vertical, 8)
-                .padding(.leading)
-            Spacer()
-        }
-        .background(Color(UIColor.secondarySystemGroupedBackground))
-        .cornerRadius(8)
-        .shadow(color: .black.opacity(0.05), radius: 2, x: 0, y: 2)
-    }
-}
-
-struct TaskSectionView: View {
-    let date: Date
-    let tasks: [Task]
-    let onToggleComplete: (Task) -> Void
-    let onTaskTapped: (Task) -> Void
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            SectionHeaderView(date: date)
-            ForEach(tasks) { task in
-                TaskRowView(task: task, onToggleComplete: onToggleComplete, onTaskTapped: onTaskTapped)
-                    .padding(.vertical, 4)
-                    .listRowInsets(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))
-                    .background(Color(UIColor.systemBackground))
-                    .cornerRadius(8)
-                    .shadow(color: .black.opacity(0.05), radius: 1, x: 0, y: 1)
-                    .contentShape(Rectangle())
-            }
-        }
-        .padding(.horizontal, 8)
-        .padding(.bottom, 16)
-    }
-}
-
-struct EmptyStateView: View {
-    var body: some View {
-        VStack {
-            Spacer()
-            Image(systemName: "calendar.badge.exclamationmark")
-                .resizable()
-                .scaledToFit()
-                .frame(width: 80, height: 80)
-                .foregroundColor(.gray)
-            Text("No tasks for the selected date")
-                .foregroundColor(.gray)
-                .font(.headline)
-                .padding()
-            Spacer()
-        }
     }
 }
