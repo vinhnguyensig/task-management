@@ -21,7 +21,7 @@ struct AddTaskView: View {
     @State private var dueDate: Date = Date()
     @State private var selectedPriority: TaskPriority = .medium
     @State private var selectedCategory: TaskCategory = .work
-    @State private var selectedStatus: TaskStatus = .inProgress
+    @State private var selectedStatus: TaskStatus = .ready
     @State private var showDueDatePicker = false
     @State private var toastMessage : String?
     @State private var isEnableAddReminder = false
@@ -51,11 +51,13 @@ struct AddTaskView: View {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     if let editTask = task {
                         Button("Update") {
+                            HapticManager.shared.triggerImpactFeedback(style: .medium)
                             updateTask(editTask: editTask)
                         }
                         .disabled(title.isEmpty)
                     } else {
                         Button("Add") {
+                            HapticManager.shared.triggerImpactFeedback(style: .medium)
                             addTask()
                         }
                         .disabled(title.isEmpty)
@@ -77,13 +79,18 @@ struct AddTaskView: View {
                     if let dt = editTask.detail {
                         detail = dt
                     }
+                } else {
+                    if let currentDate = ShareService.shared.currentSelectedDate {
+                        print(" currentDate = ", currentDate)
+                        dueDate = currentDate
+                    }
                 }
             }
             .overlay {
                 if let message = toastMessage {
                     ToastView(message: message)
-                    .transition(.move(edge: .bottom).combined(with: .opacity))
-                    .animation(.easeInOut(duration: 0.5), value: true)
+                        .transition(.move(edge: .bottom).combined(with: .opacity))
+                        .animation(.easeInOut(duration: 0.5), value: true )
                 }
             }
             .onReceive(viewModel.$addedTask, perform: { newTask in
@@ -138,6 +145,11 @@ struct AddTaskView: View {
             priorityPicker
             categoryPicker
             statusPicker
+            
+            if let _ = task {
+               detailDesField
+                Spacer()
+            }
         }
     }
     
@@ -164,8 +176,36 @@ struct AddTaskView: View {
         }
     }
     
+    private var detailDesField: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Label("Task Detail", systemImage: "doc.text")
+                .foregroundColor(.secondary)
+            
+            TextEditor(text: $detail)
+                .frame(minHeight: 100, maxHeight: 160)
+                .padding(1)
+                .background(Color(.white))
+                .cornerRadius(8)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 8)
+                        .stroke(Color.gray.opacity(0.1), lineWidth: 1)
+                )
+            
+            Button(action: {
+                // Action to generate detailed description
+            }) {
+                Label("Generate task detail with AI", systemImage: "wand.and.stars")
+                    .foregroundColor(.blue)
+            }
+        }
+        .padding(.vertical, 8)
+    }
+    
     private var dueDatePickerButton: some View {
-        Button(action: { showDueDatePicker = true }) {
+        Button(action: {
+            HapticManager.shared.triggerImpactFeedback(style: .medium)
+            showDueDatePicker = true
+        }) {
             HStack {
                 Text("Due Date")
                 Spacer()
@@ -183,6 +223,7 @@ struct AddTaskView: View {
     
     private var taskReminderButton: some View {
         Button(action: {
+            HapticManager.shared.triggerImpactFeedback(style: .medium)
             if let editTask = task {
                 if isEnableAddReminder {
                     reminderViewModel.removeReminder(id: editTask.id)
@@ -227,8 +268,8 @@ struct AddTaskView: View {
         Picker("Category", selection: $selectedCategory) {
             ForEach(TaskCategory.allCases, id: \.self) { category in
                 HStack {
-                    category.icon
-                        .foregroundColor(category.color)
+                    Image(systemName: category.icon)
+                         .foregroundColor(category.color)
                     Text(category.rawValue.capitalized)
                 }
                 .tag(category)
@@ -240,8 +281,8 @@ struct AddTaskView: View {
         Picker("Status", selection: $selectedStatus) {
             ForEach(TaskStatus.allCases, id: \.self) { status in
                 HStack {
-                    status.icon
-                        .foregroundColor(status.color)
+                    Image(systemName: status.icon)
+                         .foregroundColor(status.color)
                     Text(status.rawValue.capitalized)
                 }
                 .tag(status)
@@ -256,6 +297,10 @@ struct AddTaskView: View {
     
     // MARK: - Add Task Logic
     private func addTask() {
+        var isCompleted = false
+        if selectedStatus == .completed || selectedStatus == .inReview || selectedStatus == .done {
+            isCompleted = true
+        }
         viewModel.addTask(
             title: title,
             dueDate: dueDate,
@@ -263,11 +308,16 @@ struct AddTaskView: View {
             category: selectedCategory,
             status: selectedStatus,
             brief: brief,
-            detail: detail
+            detail: detail,
+            isCompleted: isCompleted
         )
     }
     
     private func updateTask(editTask: Task) {
+        var isCompleted = false
+        if selectedStatus == .completed || selectedStatus == .inReview || selectedStatus == .done {
+            isCompleted = true
+        }
         viewModel.updateTask(
             id: editTask.id,
             title: title,
@@ -276,7 +326,8 @@ struct AddTaskView: View {
             category: selectedCategory,
             status: selectedStatus,
             brief: brief,
-            detail: detail
+            detail: detail,
+            isCompleted: isCompleted
         )
     }
 }

@@ -22,6 +22,24 @@ class DashboardViewModel: ObservableObject {
         registerObserveTaskInfo()
     }
     
+    func loadTodayProgress() {
+        TaskManagerDB.shared.fetchTodayTasks { [weak self] result in
+            switch result {
+            case .success(let loadedTasks):
+                if loadedTasks.count > 0 {
+                    let completeTasks = loadedTasks.filter {
+                        $0.isCompleted == true
+                    }
+                    let progress = Double(completeTasks.count)/Double(loadedTasks.count)
+                    self?.updateTodayProgress(progress: progress)
+                }
+            case .failure(let error):
+                self?.errorMessage = "Failed to load tasks: \(error.localizedDescription)"
+                print(self?.errorMessage ?? "Unknown error")
+            }
+        }
+    }
+    
     func loadProgressTask() {
         TaskManagerDB.shared.getInProgressTasks { [weak self] result in
             switch result {
@@ -66,6 +84,14 @@ class DashboardViewModel: ObservableObject {
                         self?.loadGroupTasks()
                     }
                 }
+        }
+    }
+    
+    private func updateTodayProgress(progress: Double) {
+        DispatchQueue.main.async {
+            let statusMessage = TaskProgress.getProgressMessage(progress: progress)
+            self.tasksTodayProgress = progress
+            self.tasksTodayStatus = statusMessage
         }
     }
     

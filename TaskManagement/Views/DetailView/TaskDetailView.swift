@@ -49,8 +49,8 @@ struct TaskDetailView: View {
                         Spacer()
                         
                         // Category
-                        task.category.icon
-                            .foregroundColor(task.category.color)
+                        Image(systemName: task.category.icon)
+                             .foregroundColor(task.category.color)
                         Text(task.category.rawValue.capitalized)
                             .font(.subheadline)
                             .foregroundColor(.primary)
@@ -59,7 +59,7 @@ struct TaskDetailView: View {
                         Spacer()
                         
                         // Status
-                        task.status.icon
+                        Image(systemName: task.status.icon)
                             .foregroundColor(task.status.color)
                         Text(task.status.rawValue.capitalized)
                             .font(.subheadline)
@@ -90,6 +90,7 @@ struct TaskDetailView: View {
                                 .foregroundColor(.secondary)
                             Spacer()
                             Button {
+                                HapticManager.shared.triggerImpactFeedback(style: .medium)
                                 if isAddReminder {
                                     reminderViewModel.removeReminder(id: task.id)
                                     isAddReminder = false
@@ -111,41 +112,40 @@ struct TaskDetailView: View {
                     }
                     
                     Divider()
-                    
-                    // Brief Description
-                    VStack(alignment: .leading, spacing: 8) {
-                        Label("Brief Description", systemImage: "text.book.closed")
-                            .font(.headline)
-                            .foregroundColor(.secondary)
-                        
-                        TextEditor(text: $brief)
-                            .frame(minHeight: 60, maxHeight: 100)
-                            .padding(1)
-                            .background(Color(.systemGray6))
-                            .cornerRadius(8)
-                    }
-                    .padding(.vertical, 8)
-                    
-                    // Detailed Description
-                    VStack(alignment: .leading, spacing: 8) {
-                        Label("Task Detail", systemImage: "doc.text")
-                            .font(.headline)
-                            .foregroundColor(.secondary)
-                        
-                        TextEditor(text: $detail)
-                            .frame(minHeight: 100, maxHeight: 160)
-                            .padding(1)
-                            .background(Color(.systemGray6))
-                            .cornerRadius(8)
-                        
-                        Button(action: {
-                            // Action to generate detailed description
-                        }) {
-                            Label("Generate task detail with AI", systemImage: "wand.and.stars")
-                                .foregroundColor(.blue)
+                    if !brief.isEmpty {
+                        // Brief Description
+                        VStack(alignment: .leading, spacing: 8) {
+                            Label("Brief Description", systemImage: "text.book.closed")
+                                .foregroundColor(.secondary)
+                            
+                            Text(brief)
+                                .frame(minHeight: 60, maxHeight: 100)
+                                .padding(1)
+                                .background(Color(.systemGray6))
+                                .cornerRadius(8)
                         }
+                        .padding(.vertical, 8)
                     }
-                    .padding(.vertical, 8)
+                    if !detail.isEmpty {
+                        // Detailed Description
+                        VStack(alignment: .leading, spacing: 8) {
+                            Label("Task Detail", systemImage: "doc.text")
+                                .foregroundColor(.secondary)
+                            Text(detail)
+                                .frame(minHeight: 100, maxHeight: .infinity)
+                                .padding(1)
+                                .background(Color(.systemGray6))
+                                .cornerRadius(8)
+                            
+                            Button(action: {
+                                // Action to generate detailed description
+                            }) {
+                                Label("Generate task detail with AI", systemImage: "wand.and.stars")
+                                    .foregroundColor(.blue)
+                            }
+                        }
+                        .padding(.vertical, 8)
+                    }
                 }
             }
             .padding()
@@ -171,6 +171,7 @@ struct TaskDetailView: View {
                 
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Edit") {
+                        HapticManager.shared.triggerImpactFeedback(style: .medium)
                         viewModel.registerObserveTaskInfo()
                         isNavigateEdit = true
                     }

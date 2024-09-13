@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct DueDateCalendarView: View {
-    @StateObject var viewModel: TaskCalendarViewModel
+    @ObservedObject var viewModel: TaskCalendarViewModel
     @Binding var selectedDate: Date
     @Binding var isExpanded: Bool
     
@@ -16,111 +16,105 @@ struct DueDateCalendarView: View {
     
     var body: some View {
         VStack {
-            // Month and expand/collapse button
-            HStack {
-                // Display the current month and year
-                Text(Utils.monthYearFormatter(selectedDate))
-                    .font(.title)
-                    .padding(.leading, 16)
+            CalendarHeaderView(selectedDate: $selectedDate, isExpanded: $isExpanded, viewModel: viewModel)
 
-                // Add "Next Month" button here
-                Button(action: {
-                    if let nextMonth = Calendar.current.date(byAdding: .month, value: 1, to: selectedDate) {
-                        selectedDate = nextMonth
-                        viewModel.selectedDate = nextMonth
-                    }
-                }) {
-                    HStack {
-                        Image(systemName: "chevron.right")
-                    }
-                }
-                .padding(.leading, 10)
-
-                Spacer()
-                
-                if !isSameDay(date1: selectedDate, date2: Date()) {
-                    Button(action: {
-                        selectedDate = Date()
-                        viewModel.selectedDate = Date()
-                    }) {
-                        HStack {
-                            Image(systemName: "calendar")
-                            Text("\(Calendar.current.component(.day, from: Date()))")
-                                .bold()
-                        }
-                        .padding(8)
-                        .background(Color.blue.opacity(0.2))
-                        .cornerRadius(10)
-                    }
-                }
-                // Toggle button to expand/collapse the calendar
-                Button(action: {
-                    withAnimation {
-                        isExpanded.toggle()
-                    }
-                }) {
-                    Image(systemName: isExpanded ? "chevron.up" : "chevron.down")
-                        .padding()
-                }
-            }
-            
-            // Calendar content
             if isExpanded {
-                // Full Month View
-                LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 7)) {
-                    ForEach(daysOfTheMonth(), id: \.self) { day in
-                        Button(action: {
-                            selectedDate = day
-                        }) {
-                            Text("\(calendar.component(.day, from: day))")
-                                .foregroundColor(isSameDay(date1: day, date2: selectedDate) ? .white : .primary)
-                                .frame(width: 40, height: 40)
-                                .background(isSameDay(date1: day, date2: selectedDate) ? Color.accentColor : Color.clear)
-                                .clipShape(Circle())
-                        }
-                        .padding(4)
-                    }
-                }
+                FullMonthView(selectedDate: $selectedDate, daysOfTheMonth: daysOfTheMonth())
             } else {
                 DueDatePicker(viewModel: viewModel, selectedDate: $selectedDate)
             }
         }
     }
     
-    private func tasksForDate(_ date: Date) -> [Task] {
-        viewModel.tasks.filter { task in
-            let taskDate = task.dueDate ?? Date()
-            return calendar.isDate(taskDate, inSameDayAs: date)
-        }
-    }
-    
-    // Generates days for the current month
-    func daysOfTheMonth() -> [Date] {
-        guard let range = calendar.range(of: .day, in: .month, for: selectedDate) else { return [] }
-        let days = range.compactMap { day -> Date? in
-            calendar.date(bySetting: .day, value: day, of: selectedDate)
-        }
-        return days
-    }
-    
-    // Generates days for the current week
-    func daysOfTheWeek() -> [Date] {
-        guard let weekRange = calendar.range(of: .day, in: .weekOfMonth, for: selectedDate) else { return [] }
-        let days = weekRange.compactMap { day -> Date? in
-            calendar.date(bySetting: .day, value: day, of: selectedDate)
-        }
-        return days
-    }
-    
-    // Helper to check if two dates are the same day
-    func isSameDay(date1: Date, date2: Date) -> Bool {
-        calendar.isDate(date1, inSameDayAs: date2)
-    }
-    
-    // Format date for tasks
-    func formattedDate(_ date: Date) -> String {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .full
-        return formatter.string(from: date)
+    private func daysOfTheMonth() -> [Date] {
+        calendar.generateDates(for: .month, with: selectedDate)
     }
 }
+
+// MARK: - Calendar Header View
+struct CalendarHeaderView: View {
+    @Binding var selectedDate: Date
+    @Binding var isExpanded: Bool
+    @ObservedObject var viewModel: TaskCalendarViewModel
+    private let calendar = Calendar.current
+    
+    var body: some View {
+        HStack {
+            Text(Utils.monthYearFormatter(selectedDate))
+                .font(.title2)
+                .padding(.leading, 16)
+
+            Button(action: nextMonth) {
+                Image(systemName: "chevron.right")
+                    .padding(.leading, 10)
+            }
+
+            Spacer()
+
+            if !calendar.isSameDay(selectedDate, Date()) {
+                Button(action:
+                    resetToToday
+                ) {
+                    HStack {
+                        Image(systemName: "calendar")
+                        Text("\(calendar.component(.day, from: Date()))")
+                            .font(.caption)
+                    }
+                    .padding(8)
+                    .background(Color.blue.opacity(0.2))
+                    .cornerRadius(10)
+                }
+            }
+
+            Button(action: toggleExpand) {
+                Image(systemName: isExpanded ? "chevron.up" : "chevron.down")
+                    .padding()
+            }
+        }
+    }
+
+    private func nextMonth() {
+        if let nextMonth = calendar.date(byAdding: .month, value: 1, to: selectedDate) {
+            selectedDate = nextMonth
+        }
+    }
+
+    private func resetToToday() {
+        viewModel.isSelectedToday = true
+        viewModel.isSelectedDate = true
+        selectedDate = calendar.startOfDay(for: Date())
+    }
+
+    private func toggleExpand() {
+        withAnimation {
+            isExpanded.toggle()
+        }
+    }
+}
+
+// MARK: - Full Month View
+struct FullMonthView: View {
+    @Binding var selectedDate: Date
+    var daysOfTheMonth: [Date]
+    private let calendar = Calendar.current
+    
+    var body: some View {
+        LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 7)) {
+            ForEach(daysOfTheMonth, id: \.self) { day in
+                Button(action: { selectedDate = day }) {
+                    Text("\(calendar.component(.day, from: day))")
+                        .foregroundColor(isSameDay(day, selectedDate) ? .white : .primary)
+                        .frame(width: 40, height: 40)
+                        .background(isSameDay(day, selectedDate) ? Color.accentColor : Color.clear)
+                        .clipShape(Circle())
+                }
+                .padding(4)
+            }
+        }
+    }
+    
+    private func isSameDay(_ date1: Date, _ date2: Date) -> Bool {
+        calendar.isDate(date1, inSameDayAs: date2)
+    }
+}
+

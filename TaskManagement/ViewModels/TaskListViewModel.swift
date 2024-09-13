@@ -1,14 +1,26 @@
+//
+//  TaskListViewModel.swift
+//  TaskManagement
+//
+//  Created by Vinh Nguyen on 9/9/24.
+//
+
 import Foundation
 import Combine
 
 @MainActor
 class TaskListViewModel: ObservableObject {
     
+    // Published properties for observing in the UI
     @Published var tasks: [Task] = []
+    @Published var filterTasks: [Task] = []
     @Published var errorMessage: String?
     @Published var searchQuery: String = ""
     @Published var sortOrder: SortOrder = .descending
-    @Published var sortByPosition: Bool = false
+    @Published var sortCriteria: SortCriteria = .creationDate
+    @Published var currentFilter: TaskFilter = .all
+    
+    var isTodayTask = true
     
     private var currentCategory: String?
     private var notificationObserver: AnyCancellable?
@@ -18,42 +30,46 @@ class TaskListViewModel: ObservableObject {
         case descending
     }
     
+    enum SortCriteria {
+        case position
+        case creationDate
+        case status
+    }
+    
+    enum TaskFilter {
+        case all
+        case inProgress
+        case completed
+        case backlog
+    }
+    
+    // MARK: - Initialization
     init() {
         registerObserveTaskInfo()
     }
     
     // MARK: - Task Management Methods
     
-    func fetchTasks(category: String?) {
+    func fetchTasks(category: String? = nil, isTodayTasks: Bool = false) {
+        let fetchMethod: (Result<[Task], Error>) -> Void = { [weak self] result in
+            switch result {
+            case .success(let loadedTasks):
+                self?.tasks = self?.sortTasks(loadedTasks) ?? []
+            case .failure(let error):
+                self?.errorMessage = "Failed to load tasks: \(error.localizedDescription)"
+                print(self?.errorMessage ?? "Unknown error")
+            }
+        }
+        
         if let category = category {
             currentCategory = category
-            loadTasksByCategory(category: category)
+            TaskManagerDB.shared.fetchTasks(by: category, completion: fetchMethod)
+        } else if isTodayTasks {
+            isTodayTask = true
+            ShareService.shared.currentSelectedDate = Date()
+            TaskManagerDB.shared.fetchTodayTasks(completion: fetchMethod)
         } else {
-            loadTasks()
-        }
-    }
-    
-    func loadTasksByCategory(category: String) {
-        TaskManagerDB.shared.fetchTasks(by: category) { [weak self] result in
-            switch result {
-            case .success(let loadedTasks):
-                self?.tasks = self?.sortTasks(loadedTasks) ?? []
-            case .failure(let error):
-                self?.errorMessage = "Failed to load tasks: \(error.localizedDescription)"
-                print(self?.errorMessage ?? "Unknown error")
-            }
-        }
-    }
-    
-    func loadTasks() {
-        TaskManagerDB.shared.getAllTasks { [weak self] result in
-            switch result {
-            case .success(let loadedTasks):
-                self?.tasks = self?.sortTasks(loadedTasks) ?? []
-            case .failure(let error):
-                self?.errorMessage = "Failed to load tasks: \(error.localizedDescription)"
-                print(self?.errorMessage ?? "Unknown error")
-            }
+            TaskManagerDB.shared.getAllTasks(completion: fetchMethod)
         }
     }
     
@@ -89,18 +105,44 @@ class TaskListViewModel: ObservableObject {
         }
     }
     
-    // MARK: - Sorting by Position and Due Date
+    func toggleTaskCompletion(task: Task) {
+        var editTask = task
+        editTask.isCompleted.toggle()
+        editTask.status = editTask.isCompleted ? TaskStatus.completed : TaskStatus.ready
+        
+        TaskManagerDB.shared.updateTask(task: editTask) { [weak self] error in
+            if let error = error {
+                self?.errorMessage = "Error updating task: \(error.localizedDescription)"
+                print(self?.errorMessage ?? "Unknown error")
+            } else {
+                // Fetch tasks only if update succeeds
+                self?.fetchTasks(category: self?.currentCategory, isTodayTasks: self?.isTodayTask ?? true)
+            }
+        }
+    }
+    
+    // MARK: - Sorting
     
     func sortTasks(_ tasks: [Task]) -> [Task] {
-        if sortByPosition {
+        switch sortCriteria {
+        case .position:
             return sortOrder == .ascending
-                ? tasks.sorted { $0.position < $1.position }
-                : tasks.sorted { $0.position > $1.position }
-        } else {
+            ? tasks.sorted { $0.position < $1.position }
+            : tasks.sorted { $0.position > $1.position }
+        case .creationDate:
             return sortOrder == .ascending
-                ? tasks.sorted { $0.createdAt < $1.createdAt }
-                : tasks.sorted { $0.createdAt > $1.createdAt }
+            ? tasks.sorted { $0.createdAt < $1.createdAt }
+            : tasks.sorted { $0.createdAt > $1.createdAt }
+        case .status:
+            return tasks.sorted {
+                  sortOrder == .ascending ? !$0.isCompleted && $1.isCompleted : $0.isCompleted && !$1.isCompleted
+              }
         }
+    }
+    
+    func toggleSortCriteria(_ sortBy: SortCriteria) {
+        sortCriteria = sortBy
+        tasks = sortTasks(tasks)
     }
     
     func toggleSortOrder() {
@@ -108,41 +150,66 @@ class TaskListViewModel: ObservableObject {
         tasks = sortTasks(tasks)
     }
     
-    func toggleSortByPosition() {
-        sortByPosition.toggle()
-        tasks = sortTasks(tasks)
-    }
-    
     // MARK: - Filtering, Searching, and Refreshing
     
     func filteredTasks(by category: TaskCategory?) -> [Task] {
-        let filtered = tasks.filter { task in
+        return tasks.filter { task in
             (category == nil || task.category == category) &&
             (searchQuery.isEmpty || task.title.lowercased().contains(searchQuery.lowercased()))
         }
-        return filtered
     }
     
     func refreshTasks() {
-        loadTasks()
+        fetchTasks()
     }
     
     func searchTasks(query: String) {
         searchQuery = query
+        tasks = filteredTasks(by: nil)
+    }
+    
+    func applyFilter(status: TaskStatus? = nil, priority: TaskPriority? = nil, isCompleted: Bool? = nil) {
+        filterTasks = tasks.filter { task in
+            var statusMatches = true
+            var priorityMatches = true
+            var isCompletedMatches = true
+            
+            if let status = status {
+                statusMatches = task.status == status
+                if status == .backlog {
+                    currentFilter = .backlog
+                } else {
+                    currentFilter = .all
+                }
+            }
+            
+            if let priority = priority {
+                priorityMatches = task.priority == priority
+            }
+            
+            if let isCompleted = isCompleted {
+                isCompletedMatches = task.isCompleted == isCompleted
+                currentFilter = isCompleted ? .completed : .inProgress
+            }
+           
+            return statusMatches && priorityMatches && isCompletedMatches
+        }
     }
     
     // MARK: - Register Notification
-   
+    
     func registerObserveTaskInfo() {
         if notificationObserver == nil {
             notificationObserver = NotificationCenter.default.publisher(for: Notification.Name(Constants.taskNotificationInfo))
-                .sink {[weak self] notification in
-                    print("Tasklist viewmodel notification")
+                .sink { [weak self] notification in
+                    print("TaskListViewModel notification received")
                     if let _ = notification.userInfo {
                         if let category = self?.currentCategory {
-                            self?.loadTasksByCategory(category: category)
+                            self?.fetchTasks(category: category)
+                        } else if self?.isTodayTask == true {
+                            self?.fetchTasks(isTodayTasks: true)
                         } else {
-                            self?.loadTasks()
+                            self?.fetchTasks()
                         }
                     }
                 }
@@ -150,6 +217,7 @@ class TaskListViewModel: ObservableObject {
     }
     
     deinit {
+        notificationObserver?.cancel()
         notificationObserver = nil
     }
 }

@@ -12,13 +12,14 @@ struct SideMenuView: View {
         NavigationStack {
             VStack(alignment: .leading) {
                 List {
-                    menuItem(title: "All Tasks", systemImage: "list.bullet")
-                    menuItem(title: "Completed Tasks", systemImage: "checkmark.circle")
-                    menuItem(title: "Task Reminder", systemImage: "bell.badge.circle.fill")
-                    menuItem(title: "Priority", systemImage: "exclamationmark.circle")
-                    menuItem(title: "Categories", systemImage: "folder")
-                    menuItem(title: "Feedback", systemImage: "ellipsis.message")
-                    menuItem(title: "Settings", systemImage: "gearshape")
+                    menuItem(title: "All Tasks", systemImage: "list.bullet", color: .blue)
+                    menuItem(title: "Completed Tasks", systemImage: "checkmark.circle", color: .green)
+                    menuItem(title: "Backlog", systemImage: "tray.full.fill", color: .gray)
+                    menuItem(title: "Task Reminder", systemImage: "bell.badge.circle.fill", color: .orange)
+                    menuItem(title: "Priority", systemImage: "flag.fill", color: .red)
+                    menuItem(title: "Categories", systemImage: "folder", color: .purple)
+                    menuItem(title: "Feedback", systemImage: "ellipsis.message", color: .pink)
+                    menuItem(title: "Settings", systemImage: "gearshape", color: .gray)
                 }
                 .listStyle(PlainListStyle())
                 .padding()
@@ -30,11 +31,11 @@ struct SideMenuView: View {
     }
 
     // Menu item helper to keep things DRY
-    private func menuItem(title: String, systemImage: String) -> some View {
+    private func menuItem(title: String, systemImage: String, color: Color) -> some View {
         NavigationLink(destination: EmptyView()) {
             Label(title, systemImage: systemImage)
                 .font(.body)
-                .foregroundColor(.primary)
+                .foregroundColor(color)  // Set the color here
                 .padding(.vertical, 8)
         }
     }

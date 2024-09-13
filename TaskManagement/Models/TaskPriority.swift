@@ -19,16 +19,7 @@ enum TaskPriority: String, CaseIterable, Codable, Comparable {
         case .urgent: return .red
         case .high: return .orange
         case .medium: return .yellow
-        case .low: return .green
-        }
-    }
-    
-    var icon: Image {
-        switch self {
-        case .urgent: return Image(systemName: "exclamationmark.octagon.fill")
-        case .high: return Image(systemName: "exclamationmark.triangle.fill")
-        case .medium: return Image(systemName: "exclamationmark.circle.fill")
-        case .low: return Image(systemName: "checkmark.circle.fill")
+        case .low: return .gray
         }
     }
     

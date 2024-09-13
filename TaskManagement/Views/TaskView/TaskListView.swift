@@ -11,8 +11,12 @@ struct TaskListView: View {
     var category: String?
     
     @StateObject private var viewModel = TaskListViewModel()
+    @State private var isTodayTasks = true
     @State private var showingSortOptions = false
-   
+    
+    @State private var showConfetti = false
+    @State private var confettiCounter = 0
+    
     var body: some View {
         NavigationStack {
             VStack {
@@ -21,12 +25,11 @@ struct TaskListView: View {
             .navigationTitle(navigationTitle)
             .navigationBarTitleDisplayMode(.automatic)
             .onAppear {
-                viewModel.fetchTasks(category: category)
+                viewModel.fetchTasks(category: category, isTodayTasks: isTodayTasks)
             }
             .toolbar {
                 sortMenu
             }
-            .searchable(text: $viewModel.searchQuery)
             .alert(isPresented: .constant(viewModel.errorMessage != nil)) {
                 Alert(
                     title: Text("Error"),
@@ -34,6 +37,7 @@ struct TaskListView: View {
                     dismissButton: .default(Text("OK"))
                 )
             }
+            .confettiCannon(counter: $confettiCounter, num: 50, openingAngle: Angle(degrees: 0), closingAngle: Angle(degrees: 360), radius: 200)
         }
     }
     
@@ -51,22 +55,94 @@ struct TaskListView: View {
     
     private var taskListView: some View {
         List {
-            ForEach(viewModel.filteredTasks(by: nil)) { task in
-                TaskRowView(viewModel: viewModel, task: task)
+            ForEach(viewModel.tasks) { task in
+                TaskRowView(task: task,
+                            onToggleComplete: { task in
+                                if !task.isCompleted {
+                                    confettiCounter += 1
+                                }
+                                viewModel.toggleTaskCompletion(task: task)
+                            },
+                            onTaskTapped: { task in
+                                viewModel.registerObserveTaskInfo()
+                            })
+                .applyTaskRowStyle()
             }
             .onDelete(perform: viewModel.deleteTask)
             .onMove(perform: viewModel.moveTask)
         }
+        .listStyle(.plain)
+        .listRowSpacing(8)
+        .background(Color(UIColor.systemBackground))
+    }
+
+
+    private var navigationTitle: String {
+        category == nil ? "Tasks for Today" : category!
     }
     
-    private var navigationTitle: String {
-        category == nil ? "Tasks" : category!
+    private var filterMenu: some ToolbarContent {
+        ToolbarItem(placement: .navigationBarTrailing) {
+            Menu {
+                // Filter by Status
+                Section(header: Text("Filter")) {
+                    Button(action: {
+                        viewModel.applyFilter()
+                    }) {
+                        Label("Show All", systemImage: "list.bullet.clipboard")
+                            .foregroundColor(viewModel.currentFilter == .all ? .blue : .primary)
+                            .overlay(
+                                viewModel.currentFilter == .all ? Image(systemName: "checkmark").foregroundColor(.blue) : nil,
+                                alignment: .trailing
+                            )
+                    }
+                    
+                    Button(action: {
+                        viewModel.applyFilter(isCompleted: false)
+                    }) {
+                        Label("In Progress", systemImage: "figure.run")
+                            .foregroundColor(viewModel.currentFilter == .inProgress ? .blue : .primary)
+                            .overlay(
+                                viewModel.currentFilter == .inProgress ? Image(systemName: "checkmark").foregroundColor(.blue) : nil,
+                                alignment: .trailing
+                            )
+                    }
+                    
+                    Button(action: {
+                        viewModel.applyFilter(isCompleted: true)
+                    }) {
+                        Label("Completed", systemImage: "checkmark.circle.fill")
+                            .foregroundColor(viewModel.currentFilter == .completed ? .blue : .primary)
+                            .overlay(
+                                viewModel.currentFilter == .completed ? Image(systemName: "checkmark").foregroundColor(.blue) : nil,
+                                alignment: .trailing
+                            )
+                    }
+                    
+                    Button(action: {
+                        viewModel.applyFilter(status: .backlog)
+                    }) {
+                        Label("Backlog", systemImage: "tray.fill")
+                            .foregroundColor(viewModel.currentFilter == .backlog ? .blue : .primary)
+                            .overlay(
+                                viewModel.currentFilter == .backlog ? Image(systemName: "checkmark").foregroundColor(.blue) : nil,
+                                alignment: .trailing
+                            )
+                    }
+                }
+            } label: {
+                Image(systemName: "line.3.horizontal.decrease.circle")
+                    .font(.title2)
+            }
+        }
     }
     
     private var sortMenu: some ToolbarContent {
         ToolbarItem(placement: .navigationBarTrailing) {
             Menu {
                 sortOrderButton
+                sortByCompletedButton
+                sortByCreatedButton
                 sortByPositionButton
             } label: {
                 Image(systemName: "arrow.up.arrow.down.circle")
@@ -89,12 +165,36 @@ struct TaskListView: View {
     
     private var sortByPositionButton: some View {
         Button(action: {
-            viewModel.toggleSortByPosition()
+            viewModel.toggleSortCriteria(.position)
         }) {
             HStack {
                 Text("Sort by Position")
                 Spacer()
-                Image(systemName: viewModel.sortByPosition ? "list.number" : "list.bullet")
+                Image(systemName: viewModel.sortCriteria == .position ? "checkmark" : "")
+            }
+        }
+    }
+    
+    private var sortByCompletedButton: some View {
+        Button(action: {
+            viewModel.toggleSortCriteria(.status)
+        }) {
+            HStack {
+                Text("Sort by Status")
+                Spacer()
+                Image(systemName: viewModel.sortCriteria == .status ? "checkmark" : "")
+            }
+        }
+    }
+    
+    private var sortByCreatedButton: some View {
+        Button(action: {
+            viewModel.toggleSortCriteria(.creationDate)
+        }) {
+            HStack {
+                Text("Sort by Date Created")
+                Spacer()
+                Image(systemName: viewModel.sortCriteria == .creationDate ? "checkmark" : "")
             }
         }
     }

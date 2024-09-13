@@ -9,7 +9,7 @@ import SwiftUI
 
 struct TaskGroupView: View {
     
-    @StateObject var viewModel: DashboardViewModel
+    @ObservedObject var viewModel: DashboardViewModel
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -29,9 +29,12 @@ struct TaskGroupView: View {
                     } label: {
                         let categoryTitle = taskGroup.category?.rawValue ?? "Others"
                         let totalTasks = taskGroup.tasks.count
-                        let totalProgress = taskGroup.tasks.reduce(0) { $0 + $1.progress } / Double(totalTasks)
+                        let completedTasks = taskGroup.tasks.filter {
+                            $0.isCompleted == true
+                        }
+                        let totalProgress = Double(completedTasks.count) / Double(totalTasks)
                         let categoryColor = taskGroup.category?.color ?? .gray
-                        let categoryIcon = taskGroup.category?.icon ?? Image(systemName: "questionmark.circle")
+                        let categoryIcon = taskGroup.category?.icon ?? "questionmark.circle"
                         
                         TaskGroupCard(
                             title: categoryTitle,
@@ -58,11 +61,11 @@ struct TaskGroupCard: View {
     let tasks: Int
     let progress: Double
     let color: Color
-    let icon: Image
+    let icon: String
 
     var body: some View {
         HStack {
-            icon
+            Image(systemName: icon)
                 .font(.title)
                 .foregroundColor(color)
                 .padding(.trailing, 8)
@@ -79,7 +82,7 @@ struct TaskGroupCard: View {
             }
             Spacer()
 
-            CircleProgressView(progress: progress, color: color)
+            CircleProgressView(progress: progress, color: TaskProgress.getProgressColor(progress: progress))
                 .frame(width: 50, height: 50)
                 .padding(.trailing, 8)
         }

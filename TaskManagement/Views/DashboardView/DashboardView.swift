@@ -22,7 +22,7 @@ struct DashboardView: View {
                 }
                 .padding(.horizontal, 5)
             }
-            .navigationTitle("Task Management")
+            .navigationTitle("Task Progress")
             .navigationBarTitleDisplayMode(.large)
         }
     }
