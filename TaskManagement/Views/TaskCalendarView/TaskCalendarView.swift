@@ -20,6 +20,7 @@ struct TaskCalendarView: View {
     @State private var selectedDate: Date = Date()
     @State private var isExpanded: Bool = false
     @State private var pendingDate: Date?
+    @State private var isFirstLoad = true
     
     var body: some View {
         NavigationStack {
@@ -32,7 +33,7 @@ struct TaskCalendarView: View {
             }
             .navigationTitle("Due Dates")
             .navigationBarTitleDisplayMode(.inline)
-            .background(Color(UIColor.systemGroupedBackground))
+            .background(Color(UIColor.systemBackground))
         }
     }
 
@@ -59,32 +60,37 @@ struct TaskCalendarView: View {
     // Task list with scroll view and lazy loading of sections
     private var TaskGroupListView: some View {
         ScrollViewReader { scrollProxy in
-            ScrollView {
-                LazyVStack(spacing: 8) {
-                    ForEach(viewModel.taskGroups, id: \.key) { date, tasks in
-                        TaskDueDateSectionView(date: date, tasks: tasks, onToggleComplete: toggleTaskCompletion, onTaskTapped: taskTapped)
-                            .id(date)
-                            .background(geometryReaderForScrollPosition(date: date))
-                    }
+            List {
+                ForEach(viewModel.taskGroups, id: \.key) { date, tasks in
+                    TaskDueDateSectionView(viewModel: viewModel, date: date, tasks: tasks, onToggleComplete: toggleTaskCompletion, onTaskTapped: taskTapped)
+                        .id(date)
+                        .background(
+                            Group {
+                                if isFirstLoad {
+                                    Color.clear
+                                } else {
+                                    geometryReaderForScrollPosition(date: date)
+                                }
+                            }
+                        )
+                        .listRowSeparator(.hidden)
                 }
-                .padding(.horizontal, 8)
             }
+            .listStyle(.plain)
+            .listRowSpacing(8)
             .onChange(of: selectedDate) { newDate in
                 if viewModel.isSelectedDate {
                     scrollToSelectedDate(newDate, using: scrollProxy)
                 }
             }
-        }
-    }
-
-    private func scrollToToday(using scrollProxy: ScrollViewProxy) {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            if let todayDate = viewModel.taskGroups.first(where: { Calendar.current.isDateInToday($0.key) })?.key {
-                scrollProxy.scrollTo(todayDate, anchor: .top)
-                viewModel.isSelectedDate = false
+            .onAppear {
+                DispatchQueue.main.async {
+                    isFirstLoad = false
+                }
             }
         }
     }
+
 
     // GeometryReader for handling scroll position updates
     private func geometryReaderForScrollPosition(date: Date) -> some View {
@@ -124,6 +130,5 @@ struct TaskCalendarView: View {
 
     // Helper for task tapped interaction
     private func taskTapped(_ task: Task) {
-        // Handle task tapped logic
     }
 }

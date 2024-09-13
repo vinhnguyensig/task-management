@@ -81,5 +81,7 @@ class TaskCalendarViewModel: ObservableObject {
 
         return dates
     }
-
+    
+    func deleteTask(at offsets: IndexSet) {
+    }
 }

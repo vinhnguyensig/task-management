@@ -77,6 +77,7 @@ struct TaskListView: View {
             .onMove(perform: viewModel.moveTask)
         }
         .listStyle(.plain)
+        .listRowSpacing(8)
         .background(Color(UIColor.systemBackground))
     }
 

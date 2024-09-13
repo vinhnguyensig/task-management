@@ -36,7 +36,7 @@ struct CalendarDateView: View {
             RoundedRectangle(cornerRadius: 12)
                 .fill(isSelected ? Color.accentColor : Color(.systemBackground))
         )
-        .shadow(color: isSelected ? Color.accentColor.opacity(0.3) : .clear, radius: 4)
+        .shadow(color: isSelected ? Color.accentColor.opacity(0.1) : Color.black.opacity(0.1), radius: 4)
         .onTapGesture(perform: onTap)
         .accessibilityElement(children: .combine)
         .accessibilityAddTraits(isSelected ? .isSelected : .isStaticText)

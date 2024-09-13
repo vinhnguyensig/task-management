@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct TaskDueDateSectionView: View {
+    @ObservedObject var viewModel: TaskCalendarViewModel
     let date: Date
     let tasks: [Task]
     let onToggleComplete: (Task) -> Void
@@ -20,6 +21,7 @@ struct TaskDueDateSectionView: View {
                 TaskRowView(task: task, onToggleComplete: onToggleComplete, onTaskTapped: onTaskTapped)
                     .applyTaskRowStyle()
             }
+            .onDelete(perform: viewModel.deleteTask)
         }
         .padding(.horizontal, 8)
         .padding(.bottom, 8)
@@ -34,11 +36,11 @@ struct DateSectionHeaderView: View {
             Text(Utils.formattedDate(date))
                 .font(.headline)
                 .foregroundColor(.secondary)
-                .padding(.vertical, 4)
+                .padding(.vertical, 8)
                 .padding(.leading)
             Spacer()
         }
-        .background(Color(UIColor.systemGroupedBackground))
+        .background(Color(UIColor.systemBackground))
         .cornerRadius(4)
         .shadow(color: .black.opacity(0.05), radius: 2, x: 0, y: 2)
     }
@@ -51,6 +53,7 @@ struct TaskRowModifier: ViewModifier {
             .listRowInsets(EdgeInsets(top: 1, leading: 16, bottom: 1, trailing: 16))
             .background(Color(UIColor.systemBackground))
             .cornerRadius(8)
-            .shadow(color: .black.opacity(0.05), radius: 1, x: 0, y: 1)
+            .shadow(color: Color.black.opacity(0.1), radius: 4, x: 0, y: 2)
+            .listRowSeparator(.hidden)
     }
 }
