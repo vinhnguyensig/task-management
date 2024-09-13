@@ -9,7 +9,6 @@ import SwiftUI
 
 struct TaskDetailView: View {
     @State var task: Task
-    
     @StateObject var viewModel = TaskDetailsViewModel()
     @StateObject var reminderViewModel = TaskReminderViewModel()
     
@@ -24,142 +23,19 @@ struct TaskDetailView: View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 16) {
-                    
-                    // Task Title
-                    Text(task.title)
-                        .font(.title2)
-                        .fontWeight(.semibold)
-                        .foregroundColor(.primary)
-                        .lineLimit(2)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(.vertical, 4)
-                        .accessibilityAddTraits(.isHeader)
-                    
-                    // Task Details (Priority, Category, Status)
-                    HStack(alignment: .center, spacing: 8) {
-                        // Priority
-                        Label(task.priority.rawValue.capitalized, systemImage: "flag.fill")
-                            .padding(4)
-                            .background(task.priority.color)
-                            .cornerRadius(6)
-                            .foregroundColor(.white)
-                            .font(.subheadline)
-                            .accessibilityLabel("Priority: \(task.priority.rawValue)")
-                        
-                        Spacer()
-                        
-                        // Category
-                        Image(systemName: task.category.icon)
-                             .foregroundColor(task.category.color)
-                        Text(task.category.rawValue.capitalized)
-                            .font(.subheadline)
-                            .foregroundColor(.primary)
-                            .padding(.leading, 2)
-                        
-                        Spacer()
-                        
-                        // Status
-                        Image(systemName: task.status.icon)
-                            .foregroundColor(task.status.color)
-                        Text(task.status.rawValue.capitalized)
-                            .font(.subheadline)
-                            .foregroundColor(.primary)
-                    }
-                    .padding(.vertical, 8)
-                    
+                    taskHeader
+                    taskMetaInfo
                     Divider()
-                    
-                    // Start Date and Due Date
-                    if let dueDate = task.dueDate {
-                        VStack(alignment: .leading, spacing: 4) {
-                            HStack {
-                                Label("Due Date", systemImage: "calendar.badge.exclamationmark")
-                                    .font(.headline)
-                                    .foregroundColor(.secondary)
-                                Spacer()
-                                Text(Utils.formattedDate(dueDate))
-                                    .font(.subheadline)
-                                    .foregroundColor(.primary)
-                            }
-                        }
-                        .padding(.vertical, 8)
-                        .accessibilityElement(children: .combine)
-                        
-                        HStack{
-                            Text("Reminder")
-                                .foregroundColor(.secondary)
-                            Spacer()
-                            Button {
-                                HapticManager.shared.triggerImpactFeedback(style: .medium)
-                                if isAddReminder {
-                                    reminderViewModel.removeReminder(id: task.id)
-                                    isAddReminder = false
-                                } else {
-                                    reminderViewModel.setReminder(task: task)
-                                }
-                            } label: {
-                                Image(systemName: "bell.badge.circle.fill")
-                                    .resizable()
-                                    .frame(width: 30, height: 30)
-                                    .foregroundColor(isAddReminder ? .blue : .gray)
-                            }
-                            .onReceive(reminderViewModel.$notificationAuthorized, perform: { status in
-                                if status {
-                                    isAddReminder = status
-                                }
-                            })
-                        }
-                    }
-                    
+                    taskDatesSection
                     Divider()
-                    if !brief.isEmpty {
-                        // Brief Description
-                        VStack(alignment: .leading, spacing: 8) {
-                            Label("Brief Description", systemImage: "text.book.closed")
-                                .foregroundColor(.secondary)
-                            
-                            Text(brief)
-                                .frame(minHeight: 60, maxHeight: 100)
-                                .padding(1)
-                                .background(Color(.systemGray6))
-                                .cornerRadius(8)
-                        }
-                        .padding(.vertical, 8)
-                    }
-                    if !detail.isEmpty {
-                        // Detailed Description
-                        VStack(alignment: .leading, spacing: 8) {
-                            Label("Task Detail", systemImage: "doc.text")
-                                .foregroundColor(.secondary)
-                            Text(detail)
-                                .frame(minHeight: 100, maxHeight: .infinity)
-                                .padding(1)
-                                .background(Color(.systemGray6))
-                                .cornerRadius(8)
-                            
-                            Button(action: {
-                                // Action to generate detailed description
-                            }) {
-                                Label("Generate task detail with AI", systemImage: "wand.and.stars")
-                                    .foregroundColor(.blue)
-                            }
-                        }
-                        .padding(.vertical, 8)
-                    }
+                    briefDescriptionSection
+                    detailedDescriptionSection
                 }
+                .padding()
             }
-            .padding()
             .frame(maxWidth: .infinity)
-            .onAppear {
-                if let des = task.brief {
-                    brief = des
-                }
-                if let cont = task.detail {
-                    detail = cont
-                }
-                isAddReminder = reminderViewModel.isSetReminder(id: task.id)
-            }
-            .navigationTitle("Task Details")
+            .onAppear(perform: setupView)
+            .navigationTitle(task.category.rawValue)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
@@ -180,11 +56,180 @@ struct TaskDetailView: View {
             .navigationDestination(isPresented: $isNavigateEdit) {
                 AddTaskView(task: task)
             }
-            .onReceive(viewModel.$task, perform: { info in
-                if let nTask = info {
-                    task = nTask
+            .onReceive(viewModel.$task, perform: updateTaskInfo)
+        }
+    }
+}
+
+// MARK: - View Components
+
+private extension TaskDetailView {
+    
+    var taskHeader: some View {
+        Text(task.title)
+            .font(.title2)
+            .fontWeight(.semibold)
+            .foregroundColor(.primary)
+            .lineLimit(2)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.vertical, 4)
+            .accessibilityAddTraits(.isHeader)
+    }
+    
+    var taskMetaInfo: some View {
+        HStack(alignment: .center, spacing: 8) {
+            taskPriorityLabel
+            Spacer()
+            taskCategoryLabel
+            Spacer()
+            taskStatusLabel
+        }
+        .padding(.vertical, 8)
+    }
+    
+    var taskPriorityLabel: some View {
+        Label(task.priority.rawValue.capitalized, systemImage: "flag.fill")
+            .padding(4)
+            .background(task.priority.color)
+            .cornerRadius(6)
+            .foregroundColor(.white)
+            .font(.subheadline)
+            .accessibilityLabel("Priority: \(task.priority.rawValue)")
+    }
+    
+    var taskCategoryLabel: some View {
+        HStack {
+            Image(systemName: task.category.icon)
+                .foregroundColor(task.category.color)
+            Text(task.category.rawValue.capitalized)
+                .font(.subheadline)
+                .foregroundColor(.primary)
+                .padding(.leading, 2)
+        }
+    }
+    
+    var taskStatusLabel: some View {
+        HStack {
+            Image(systemName: task.status.icon)
+                .foregroundColor(task.status.color)
+            Text(task.status.rawValue.capitalized)
+                .font(.subheadline)
+                .foregroundColor(.primary)
+        }
+    }
+    
+    var taskDatesSection: some View {
+        VStack(alignment: .leading, spacing: 4) {
+            if let dueDate = task.dueDate {
+                dueDateView(dueDate)
+            }
+            reminderSection
+        }
+        .padding(.vertical, 8)
+    }
+    
+    @ViewBuilder
+    func dueDateView(_ dueDate: Date) -> some View {
+        HStack {
+            Label("Due Date", systemImage: "calendar.badge.exclamationmark")
+                .font(.headline)
+                .foregroundColor(.secondary)
+            Spacer()
+            Text(Utils.formattedDate(dueDate))
+                .font(.subheadline)
+                .foregroundColor(.primary)
+        }
+        .accessibilityElement(children: .combine)
+    }
+    
+    var reminderSection: some View {
+        HStack {
+            Text("Reminder")
+                .foregroundColor(.secondary)
+            Spacer()
+            reminderButton
+        }
+    }
+    
+    var reminderButton: some View {
+        Button {
+            HapticManager.shared.triggerImpactFeedback(style: .medium)
+            toggleReminder()
+        } label: {
+            Image(systemName: "bell.badge.circle.fill")
+                .resizable()
+                .frame(width: 30, height: 30)
+                .foregroundColor(isAddReminder ? .blue : .gray)
+        }
+        .onReceive(reminderViewModel.$notificationAuthorized) { status in
+            isAddReminder = status
+        }
+    }
+    
+    var briefDescriptionSection: some View {
+        Group {
+            if !brief.isEmpty {
+                descriptionSection(title: "Brief Description", text: brief, systemImage: "text.book.closed", minHeight: 60, maxHeight: 100)
+            }
+        }
+        .padding(.vertical, 8)
+    }
+    
+    var detailedDescriptionSection: some View {
+        Group {
+            if !detail.isEmpty {
+                VStack(alignment: .leading, spacing: 8) {
+                    descriptionSection(title: "Task Detail", text: detail, systemImage: "doc.text", minHeight: 100)
+                    generateDetailButton
                 }
-            })
+            }
+        }
+        .padding(.vertical, 8)
+    }
+    
+    func descriptionSection(title: String, text: String, systemImage: String, minHeight: CGFloat, maxHeight: CGFloat = .infinity) -> some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Label(title, systemImage: systemImage)
+                .foregroundColor(.secondary)
+            Text(text)
+                .frame(minHeight: minHeight, maxHeight: maxHeight)
+                .padding(1)
+                .background(Color(.systemGray6))
+                .cornerRadius(8)
+        }
+    }
+    
+    var generateDetailButton: some View {
+        Button(action: {
+            // Action to generate detailed description
+        }) {
+            Label("Generate task detail with AI", systemImage: "wand.and.stars")
+                .foregroundColor(.blue)
+        }
+    }
+}
+
+// MARK: - Helper Methods
+
+private extension TaskDetailView {
+    func setupView() {
+        brief = task.brief ?? ""
+        detail = task.detail ?? ""
+        isAddReminder = reminderViewModel.isSetReminder(id: task.id)
+    }
+    
+    func updateTaskInfo(info: Task?) {
+        if let nTask = info {
+            task = nTask
+        }
+    }
+    
+    func toggleReminder() {
+        if isAddReminder {
+            reminderViewModel.removeReminder(id: task.id)
+            isAddReminder = false
+        } else {
+            reminderViewModel.setReminder(task: task)
         }
     }
 }

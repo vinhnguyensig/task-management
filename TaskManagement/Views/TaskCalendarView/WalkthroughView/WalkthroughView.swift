@@ -99,6 +99,7 @@ struct WalkthroughView: View {
                             currentPage += 1
                         }
                     } else {
+                        UserDefaultsManager.save(value: true, forKey: Constants.isReopenApp)
                         navigateHome = true
                     }
                 }) {
