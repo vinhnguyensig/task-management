@@ -30,12 +30,11 @@ struct SideMenuView: View {
         }
     }
 
-    // Menu item helper to keep things DRY
     private func menuItem(title: String, systemImage: String, color: Color) -> some View {
-        NavigationLink(destination: EmptyView()) {
+        NavigationLink(destination: ComingSoonView()) {
             Label(title, systemImage: systemImage)
                 .font(.body)
-                .foregroundColor(color)  // Set the color here
+                .foregroundColor(color)
                 .padding(.vertical, 8)
         }
     }
