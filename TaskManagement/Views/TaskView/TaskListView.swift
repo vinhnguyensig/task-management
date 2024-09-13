@@ -56,21 +56,31 @@ struct TaskListView: View {
     private var taskListView: some View {
         List {
             ForEach(viewModel.tasks) { task in
-                TaskRowView(task: task, onToggleComplete: { task in
-                    if !task.isCompleted {
-                        confettiCounter += 1
-                    }
-                    viewModel.toggleTaskCompletion(task: task)
-                    
-                }, onTaskTapped: { task in
-                    viewModel.registerObserveTaskInfo()
-                })
+                TaskRowView(task: task,
+                            onToggleComplete: { task in
+                                if !task.isCompleted {
+                                    confettiCounter += 1
+                                }
+                                viewModel.toggleTaskCompletion(task: task)
+                            },
+                            onTaskTapped: { task in
+                                viewModel.registerObserveTaskInfo()
+                            })
+                .padding(.vertical, 4)
+                .listRowInsets(EdgeInsets(top: 1, leading: 16, bottom: 1, trailing: 16))
+                .background(Color(UIColor.systemBackground))
+                .cornerRadius(8)
+                .shadow(color: Color.black.opacity(0.1), radius: 4, x: 0, y: 2)
+                .listRowSeparator(.hidden)
             }
             .onDelete(perform: viewModel.deleteTask)
             .onMove(perform: viewModel.moveTask)
         }
+        .listStyle(.plain)
+        .background(Color(UIColor.systemBackground))
     }
-    
+
+
     private var navigationTitle: String {
         category == nil ? "Tasks for Today" : category!
     }
@@ -130,8 +140,6 @@ struct TaskListView: View {
             }
         }
     }
-    
-    
     
     private var sortMenu: some ToolbarContent {
         ToolbarItem(placement: .navigationBarTrailing) {
