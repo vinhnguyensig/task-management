@@ -13,6 +13,8 @@ class TaskCalendarViewModel: ObservableObject {
    // @Published var selectedDate: Date?
     @Published var errorMessage: String?
     
+    var isSelectedDate = false
+    
     init() {
         loadTasks()
     }
@@ -59,13 +61,13 @@ class TaskCalendarViewModel: ObservableObject {
         taskGroups = groupDates
     }
 
-    private func datesOfYear() -> [Date] {
+    func datesOfYear() -> [Date] {
         let calendar = Calendar.current
         var dates = [Date]()
         
         // Show +/- 1 week from current date
         let today = calendar.startOfDay(for: Date())
-        guard let startDate = calendar.date(byAdding: .day, value: -3, to: today),
+        guard let startDate = calendar.date(byAdding: .day, value: -2, to: today),
               let endDate = calendar.date(byAdding: .day, value: 360, to: today) else {
             return dates
         }

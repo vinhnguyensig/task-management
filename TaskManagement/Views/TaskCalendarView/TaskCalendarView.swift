@@ -71,8 +71,13 @@ struct TaskCalendarView: View {
                 }
                 .padding(.horizontal, 8)
             }
+            .onAppear {
+                //scrollToSelectedDate(selectedDate, using: scrollProxy)
+            }
             .onChange(of: selectedDate) { newDate in
-                scrollToSelectedDate(newDate, using: scrollProxy)
+                if viewModel.isSelectedDate {
+                    scrollToSelectedDate(newDate, using: scrollProxy)
+                }
             }
         }
     }
@@ -87,6 +92,29 @@ struct TaskCalendarView: View {
         }
     }
 
+    // Scroll to the selected date
+    private func scrollToSelectedDate(_ date: Date, using scrollProxy: ScrollViewProxy) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            scrollProxy.scrollTo(date, anchor: .top)
+            viewModel.isSelectedDate = false
+        }
+    }
+
+    // Handle scroll position updates for date changes
+    private func handleScrollPosition(yPos: CGFloat, date: Date) {
+        let screenHeight = UIScreen.main.bounds.height
+        if yPos < screenHeight * 0.3 && yPos > 0 {
+            pendingDate = date
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
+                if pendingDate == date {
+                    viewModel.isSelectedDate = false
+                    selectedDate = date
+                }
+            }
+        }
+    }
+    
+    
     // Helper for task toggle completion
     private func toggleTaskCompletion(_ task: Task) {
         // Handle task completion logic
@@ -95,26 +123,6 @@ struct TaskCalendarView: View {
     // Helper for task tapped interaction
     private func taskTapped(_ task: Task) {
         // Handle task tapped logic
-    }
-
-    // Scroll to the selected date
-    private func scrollToSelectedDate(_ date: Date, using scrollProxy: ScrollViewProxy) {
-       // withAnimation {
-           // scrollProxy.scrollTo(date, anchor: .top)
-       // }
-    }
-
-    // Handle scroll position updates for date changes
-    private func handleScrollPosition(yPos: CGFloat, date: Date) {
-        let screenHeight = UIScreen.main.bounds.height
-        if yPos < screenHeight * 0.6 && yPos > 0 {
-            pendingDate = date
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
-                if pendingDate == date {
-                    selectedDate = date
-                }
-            }
-        }
     }
 }
 
