@@ -79,6 +79,11 @@ struct AddTaskView: View {
                     if let dt = editTask.detail {
                         detail = dt
                     }
+                } else {
+                    if let currentDate = ShareService.shared.currentSelectedDate {
+                        print(" currentDate = ", currentDate)
+                        dueDate = currentDate
+                    }
                 }
             }
             .overlay {

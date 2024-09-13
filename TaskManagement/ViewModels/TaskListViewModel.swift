@@ -66,6 +66,7 @@ class TaskListViewModel: ObservableObject {
             TaskManagerDB.shared.fetchTasks(by: category, completion: fetchMethod)
         } else if isTodayTasks {
             isTodayTask = true
+            ShareService.shared.currentSelectedDate = Date()
             TaskManagerDB.shared.fetchTodayTasks(completion: fetchMethod)
         } else {
             TaskManagerDB.shared.getAllTasks(completion: fetchMethod)

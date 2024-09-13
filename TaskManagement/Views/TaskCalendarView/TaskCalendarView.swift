@@ -136,5 +136,6 @@ struct TaskCalendarView: View {
 
     // Helper for task tapped interaction
     private func taskTapped(_ task: Task) {
+        viewModel.registerObserveTaskInfo()
     }
 }

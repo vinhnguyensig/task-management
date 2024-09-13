@@ -17,6 +17,7 @@ struct DueDatePicker: View {
                 HStack(spacing: 8) {
                     ForEach(dates(), id: \.self) { date in
                         CalendarDateView(date: date, isSelected: Calendar.current.isDate(date, inSameDayAs: selectedDate)) {
+                            ShareService.shared.currentSelectedDate = date
                             withAnimation(.spring()) {
                                 viewModel.isSelectedDate = true
                                 selectedDate = date
@@ -36,6 +37,7 @@ struct DueDatePicker: View {
                     return
                 }
                 scrollViewProxy.scrollTo(newDate, anchor: .center)
+                ShareService.shared.currentSelectedDate = newDate
             }
         }
     }

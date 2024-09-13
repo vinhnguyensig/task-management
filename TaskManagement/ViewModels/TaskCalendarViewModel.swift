@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Combine
 
 @MainActor
 class TaskCalendarViewModel: ObservableObject {
@@ -16,7 +17,10 @@ class TaskCalendarViewModel: ObservableObject {
     var isSelectedDate = false
     var isSelectedToday = false
     
+    private var notificationObserver: AnyCancellable?
+    
     init() {
+        registerObserveTaskInfo()
         loadTasks()
     }
     
@@ -96,6 +100,18 @@ class TaskCalendarViewModel: ObservableObject {
             } else {
                 self?.loadTasks()
             }
+        }
+    }
+    
+    func registerObserveTaskInfo() {
+        if notificationObserver == nil {
+            notificationObserver = NotificationCenter.default.publisher(for: Notification.Name(Constants.taskNotificationInfo))
+                .sink { [weak self] notification in
+                    print("TaskVM notification received")
+                    if let _ = notification.userInfo {
+                        self?.loadTasks()
+                    }
+                }
         }
     }
 }
