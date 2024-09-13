@@ -23,13 +23,13 @@ struct TaskRowView: View {
                 onToggleComplete(task)
             }
 
-            // Task info and category icon
             TaskInfoView(task: task)
+                .contentShape(Rectangle())
                 .onTapGesture {
-                    HapticManager.shared.triggerImpactFeedback(style: .medium)
-                    highlightRow()
-                    onTaskTapped(task)
                     isShowDetail = true
+                    HapticManager.shared.triggerImpactFeedback(style: .medium)
+                    onTaskTapped(task)
+                    highlightRow()
                 }
                 .sheet(isPresented: $isShowDetail, content: {
                     TaskDetailView(task: task)

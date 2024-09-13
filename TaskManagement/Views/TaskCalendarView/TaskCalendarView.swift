@@ -78,6 +78,7 @@ struct TaskCalendarView: View {
             }
             .listStyle(.plain)
             .listRowSpacing(8)
+            .background(Color(UIColor.systemBackground))
             .onChange(of: selectedDate) { newDate in
                 if viewModel.isSelectedDate {
                     scrollToSelectedDate(newDate, using: scrollProxy)

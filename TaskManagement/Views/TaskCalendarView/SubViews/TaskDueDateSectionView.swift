@@ -23,8 +23,6 @@ struct TaskDueDateSectionView: View {
             }
             .onDelete(perform: viewModel.deleteTask)
         }
-        .padding(.horizontal, 8)
-        .padding(.bottom, 8)
     }
 }
 
