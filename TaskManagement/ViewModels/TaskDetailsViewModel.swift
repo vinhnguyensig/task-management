@@ -27,6 +27,7 @@ class TaskDetailsViewModel: ObservableObject {
     }
     
     deinit {
+        notificationObserver?.cancel()
         notificationObserver = nil
     }
 }

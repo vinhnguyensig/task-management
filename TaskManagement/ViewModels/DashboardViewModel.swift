@@ -96,6 +96,7 @@ class DashboardViewModel: ObservableObject {
     }
     
     deinit {
+        notificationObserver?.cancel()
         notificationObserver = nil
     }
 }

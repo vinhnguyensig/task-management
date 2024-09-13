@@ -1,5 +1,5 @@
 //
-//  ComingSooView.swift
+//  ComingSoonView.swift
 //  TaskManagement
 //
 //  Created by Vinh Nguyen on 13/9/24.

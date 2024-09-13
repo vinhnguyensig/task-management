@@ -244,7 +244,6 @@ private extension TaskDetailView {
             if !detail.isEmpty {
                 VStack(alignment: .leading, spacing: 8) {
                     descriptionSection(title: "Task Detail", text: detail, systemImage: "doc.text", minHeight: 100)
-                    generateDetailButton
                 }
             }
         }
@@ -258,17 +257,8 @@ private extension TaskDetailView {
             Text(text)
                 .frame(minHeight: minHeight, maxHeight: maxHeight)
                 .padding(1)
-                .background(Color(.systemGray6))
+                .background(Color(UIColor.systemBackground))
                 .cornerRadius(8)
-        }
-    }
-    
-    var generateDetailButton: some View {
-        Button(action: {
-            // Action to generate detailed description
-        }) {
-            Label("Generate task detail with AI", systemImage: "wand.and.stars")
-                .foregroundColor(.blue)
         }
     }
     

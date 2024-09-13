@@ -114,4 +114,9 @@ class TaskCalendarViewModel: ObservableObject {
                 }
         }
     }
+    
+    deinit {
+        notificationObserver?.cancel()
+        notificationObserver = nil
+    }
 }

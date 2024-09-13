@@ -97,7 +97,6 @@ struct TaskInfoView: View {
     }
 }
 
-// View for showing priority indicator (unchanged)
 struct PriorityIndicator: View {
     let priority: TaskPriority
     

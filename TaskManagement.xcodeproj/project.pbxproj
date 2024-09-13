@@ -44,7 +44,7 @@
 		1FBC24442C9424C8006FB7AE /* TaskProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FBC24432C9424C8006FB7AE /* TaskProgress.swift */; };
 		1FBC24462C942DAA006FB7AE /* LaunchIC.png in Resources */ = {isa = PBXBuildFile; fileRef = 1FBC24452C942DAA006FB7AE /* LaunchIC.png */; };
 		1FBC24492C94304A006FB7AE /* ShareService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FBC24482C94304A006FB7AE /* ShareService.swift */; };
-		1FBC244B2C9448D1006FB7AE /* ComingSooView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FBC244A2C9448D1006FB7AE /* ComingSooView.swift */; };
+		1FBC244B2C9448D1006FB7AE /* ComingSoonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FBC244A2C9448D1006FB7AE /* ComingSoonView.swift */; };
 		1FBC244E2C945585006FB7AE /* WalkthroughView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FBC244D2C945585006FB7AE /* WalkthroughView.swift */; };
 		1FCC9AAE2C92975F00046ACF /* RoundedCross.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCC9AA52C92975F00046ACF /* RoundedCross.swift */; };
 		1FCC9AAF2C92975F00046ACF /* SlimRectangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCC9AA62C92975F00046ACF /* SlimRectangle.swift */; };
@@ -131,7 +131,7 @@
 		1FBC24432C9424C8006FB7AE /* TaskProgress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskProgress.swift; sourceTree = "<group>"; };
 		1FBC24452C942DAA006FB7AE /* LaunchIC.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LaunchIC.png; sourceTree = "<group>"; };
 		1FBC24482C94304A006FB7AE /* ShareService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareService.swift; sourceTree = "<group>"; };
-		1FBC244A2C9448D1006FB7AE /* ComingSooView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComingSooView.swift; sourceTree = "<group>"; };
+		1FBC244A2C9448D1006FB7AE /* ComingSoonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComingSoonView.swift; sourceTree = "<group>"; };
 		1FBC244D2C945585006FB7AE /* WalkthroughView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalkthroughView.swift; sourceTree = "<group>"; };
 		1FCC9AA52C92975F00046ACF /* RoundedCross.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundedCross.swift; sourceTree = "<group>"; };
 		1FCC9AA62C92975F00046ACF /* SlimRectangle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SlimRectangle.swift; sourceTree = "<group>"; };
@@ -280,7 +280,6 @@
 		1FAF29422C90525400686EA3 /* TaskCalendarView */ = {
 			isa = PBXGroup;
 			children = (
-				1FBC244C2C94556D006FB7AE /* WalkthroughView */,
 				1FBC24382C93CF9E006FB7AE /* SubViews */,
 				1FAF29432C90527900686EA3 /* TaskCalendarView.swift */,
 				1F990AF32C911454003B5117 /* DueDateCalendarView.swift */,
@@ -394,11 +393,12 @@
 		1FDA7F072C8E9C3900B969A1 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				1FAF29452C9053A500686EA3 /* MenuView */,
-				1FAF29422C90525400686EA3 /* TaskCalendarView */,
 				1FDA7F4D2C8EF39000B969A1 /* DashboardView */,
+				1FAF29422C90525400686EA3 /* TaskCalendarView */,
 				1FDA7F212C8E9EDA00B969A1 /* TaskView */,
 				1FDA7F262C8E9F1500B969A1 /* DetailView */,
+				1FAF29452C9053A500686EA3 /* MenuView */,
+				1FBC244C2C94556D006FB7AE /* WalkthroughView */,
 				1FDA7F2D2C8E9F5600B969A1 /* Components */,
 				1FAF293A2C8FDDB200686EA3 /* TaskTabarView.swift */,
 			);
@@ -477,7 +477,7 @@
 				1F990AF72C9133E5003B5117 /* DueDatePickerView.swift */,
 				1FDA7F4F2C8EF3E000B969A1 /* CircleProgressView.swift */,
 				1F990AF92C915359003B5117 /* ToastView.swift */,
-				1FBC244A2C9448D1006FB7AE /* ComingSooView.swift */,
+				1FBC244A2C9448D1006FB7AE /* ComingSoonView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -724,7 +724,7 @@
 				1F341FD42C8EFDEC0098C834 /* TaskInProgressView.swift in Sources */,
 				1F990AF82C9133E5003B5117 /* DueDatePickerView.swift in Sources */,
 				1F341FD22C8EFD9E0098C834 /* TodayTaskProgressView.swift in Sources */,
-				1FBC244B2C9448D1006FB7AE /* ComingSooView.swift in Sources */,
+				1FBC244B2C9448D1006FB7AE /* ComingSoonView.swift in Sources */,
 				1FCC9AB62C92F11300046ACF /* Calendar+Extension.swift in Sources */,
 				1FBC24442C9424C8006FB7AE /* TaskProgress.swift in Sources */,
 				1FDA7F4C2C8EF0EE00B969A1 /* DashboardView.swift in Sources */,
