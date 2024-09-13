@@ -33,11 +33,17 @@ struct DueDatePicker: View {
                 .frame(height: 70)
             }
             .onChange(of: selectedDate) { newDate in
-                if viewModel.isSelectedDate {
-                    return
+                if viewModel.isSelectedToday || !viewModel.isSelectedDate {
+                    scrollViewProxy.scrollTo(newDate, anchor: .center)
                 }
-                scrollViewProxy.scrollTo(newDate, anchor: .center)
-                ShareService.shared.currentSelectedDate = newDate
+
+                if viewModel.isSelectedToday {
+                    viewModel.isSelectedToday = false
+                }
+
+                if !viewModel.isSelectedDate {
+                    ShareService.shared.currentSelectedDate = newDate
+                }
             }
             .onAppear {
                 if let date = ShareService.shared.currentSelectedDate {
