@@ -24,8 +24,7 @@ class TaskCalendarViewModel: ObservableObject {
         TaskManagerDB.shared.getAllTasks { [weak self] result in
             switch result {
             case .success(let loadedTasks):
-                //self?.groupedTasksByDate(tasks: loadedTasks)
-                self?.tasksInDate(tasks: loadedTasks)
+                self?.tasksInDates(tasks: loadedTasks)
             case .failure(let error):
                 self?.errorMessage = "Failed to load tasks: \(error.localizedDescription)"
                 print(self?.errorMessage ?? "Unknown error")
@@ -41,7 +40,7 @@ class TaskCalendarViewModel: ObservableObject {
         taskGroups = groupedTasks.sorted { $0.key < $1.key }
     }
     
-    func tasksInDate(tasks: [Task]) {
+    func tasksInDates(tasks: [Task]) {
         let dates = datesOfYear()
         var groupDates: [(key: Date, value: [Task])] = []
         
@@ -83,5 +82,20 @@ class TaskCalendarViewModel: ObservableObject {
     }
     
     func deleteTask(at offsets: IndexSet) {
+    }
+    
+    func toggleTaskCompletion(task: Task) {
+        var editTask = task
+        editTask.isCompleted.toggle()
+        editTask.status = editTask.isCompleted ? TaskStatus.completed : TaskStatus.ready
+        
+        TaskManagerDB.shared.updateTask(task: editTask) { [weak self] error in
+            if let error = error {
+                self?.errorMessage = "Error updating task: \(error.localizedDescription)"
+                print(self?.errorMessage ?? "Unknown error")
+            } else {
+                self?.loadTasks()
+            }
+        }
     }
 }

@@ -66,12 +66,7 @@ struct TaskListView: View {
                             onTaskTapped: { task in
                                 viewModel.registerObserveTaskInfo()
                             })
-                .padding(.vertical, 4)
-                .listRowInsets(EdgeInsets(top: 1, leading: 16, bottom: 1, trailing: 16))
-                .background(Color(UIColor.systemBackground))
-                .cornerRadius(8)
-                .shadow(color: Color.black.opacity(0.1), radius: 4, x: 0, y: 2)
-                .listRowSeparator(.hidden)
+                .applyTaskRowStyle()
             }
             .onDelete(perform: viewModel.deleteTask)
             .onMove(perform: viewModel.moveTask)

@@ -21,6 +21,7 @@ struct TaskCalendarView: View {
     @State private var isExpanded: Bool = false
     @State private var pendingDate: Date?
     @State private var isFirstLoad = true
+    @State private var confettiCounter = 0
     
     var body: some View {
         NavigationStack {
@@ -89,6 +90,7 @@ struct TaskCalendarView: View {
                     isFirstLoad = false
                 }
             }
+            .confettiCannon(counter: $confettiCounter, num: 50, openingAngle: Angle(degrees: 0), closingAngle: Angle(degrees: 360), radius: 200)
         }
     }
 
@@ -126,7 +128,10 @@ struct TaskCalendarView: View {
     
     // Helper for task toggle completion
     private func toggleTaskCompletion(_ task: Task) {
-        // Handle task completion logic
+        if !task.isCompleted {
+            confettiCounter += 1
+        }
+        viewModel.toggleTaskCompletion(task: task)
     }
 
     // Helper for task tapped interaction

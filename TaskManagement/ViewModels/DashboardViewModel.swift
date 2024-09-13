@@ -89,31 +89,10 @@ class DashboardViewModel: ObservableObject {
     
     private func updateTodayProgress(progress: Double) {
         DispatchQueue.main.async {
-            let statusMessage = self.taskStatusMessage(progress: progress)
+            let statusMessage = TaskProgress.getProgressMessage(progress: progress)
             self.tasksTodayProgress = progress
             self.tasksTodayStatus = statusMessage
         }
-    }
-    
-    private func taskStatusMessage(progress: Double) -> String {
-        var message = ""
-        switch progress {
-        case 0.0:
-            message = "Let's get started!"
-        case 0.0..<0.3:
-            message = "Good start! Keep going!"
-        case 0.3..<0.6:
-            message = "You're making progress!"
-        case 0.6..<0.8:
-            message = "You're more than halfway there!"
-        case 0.8..<1.0:
-            message = "Almost done!"
-        case 1.0:
-            message = "Great job! You've completed everything for today!"
-        default:
-            message = "Keep pushing forward!"
-        }
-        return message
     }
     
     deinit {

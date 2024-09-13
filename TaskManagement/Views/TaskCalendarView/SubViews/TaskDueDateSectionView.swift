@@ -43,15 +43,3 @@ struct DateSectionHeaderView: View {
         .shadow(color: .black.opacity(0.05), radius: 2, x: 0, y: 2)
     }
 }
-
-struct TaskRowModifier: ViewModifier {
-    func body(content: Content) -> some View {
-        content
-            .padding(.vertical, 1)
-            .listRowInsets(EdgeInsets(top: 1, leading: 16, bottom: 1, trailing: 16))
-            .background(Color(UIColor.systemBackground))
-            .cornerRadius(8)
-            .shadow(color: Color.black.opacity(0.1), radius: 4, x: 0, y: 2)
-            .listRowSeparator(.hidden)
-    }
-}

@@ -16,7 +16,7 @@ struct TodayTaskProgressView: View {
         ZStack {
             // Background Shape
             RoundedRectangle(cornerRadius: 12)
-                .fill(Color(UIColor.systemGray6))
+                .fill(Color(UIColor.systemBackground))
                 .frame(height: 150)
                 .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: 3)
 
@@ -50,7 +50,7 @@ struct TodayTaskProgressView: View {
                 Spacer()
                 
                 // Progress Circle
-                CircleProgressView(progress: viewModel.tasksTodayProgress, color: .accentColor)
+                CircleProgressView(progress: viewModel.tasksTodayProgress, color: TaskProgress.getProgressColor(progress: viewModel.tasksTodayProgress))
                     .frame(width: 60, height: 60)
                     .padding(.trailing, 16)
             }

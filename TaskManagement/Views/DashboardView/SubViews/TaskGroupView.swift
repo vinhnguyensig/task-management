@@ -82,7 +82,7 @@ struct TaskGroupCard: View {
             }
             Spacer()
 
-            CircleProgressView(progress: progress, color: color)
+            CircleProgressView(progress: progress, color: TaskProgress.getProgressColor(progress: progress))
                 .frame(width: 50, height: 50)
                 .padding(.trailing, 8)
         }
