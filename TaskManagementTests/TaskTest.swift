@@ -23,7 +23,7 @@ class TaskTests: XCTestCase {
         let detail = "Details of the task"
         let assignees = ["Vinh", "Ken"]
         
-        let task = Task(title: title,
+        let task = TaskModel(title: title,
                         startDate: startDate,
                         dueDate: dueDate,
                         estimateHour: estimateHour,
@@ -49,7 +49,7 @@ class TaskTests: XCTestCase {
     // Test that optional properties can be nil
     func testTaskInitializationWithNilValues() {
         let title = "Test Task"
-        let task = Task(title: title)
+        let task = TaskModel(title: title)
         
         XCTAssertEqual(task.title, title)
         XCTAssertNil(task.startDate)
@@ -66,14 +66,14 @@ class TaskTests: XCTestCase {
     
     // Test default `isCompleted` value is false
     func testTaskDefaultCompletionStatus() {
-        let task = Task(title: "Incomplete Task")
+        let task = TaskModel(title: "Incomplete Task")
         
         XCTAssertFalse(task.isCompleted)
     }
     
     // Test updating `isCompleted` status
     func testTaskCompletionStatusUpdate() {
-        var task = Task(title: "Task to complete")
+        var task = TaskModel(title: "Task to complete")
         
         XCTAssertFalse(task.isCompleted)
         
@@ -85,18 +85,10 @@ class TaskTests: XCTestCase {
     // Test creation date is assigned automatically
     func testTaskCreationDate() {
         let beforeCreation = Date()
-        let task = Task(title: "Task with auto creation date")
+        let task = TaskModel(title: "Task with auto creation date")
         let afterCreation = Date()
         
         XCTAssertGreaterThanOrEqual(task.createdAt, beforeCreation)
         XCTAssertLessThanOrEqual(task.createdAt, afterCreation)
-    }
-    
-    // Test task with assignees list
-    func testTaskAssignees() {
-        let task = Task(title: "Team Task", assignees: ["Vinh", "Ken"])
-        
-        XCTAssertEqual(task.assignees?.count, 2)
-        XCTAssertEqual(task.assignees, ["Vinh", "Ken"])
     }
 }
