@@ -18,15 +18,15 @@ Below are videos and screenshots showcasing the app's functionality:
 
 ### Screenshots
 
-<img src="Resources/scwalkthrough.png" alt="Screenshot 1" height="300">
-<img src="Resources/sctoday.png" alt="Screenshot 2" height="300">
-<img src="Resources/scprogress.png" alt="Screenshot 3" height="300">
-<img src="Resources/scduedate.png" alt="Screenshot 4" height="300">
-<img src="Resources/scadd-edit-task.png" alt="Screenshot 2" height="300">
-<img src="Resources/scdetail.png" alt="Screenshot 1" height="300">
-<img src="Resources/screminder.png" alt="Screenshot 3" height="300">
-<img src="Resources/sccalendar.png" alt="Screenshot 4" height="300">
-<img src="Resources/scmore.png" alt="Screenshot 4" height="300">
+<img src="Resources/scwalkthrough.jpg" alt="Screenshot 1" height="300">
+<img src="Resources/sctoday.jpg" alt="Screenshot 2" height="300">
+<img src="Resources/scprogress.jpg" alt="Screenshot 3" height="300">
+<img src="Resources/scduedate.jpg" alt="Screenshot 4" height="300">
+<img src="Resources/scadd-edit-task.jpg" alt="Screenshot 2" height="300">
+<img src="Resources/scdetail.jpg" alt="Screenshot 1" height="300">
+<img src="Resources/screminder.jpg" alt="Screenshot 3" height="300">
+<img src="Resources/sccalendar.jpg" alt="Screenshot 4" height="300">
+<img src="Resources/scmore.jpg" alt="Screenshot 4" height="300">
 
 ---
 
