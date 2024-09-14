@@ -28,4 +28,21 @@ class Utils {
         formatter.dateFormat = "MMM yyyy"
         return formatter.string(from: date)
     }
+    
+    static func clearSpecialChar(text: String) -> String {
+        let pattern = "[^a-zA-Z0-9 .,?!\n:]"
+        
+        do {
+            let regex = try NSRegularExpression(pattern: pattern, options: [])
+            let range = NSRange(location: 0, length: text.utf16.count)
+            
+            let cleanedString = regex.stringByReplacingMatches(in: text, options: [], range: range, withTemplate: "")
+            
+            return cleanedString
+        } catch {
+            print("Error creating regex: \(error)")
+            return text
+        }
+    }
+
 }

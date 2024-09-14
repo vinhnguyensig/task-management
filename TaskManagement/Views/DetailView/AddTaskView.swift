@@ -25,6 +25,7 @@ struct AddTaskView: View {
     @State private var showDueDatePicker = false
     @State private var toastMessage: String?
     @State private var isEnableAddReminder = false
+    @State private var isLoading = false
     
     @FocusState private var isTitleFocused: Bool
     @State private var errorMessage: String?
@@ -70,7 +71,7 @@ struct AddTaskView: View {
             priorityPicker
             categoryPicker
             statusPicker
-            if task != nil { detailDescriptionField }
+            detailDescriptionField
         }
     }
 
@@ -127,7 +128,7 @@ struct AddTaskView: View {
             Label("Task Detail", systemImage: "doc.text")
                 .foregroundColor(.secondary)
             TextEditor(text: $detail)
-                .frame(minHeight: 100, maxHeight: 160)
+                .frame(minHeight: 100, maxHeight: .infinity)
                 .padding(1)
                 .background(Color.white)
                 .cornerRadius(8)
@@ -135,11 +136,24 @@ struct AddTaskView: View {
                     RoundedRectangle(cornerRadius: 8)
                         .stroke(Color.gray.opacity(0.1), lineWidth: 1)
                 )
-            Button(action: {
-                // Action for AI task detail generation
-            }) {
-                Label("Generate task detail with AI", systemImage: "wand.and.stars")
-                    .foregroundColor(.blue)
+            if !title.isEmpty {
+                Button(action: {
+                    isLoading = true
+                    let taskInfo = getTaskInfo()
+                    viewModel.fetchTaskDetailSuggestion(task: taskInfo)
+                }) {
+                    isLoading ? Label("Generating task detail...", systemImage: "wand.and.stars")
+                        .foregroundColor(.orange) :
+                    Label("Generate task detail with AI", systemImage: "wand.and.stars")
+                        .foregroundColor(.blue)
+                }
+                .onReceive(viewModel.$taskAIDetail, perform: { result in
+                    isLoading = false
+                    if let content = result {
+                        detail = content
+                    }
+                })
+                .disabled(isLoading)
             }
         }
         .padding(.vertical, 8)
@@ -158,11 +172,20 @@ struct AddTaskView: View {
             }
             .foregroundColor(.primary)
         }
-        .sheet(isPresented: $showDueDatePicker) {
+        .sheet(isPresented: $showDueDatePicker, onDismiss: {
+            if let isAuthorized = UserDefaultsManager.getBoolOptional(forKey: Constants.isAuthorizedNotification) {
+                isEnableAddReminder = isAuthorized
+            } else {
+                NotificationManager.shared.requestAuthorization()
+            }
+        }) {
             DueDatePickerView(selectedDate: $dueDate)
                 .presentationDetents([.large, .fraction(0.7)])
                 .presentationDragIndicator(.visible)
         }
+        .onReceive(NotificationManager.shared.$isAuthorized, perform: { isAuthorized in
+            isEnableAddReminder = isAuthorized
+        })
     }
 
     private var taskReminderButton: some View {
@@ -180,6 +203,8 @@ struct AddTaskView: View {
             .onAppear {
                 if let editTask = task {
                     isEnableAddReminder = reminderViewModel.isSetReminder(id: editTask.id)
+                } else if let isAuthorized = UserDefaultsManager.getBoolOptional(forKey: Constants.isAuthorizedNotification) {
+                    isEnableAddReminder = isAuthorized
                 }
             }
         }
@@ -257,6 +282,19 @@ struct AddTaskView: View {
         )
     }
 
+    private func getTaskInfo() -> TaskModel {
+        let taskModel = TaskModel(title: title,
+                                  dueDate: dueDate,
+                                  priority: selectedPriority,
+                                  category: selectedCategory,
+                                  status: selectedStatus,
+                                  brief: brief,
+                                  detail: detail,
+                                  isCompleted: isTaskCompleted
+                                  )
+        return taskModel
+    }
+    
     private var isTaskCompleted: Bool {
         [.completed, .inReview, .done].contains(selectedStatus)
     }
@@ -312,6 +350,7 @@ struct AddTaskView: View {
                 toastMessage = nil
                 title = ""
                 brief = ""
+                detail = ""
                 errorMessage = nil
                 isTitleFocused = true
             }

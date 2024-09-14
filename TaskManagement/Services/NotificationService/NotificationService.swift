@@ -30,11 +30,13 @@ class NotificationManager: NSObject, UNUserNotificationCenterDelegate, Observabl
                 if let error = error {
                     self?.errorMessage = "Error: \(error.localizedDescription)"
                     self?.isAuthorized = false
+                    UserDefaultsManager.save(value: false, forKey: Constants.isAuthorizedNotification)
                 } else {
                     self?.isAuthorized = granted
                     if !granted {
-                        self?.errorMessage = "Permission denied"
+                        self?.errorMessage = Constants.notificationPermissionDeniedMessage
                     }
+                    UserDefaultsManager.save(value: granted, forKey: Constants.isAuthorizedNotification)
                 }
             }
         }

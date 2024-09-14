@@ -10,8 +10,8 @@ import Alamofire
 
 struct OpenAIAPIConstants {
     static let baseURL = "https://api.openai.com"
-    static let apiKey = "sk-tpbPH5oEW7SqvQICnAOwy0Jv8DpSQYNwj379m6ESXoT3BlbkFJ6O3vu7v3gewlBJwoiP7tmKM_niEBF_xTgKha" // Store this securely
-    static let model = "gpt-4-mini"
+    static let apiKey = "<API Key>"
+    static let model = "gpt-4o-mini"
 }
 
 enum OpenAIAPIEndpoint {

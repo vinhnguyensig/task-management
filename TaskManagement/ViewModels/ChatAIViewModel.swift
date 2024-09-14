@@ -30,14 +30,9 @@ class ChatAIViewModel: ObservableObject {
         
         do {
             let response = try await NetworkClient.shared.fetchChatCompletionsAsync(messages: [userMessage])
-            
-            // Update the UI on the main thread
             DispatchQueue.main.async {
                 self.responseMessage = response
                 self.isLoading = false
-                
-                // Add the response to the chat history
-                self.chatMessages.append(OpenAIMessage(role: "assistant", content: response))
             }
         } catch {
             // Handle any network errors

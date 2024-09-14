@@ -8,9 +8,6 @@
 import Foundation
 import Alamofire
 
-import Foundation
-import Alamofire
-
 class NetworkClient {
     static let shared = NetworkClient()
     

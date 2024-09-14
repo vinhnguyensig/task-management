@@ -43,6 +43,10 @@ class UserDefaultsManager {
         return get(forKey: key) as? Bool ?? false
     }
     
+    static func getBoolOptional(forKey key: String) -> Bool? {
+        return get(forKey: key) as? Bool
+    }
+    
     // MARK: - Removal
     
     static func remove(forKey key: String) {
