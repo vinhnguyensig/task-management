@@ -288,7 +288,7 @@ private extension TaskDetailView {
             reminderViewModel.removeReminder(id: task.id)
             isAddReminder = false
         } else {
-            reminderViewModel.setReminder(task: task)
+            reminderViewModel.addReminder(task: task)
         }
     }
 }

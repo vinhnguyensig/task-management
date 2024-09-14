@@ -26,10 +26,9 @@ struct AddTaskView: View {
     @State private var toastMessage: String?
     @State private var isEnableAddReminder = false
     @State private var isLoading = false
-    
     @FocusState private var isTitleFocused: Bool
     @State private var errorMessage: String?
-
+    
     var body: some View {
         NavigationStack {
             Form {
@@ -105,6 +104,12 @@ struct AddTaskView: View {
         TextField("Enter task title", text: $title)
             .focused($isTitleFocused)
             .onAppear { isTitleFocused = true }
+            .toolbar {
+                        ToolbarItemGroup(placement: .keyboard) {
+                            Spacer()
+                            saveButton
+                        }
+                    }
     }
 
     private var briefDescriptionField: some View {
@@ -320,19 +325,27 @@ struct AddTaskView: View {
     private func handleNewTask(newTask: TaskModel?) {
         guard let addedTask = newTask else { return }
         toastMessage = "Added Task"
-        if isEnableAddReminder {
-            reminderViewModel.setReminder(task: addedTask)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+            if isEnableAddReminder {
+                reminderViewModel.addReminder(task: addedTask)
+            }
+            
+            toastMessage = nil
+            title = ""
+            brief = ""
+            detail = ""
+            errorMessage = nil
+            isTitleFocused = true
         }
-        clearForm()
     }
 
     private func handleUpdatedTask(editTask: TaskModel?) {
         guard let uptask = editTask else { return }
         toastMessage = "Updated Task"
         if isEnableAddReminder {
-            reminderViewModel.setReminder(task: uptask)
+            reminderViewModel.updateReminder(task: uptask)
         }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
             toastMessage = nil
             NotificationCenter.default.post(name: Notification.Name(Constants.taskNotificationInfo), object: nil, userInfo: ["task": uptask])
             dismiss()
@@ -346,19 +359,6 @@ struct AddTaskView: View {
         }
     }
 
-    private func clearForm() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            withAnimation {
-                toastMessage = nil
-                title = ""
-                brief = ""
-                detail = ""
-                errorMessage = nil
-                isTitleFocused = true
-            }
-        }
-    }
-
     private func toggleReminder() {
         HapticManager.shared.triggerImpactFeedback(style: .medium)
         if let editTask = task {
@@ -366,10 +366,14 @@ struct AddTaskView: View {
                 reminderViewModel.removeReminder(id: editTask.id)
                 isEnableAddReminder = false
             } else {
-                reminderViewModel.setReminder(task: editTask)
+                reminderViewModel.addReminder(task: editTask)
             }
         } else {
-            reminderViewModel.requestionNotifictionAuthorization()
+            if !isEnableAddReminder {
+                reminderViewModel.requestionNotifictionAuthorization()
+            } else {
+                isEnableAddReminder = false
+            }
         }
     }
 

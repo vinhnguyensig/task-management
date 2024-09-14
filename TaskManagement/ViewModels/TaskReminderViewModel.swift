@@ -31,7 +31,7 @@ class TaskReminderViewModel: ObservableObject {
             .store(in: &anyCancleables)
     }
     
-    func setReminder(task: TaskModel) {
+    func setReminderWithRequestAuthorization(task: TaskModel) {
         if recentAddedReminder == task.id {
             return
         }
@@ -70,6 +70,30 @@ class TaskReminderViewModel: ObservableObject {
                 }
             }
             .store(in: &anyCancleables)
+    }
+    
+    func addReminder(task: TaskModel) {
+        if recentAddedReminder == task.id {
+            print("Skiped duplicate added task =", task.title)
+            return
+        }
+        
+        if let dueDate = task.dueDate {
+            NotificationManager.shared.scheduleNotification(id: task.id, title: task.title, body: task.brief ?? "", date: dueDate)
+            UserDefaultsManager.save(value: true, forKey: task.id)
+            self.recentAddedReminder = task.id
+        }
+    }
+    
+    func updateReminder(task: TaskModel) {
+        if isSetReminder(id: task.id) {
+            NotificationManager.shared.cancelNotification(identifier: task.id)
+        }
+        if let dueDate = task.dueDate {
+            NotificationManager.shared.scheduleNotification(id: task.id, title: task.title, body: task.brief ?? "", date: dueDate)
+            UserDefaultsManager.save(value: true, forKey: task.id)
+            self.recentAddedReminder = task.id
+        }
     }
     
     func removeReminder(id: String) {

@@ -40,12 +40,14 @@ class TaskEditViewModel: ObservableObject {
                                 attachments: [])
         
         TaskManagerDB.shared.createTask(task: newTask) { [weak self] error in
-            if let error = error {
-                self?.errorMessage = "Error adding task: \(error.localizedDescription)"
-                print(self?.errorMessage ?? "Unknown error")
-            } else {
-                self?.isShouldPostNotify = true
-                self?.addedTask = newTask
+            DispatchQueue.main.async {
+                if let error = error {
+                    self?.errorMessage = "Error adding task: \(error.localizedDescription)"
+                    print(self?.errorMessage ?? "Unknown error")
+                } else {
+                    self?.addedTask = newTask
+                    self?.isShouldPostNotify = true
+                }
             }
         }
     }
@@ -71,12 +73,14 @@ class TaskEditViewModel: ObservableObject {
     
     func updateTask(editTask: TaskModel) {
         TaskManagerDB.shared.updateTask(task: editTask) { [weak self] error in
-            if let error = error {
-                self?.errorMessage = "Error update task: \(error.localizedDescription)"
-                print(self?.errorMessage ?? "Unknown error")
-            } else {
-                self?.updatedTask = editTask
-                self?.isShouldPostNotify = true
+            DispatchQueue.main.async {
+                if let error = error {
+                    self?.errorMessage = "Error update task: \(error.localizedDescription)"
+                    print(self?.errorMessage ?? "Unknown error")
+                } else {
+                    self?.updatedTask = editTask
+                    self?.isShouldPostNotify = true
+                }
             }
         }
     }
@@ -94,7 +98,9 @@ class TaskEditViewModel: ObservableObject {
                 .sink {[weak self] result in
                     self?.isLoading = false
                     let responseDetail = Utils.clearSpecialChar(text: result)
-                    self?.taskAIDetail = responseDetail
+                    DispatchQueue.main.async {
+                        self?.taskAIDetail = responseDetail
+                    }
                 }
                 .store(in: &cancellables)
             
@@ -102,13 +108,15 @@ class TaskEditViewModel: ObservableObject {
                 .sink {[weak self] message in
                     self?.isLoading = false
                     if let msg = message {
-                        self?.errorMessage = msg
+                        DispatchQueue.main.async {
+                            self?.errorMessage = msg
+                        }
                     }
                 }
                 .store(in: &cancellables)
         }
     }
-    
+
     private func createTaskPrompt(task: TaskModel) -> String {
         var prompt = "Task: \(task.title)\n"
         
@@ -130,5 +138,5 @@ class TaskEditViewModel: ObservableObject {
         prompt = Utils.clearSpecialChar(text: prompt)
         return prompt
     }
-
+    
 }
