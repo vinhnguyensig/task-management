@@ -1,5 +1,5 @@
 # Task Management
-(Resources/AppIcon.png)
+![AppIcon](Resources/AppIcon.png)
 
 **Task Management** app helps you organize, prioritize, and track tasks effortlessly. With a clean interface, categories, and due dates calendar, it simplifies managing tasks and boosting productivity.
 
