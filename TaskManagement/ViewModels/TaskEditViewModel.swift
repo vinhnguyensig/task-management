@@ -47,6 +47,7 @@ class TaskEditViewModel: ObservableObject {
                 } else {
                     self?.addedTask = newTask
                     self?.isShouldPostNotify = true
+                    ShareService.shared.currentCategory = category.rawValue
                 }
             }
         }
