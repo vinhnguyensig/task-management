@@ -1,17 +1,32 @@
 # Task Management
 ![AppIcon](Resources/AppIcon.png)
 
-**Task Management** app helps you organize, prioritize, and track tasks effortlessly. With a clean interface, categories, and due dates calendar, it simplifies managing tasks and improving productivity.
+**Task Management** app helps you organize, prioritize, and track tasks effortlessly. Generate detailed task information with just a tap with AI. Clean interface, categories, and due dates calendar, it simple managing tasks and improving your productivity.
 
 ---
 This README provides an overview of the app's features, structure, testing, and deployment processes.
 
 ---
 
-## Quick Demo Videos
+## Quick Demo Videos & Screenshots
 
-Below are screen videos showcasing the app's functionality:
+Below are videos and screenshots showcasing the app's functionality:
 
+### Demo Videos
+- [Video 1](link_to_demo_1)
+- [Video 2](link_to_demo_2)
+
+### Screenshots
+
+<img src="Resources/scwalkthrough.png" alt="Screenshot 1" height="300">
+<img src="Resources/sctoday.png" alt="Screenshot 2" height="300">
+<img src="Resources/scprogress.png" alt="Screenshot 3" height="300">
+<img src="Resources/scduedate.png" alt="Screenshot 4" height="300">
+<img src="Resources/scadd-edit-task.png" alt="Screenshot 2" height="300">
+<img src="Resources/scdetail.png" alt="Screenshot 1" height="300">
+<img src="Resources/screminder.png" alt="Screenshot 3" height="300">
+<img src="Resources/sccalendar.png" alt="Screenshot 4" height="300">
+<img src="Resources/scmore.png" alt="Screenshot 4" height="300">
 
 ---
 
