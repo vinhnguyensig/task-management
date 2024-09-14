@@ -1,7 +1,7 @@
 # Task Management
 ![AppIcon](Resources/AppIcon.png)
 
-**Task Management** app helps you organize, prioritize, and track tasks effortlessly. With a clean interface, categories, and due dates calendar, it simplifies managing tasks and boosting productivity.
+**Task Management** app helps you organize, prioritize, and track tasks effortlessly. With a clean interface, categories, and due dates calendar, it simplifies managing tasks and improving productivity.
 
 ---
 This README provides an overview of the app's features, structure, testing, and deployment processes.
@@ -45,7 +45,7 @@ Performance profiling was conducted to optimize the app’s efficiency:
 
 ### Firebase TestLabs
 
-![Firebase TestLab] (Resources/robotest.png)
+![Firebase TestLab](Resources/robotest.png)
 ---
 
 ## Development Workflow
@@ -108,16 +108,19 @@ Safety and Performance: strong typing and handling memory automatically, which c
 **Frameworks: SwiftUI, Combine**
 
 SwiftUI: Enables declarative UI design, allowing for quicker and easier development of user interfaces with less code.
+
 Combine: reactive programming and helps manage asynchronous data streams, making it easier to bind ViewModels to the UI with automatic updates.
 
 **Libraries: Alamofire, RealmSwift**
 
 Alamofire: Provides a streamlined API for handling network requests, reducing code for HTTP networking.
+
 RealmSwift: Efficient, object-oriented database that local data storage, sync and fast performance.
 
 **Patterns: Concurrency, Singleton, KVO**
 
 Concurrency: Swift’s async/await and Combine simplify handling asynchronous tasks, improving app responsiveness and making code more readable.
+
 Singleton: Ensures a single instance for globally used resources, which reduces resource usage and eassyfor management.
 
 ## More Features and Enhacement
