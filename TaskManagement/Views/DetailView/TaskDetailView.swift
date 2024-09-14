@@ -286,9 +286,9 @@ private extension TaskDetailView {
     func toggleReminder() {
         if isAddReminder {
             reminderViewModel.removeReminder(id: task.id)
-            isAddReminder = false
         } else {
             reminderViewModel.addReminder(task: task)
         }
+        isAddReminder.toggle()
     }
 }
