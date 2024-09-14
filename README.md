@@ -1,8 +1,9 @@
 # Task Management
-(Resources/AppIcon.png)
+![AppIcon](Resources/AppIcon.png)
 
 **Task Management** app helps you organize, prioritize, and track tasks effortlessly. With a clean interface, categories, and due dates calendar, it simplifies managing tasks and boosting productivity.
 
+---
 This README provides an overview of the app's features, structure, testing, and deployment processes.
 
 ---
@@ -65,7 +66,7 @@ The app uses GitHub Actions for continuous integration and delivery. Below is an
 
 Fastlane is used to automate the build and deployment process to TestFlight:
 
-- Will implement if I have more time
+- Coming Soon...
 
 ---
 
@@ -75,17 +76,17 @@ Fastlane is used to automate the build and deployment process to TestFlight:
 
 Crash analytics is integrated to monitor app performance and user issues:
 
-- Will implement if I have more time
+- Coming Soon...
 
 ---
 
 ## Deployment
 
-### Build TestFlight - TESTING PURPOSE ONLY
+### Build TestFlight
 
 This image represents the app being built and deployed to TestFlight for testing purposes:
 
-![Build Testflight](Resources/teftflight.jpg)
+![Build Testflight](Resources/testflight.jpg)
 
 ---
 
@@ -98,30 +99,30 @@ This image represents the app being built and deployed to TestFlight for testing
 - **Patterns**: Concurrency, Singleton, Delegate
 
 **Architecture: MVVM**
-    MVVM separates UI, business logic, and data , which makes the app more modules, maintainent and easy for unit test.
+MVVM separates UI, business logic, and data , which makes the app more modules, maintainent and easy for unit test.
 
 **Languages: Swift**
 
-    Safety and Performance: strong typing and handling memory automatically, which cuts down on bugs and app speed
+Safety and Performance: strong typing and handling memory automatically, which cuts down on bugs and app speed
 
 **Frameworks: SwiftUI, Combine**
 
-    SwiftUI: Enables declarative UI design, allowing for quicker and easier development of user interfaces with less code.
-    Combine: reactive programming and helps manage asynchronous data streams, making it easier to bind ViewModels to the UI with automatic updates.
+SwiftUI: Enables declarative UI design, allowing for quicker and easier development of user interfaces with less code.
+Combine: reactive programming and helps manage asynchronous data streams, making it easier to bind ViewModels to the UI with automatic updates.
 
 **Libraries: Alamofire, RealmSwift**
 
-    Alamofire: Provides a streamlined API for handling network requests, reducing code for HTTP networking.
-    RealmSwift: Efficient, object-oriented database that local data storage, sync and fast performance.
+Alamofire: Provides a streamlined API for handling network requests, reducing code for HTTP networking.
+RealmSwift: Efficient, object-oriented database that local data storage, sync and fast performance.
 
 **Patterns: Concurrency, Singleton, KVO**
 
-    Concurrency: Swift’s async/await and Combine simplify handling asynchronous tasks, improving app responsiveness and making code more readable.
-    Singleton: Ensures a single instance for globally used resources, which reduces resource usage and eassyfor management.
+Concurrency: Swift’s async/await and Combine simplify handling asynchronous tasks, improving app responsiveness and making code more readable.
+Singleton: Ensures a single instance for globally used resources, which reduces resource usage and eassyfor management.
 
 ## More Features and Enhacement
 
-If I have more time, I will do bellow tasks
+If I have more time, I will complete the tasks listed below.
 
-![Ready](Resources/todos-1.jpg)
-![Backlog](Resources/todos-2.jpg)
+![Ready](Resources/todos-1.png)
+![Backlog](Resources/todos-2.png)
