@@ -136,24 +136,26 @@ struct AddTaskView: View {
                     RoundedRectangle(cornerRadius: 8)
                         .stroke(Color.gray.opacity(0.1), lineWidth: 1)
                 )
-            if !title.isEmpty {
-                Button(action: {
-                    isLoading = true
-                    let taskInfo = getTaskInfo()
-                    viewModel.fetchTaskDetailSuggestion(task: taskInfo)
-                }) {
-                    isLoading ? Label("Generating task detail...", systemImage: "wand.and.stars")
-                        .foregroundColor(.orange) :
-                    Label("Generate task detail with AI", systemImage: "wand.and.stars")
-                        .foregroundColor(.blue)
-                }
-                .onReceive(viewModel.$taskAIDetail, perform: { result in
-                    isLoading = false
-                    if let content = result {
-                        detail = content
+            if AppConfiguration.isEnableGenerateTaskDetail {
+                if !title.isEmpty {
+                    Button(action: {
+                        isLoading = true
+                        let taskInfo = getTaskInfo()
+                        viewModel.fetchTaskDetailSuggestion(task: taskInfo)
+                    }) {
+                        isLoading ? Label("Generating task detail...", systemImage: "wand.and.stars")
+                            .foregroundColor(.orange) :
+                        Label("Generate task detail with AI", systemImage: "wand.and.stars")
+                            .foregroundColor(.blue)
                     }
-                })
-                .disabled(isLoading)
+                    .onReceive(viewModel.$taskAIDetail, perform: { result in
+                        isLoading = false
+                        if let content = result {
+                            detail = content
+                        }
+                    })
+                    .disabled(isLoading)
+                }
             }
         }
         .padding(.vertical, 8)
