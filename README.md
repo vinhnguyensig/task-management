@@ -18,15 +18,15 @@ Below are videos and screenshots showcasing the app's functionality:
 
 ### Screenshots
 
-<div style="display: inline-block;">
-    <img src="Resources/scwalkthrough.jpg" alt="Screenshot 1" height="300">
-    <img src="Resources/sctoday.jpg" alt="Screenshot 2" height="300">
-    <img src="Resources/scprogress.jpg" alt="Screenshot 3" height="300">
-    <img src="Resources/scduedate.jpg" alt="Screenshot 4" height="300">
-    <img src="Resources/scadd-edit-task.jpg" alt="Screenshot 5" height="300">
-    <img src="Resources/scdetail.jpg" alt="Screenshot 6" height="300">
-    <img src="Resources/screminder.jpg" alt="Screenshot 7" height="300">
-    <img src="Resources/sccalendar.jpg" alt="Screenshot 8" height="300">
+<div style="display: flex; flex-wrap: wrap; gap: 10px;">
+    <img src="Resources/scwalkthrough.jpg" alt="Screenshot 1" height="300" style="margin-right: 10px;">
+    <img src="Resources/sctoday.jpg" alt="Screenshot 2" height="300" style="margin-right: 10px;">
+    <img src="Resources/scprogress.jpg" alt="Screenshot 3" height="300" style="margin-right: 10px;">
+    <img src="Resources/scduedate.jpg" alt="Screenshot 4" height="300" style="margin-right: 10px;">
+    <img src="Resources/scadd-edit-task.jpg" alt="Screenshot 5" height="300" style="margin-right: 10px;">
+    <img src="Resources/scdetail.jpg" alt="Screenshot 6" height="300" style="margin-right: 10px;">
+    <img src="Resources/screminder.jpg" alt="Screenshot 7" height="300" style="margin-right: 10px;">
+    <img src="Resources/sccalendar.jpg" alt="Screenshot 8" height="300" style="margin-right: 10px;">
     <img src="Resources/scmore.jpg" alt="Screenshot 9" height="300">
 </div>
 
