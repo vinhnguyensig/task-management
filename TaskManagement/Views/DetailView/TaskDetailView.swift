@@ -114,6 +114,7 @@ private extension TaskDetailView {
             .font(.subheadline)
             .accessibilityLabel("Priority: \(task.priority.rawValue)")
             .onTapGesture {
+               HapticManager.shared.triggerImpactFeedback(style: .light)
                isSelectedPriority = true
             }
             .actionSheet(isPresented: $isSelectedPriority) {
@@ -140,6 +141,7 @@ private extension TaskDetailView {
                 .padding(.leading, 2)
         }
         .onTapGesture {
+            HapticManager.shared.triggerImpactFeedback(style: .light)
            isSelectedCategory = true
         }
         .actionSheet(isPresented: $isSelectedCategory) {
@@ -165,6 +167,7 @@ private extension TaskDetailView {
                 .foregroundColor(.primary)
         }
         .onTapGesture {
+            HapticManager.shared.triggerImpactFeedback(style: .light)
            isSelectedStatus = true
         }
         .actionSheet(isPresented: $isSelectedStatus) {
@@ -286,9 +289,9 @@ private extension TaskDetailView {
     func toggleReminder() {
         if isAddReminder {
             reminderViewModel.removeReminder(id: task.id)
-            isAddReminder = false
         } else {
             reminderViewModel.addReminder(task: task)
         }
+        isAddReminder.toggle()
     }
 }

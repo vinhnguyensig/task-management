@@ -125,5 +125,3 @@ If I have more time, I will do bellow tasks
 
 ![Ready](Resources/todos-1.jpg)
 ![Backlog](Resources/todos-2.jpg)
-
-

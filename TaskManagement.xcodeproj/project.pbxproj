@@ -245,11 +245,9 @@
 		1F8A70CF2C8E95BE00D99C9A /* TaskManagement */ = {
 			isa = PBXGroup;
 			children = (
-				1F88FAD82C950C5700E09D88 /* Info.plist */,
-				1FAF29482C90563F00686EA3 /* TaskManagement.entitlements */,
 				1FDA7F082C8E9C4100B969A1 /* Models */,
-				1FDA7F062C8E9C2C00B969A1 /* ViewModels */,
 				1FDA7F072C8E9C3900B969A1 /* Views */,
+				1FDA7F062C8E9C2C00B969A1 /* ViewModels */,
 				1FDA7F052C8E9C2000B969A1 /* Services */,
 				1FDA7F092C8E9C4E00B969A1 /* Resources */,
 				1FDA7F0B2C8E9DC200B969A1 /* Utilities */,
@@ -257,6 +255,8 @@
 				1F8A70D02C8E95BE00D99C9A /* TaskManagementApp.swift */,
 				1F8A70D22C8E95BE00D99C9A /* ContentView.swift */,
 				1F8A70D42C8E95BF00D99C9A /* Assets.xcassets */,
+				1FAF29482C90563F00686EA3 /* TaskManagement.entitlements */,
+				1F88FAD82C950C5700E09D88 /* Info.plist */,
 				1F8A70D62C8E95BF00D99C9A /* Preview Content */,
 				1FDA7F382C8EA0F700B969A1 /* Launch Screen.storyboard */,
 			);
