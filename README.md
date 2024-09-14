@@ -13,12 +13,18 @@ This README provides an overview of the app's features, structure, testing, and 
 Below are videos and screenshots showcasing the app's functionality:
 
 ### Demo Videos
-- [Quick Features Preview](https://www.youtube.com/watch?v=psUu8GVz78U&list=PL2UvDxnI-m4tkIUXoQLtd5II0dxxsdOsB&index=1) https://www.youtube.com/watch?v=psUu8GVz78U&list=PL2UvDxnI-m4tkIUXoQLtd5II0dxxsdOsB&index=1
-- [Task List](https://www.youtube.com/shorts/psUu8GVz78U) https://www.youtube.com/shorts/psUu8GVz78U
-- [Task Detail](https://www.youtube.com/watch?v=a8o5ctHCHt4) https://www.youtube.com/watch?v=a8o5ctHCHt4
-- [Dashboard - Task Progress](https://www.youtube.com/watch?v=EbG2scD2wk8) https://www.youtube.com/watch?v=EbG2scD2wk8
-- [Task Calendar Due Dates](https://www.youtube.com/watch?v=SxBNb9OsqtE) https://www.youtube.com/watch?v=SxBNb9OsqtE
-- [Onboard Screens and Quick Code Review](https://www.youtube.com/watch?v=QG4QyI-XkzA) https://www.youtube.com/watch?v=QG4QyI-XkzA
+- [Quick Features Preview](https://www.youtube.com/watch?v=psUu8GVz78U&list=PL2UvDxnI-m4tkIUXoQLtd5II0dxxsdOsB&index=1)
+- https://www.youtube.com/watch?v=psUu8GVz78U&list=PL2UvDxnI-m4tkIUXoQLtd5II0dxxsdOsB&index=1
+- [Task List](https://www.youtube.com/shorts/psUu8GVz78U)
+- https://www.youtube.com/shorts/psUu8GVz78U
+- [Task Detail](https://www.youtube.com/watch?v=a8o5ctHCHt4)
+- https://www.youtube.com/watch?v=a8o5ctHCHt4
+- [Dashboard - Task Progress](https://www.youtube.com/watch?v=EbG2scD2wk8)
+- https://www.youtube.com/watch?v=EbG2scD2wk8
+- [Task Calendar Due Dates](https://www.youtube.com/watch?v=SxBNb9OsqtE)
+- https://www.youtube.com/watch?v=SxBNb9OsqtE
+- [Onboard Screens and Quick Code Review](https://www.youtube.com/watch?v=QG4QyI-XkzA)
+- https://www.youtube.com/watch?v=QG4QyI-XkzA
 
 ### Screenshots
 
