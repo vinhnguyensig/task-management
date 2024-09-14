@@ -13,8 +13,10 @@ This README provides an overview of the app's features, structure, testing, and 
 Below are videos and screenshots showcasing the app's functionality:
 
 ### Demo Videos
-- [Video 1](link_to_demo_1)
-- [Video 2](link_to_demo_2)
+- [Task List](https://www.youtube.com/shorts/psUu8GVz78U)
+- [Task Detail](https://www.youtube.com/watch?v=a8o5ctHCHt4)
+- [Dashboard - Task Progress](https://www.youtube.com/watch?v=EbG2scD2wk8)
+- [Task Calendar Due Dates](https://www.youtube.com/watch?v=SxBNb9OsqtE)
 
 ### Screenshots
 
