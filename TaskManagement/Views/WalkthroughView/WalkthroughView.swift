@@ -15,28 +15,14 @@ struct WalkthroughView: View {
         NavigationStack {
             VStack {
                 TabView(selection: $currentPage) {
-                    VStack {
-                        Spacer()
-                        Image(systemName: "checklist")
-                            .font(.system(size: 80))
-                            .foregroundColor(.green)
-                            .padding()
-                        
-                        Text("Welcome to the Task Management App")
-                            .font(.largeTitle)
-                            .fontWeight(.bold)
-                            .multilineTextAlignment(.center)
-                            .padding()
-                        
-                        Text("Get organized and boost your productivity. Let's get started!")
-                            .font(.title2)
-                            .multilineTextAlignment(.center)
-                            .padding(.horizontal)
-                            .foregroundColor(.gray)
-                        
-                        Spacer()
-                    }
+                    WalkthroughFeatureView(
+                        imageName: "checklist",
+                        title: "Welcome to the Task Management App",
+                        description: "Get organized and boost your productivity. Let's get started!",
+                        accentColor: .green
+                    )
                     .tag(0)
+                    .transition(.move(edge: .bottom))
                     
                     WalkthroughFeatureView(
                         imageName: "list.bullet",
@@ -45,6 +31,7 @@ struct WalkthroughView: View {
                         accentColor: .blue
                     )
                     .tag(1)
+                    .transition(.move(edge: .bottom))
                     
                     WalkthroughFeatureView(
                         imageName: "doc.text.magnifyingglass",
@@ -53,6 +40,7 @@ struct WalkthroughView: View {
                         accentColor: .green
                     )
                     .tag(2)
+                    .transition(.move(edge: .bottom))
                     
                     WalkthroughFeatureView(
                         imageName: "plus.circle",
@@ -61,6 +49,7 @@ struct WalkthroughView: View {
                         accentColor: .orange
                     )
                     .tag(3)
+                    .transition(.move(edge: .bottom))
                     
                     WalkthroughFeatureView(
                         imageName: "bell",
@@ -69,6 +58,7 @@ struct WalkthroughView: View {
                         accentColor: .orange
                     )
                     .tag(4)
+                    .transition(.move(edge: .bottom))
                     
                     WalkthroughFeatureView(
                         imageName: "chart.bar",
@@ -77,8 +67,8 @@ struct WalkthroughView: View {
                         accentColor: .purple
                     )
                     .tag(5)
+                    .transition(.move(edge: .bottom))
                     
-                    // Task Due Dates Feature
                     WalkthroughFeatureView(
                         imageName: "calendar",
                         title: "Task Due Dates",
@@ -86,8 +76,10 @@ struct WalkthroughView: View {
                         accentColor: .blue
                     )
                     .tag(6)
+                    .transition(.move(edge: .bottom))
                 }
                 .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+                .animation(.easeInOut(duration: 1), value: currentPage)
                 
                 PageControl(currentPage: $currentPage, numberOfPages: 7)
                 
@@ -95,7 +87,7 @@ struct WalkthroughView: View {
                 
                 Button(action: {
                     if currentPage < 6 {
-                        withAnimation {
+                        withAnimation(.easeInOut) {
                             currentPage += 1
                         }
                     } else {
@@ -106,10 +98,13 @@ struct WalkthroughView: View {
                     Text(currentPage < 6 ? "Next" : "Get Started")
                         .font(.headline)
                         .padding()
-                        .frame(maxWidth: .infinity)
+                        .padding(.horizontal, 30)
+                        .frame(maxWidth: 350)
                         .background(Color.blue)
                         .foregroundColor(.white)
                         .cornerRadius(10)
+                        .scaleEffect(currentPage < 6 ? 1.05 : 1.1)
+                        .animation(.spring(response: 0.3, dampingFraction: 0.6), value: currentPage)
                 }
                 .padding(.horizontal)
             }
@@ -117,36 +112,6 @@ struct WalkthroughView: View {
                 TaskTabBarView()
             }
         }
-    }
-}
-
-struct WalkthroughFeatureView: View {
-    let imageName: String
-    let title: String
-    let description: String
-    let accentColor: Color
-    
-    var body: some View {
-        VStack {
-            Spacer()
-            Image(systemName: imageName)
-                .font(.system(size: 60))
-                .foregroundColor(accentColor)
-                .padding()
-            
-            Text(title)
-                .font(.title)
-                .fontWeight(.bold)
-                .padding()
-            
-            Text(description)
-                .font(.title2)
-                .multilineTextAlignment(.center)
-                .padding(.horizontal)
-                .foregroundColor(.gray)
-            Spacer()
-        }
-        .padding()
     }
 }
 
@@ -159,7 +124,8 @@ struct PageControl: View {
             ForEach(0..<numberOfPages, id: \.self) { index in
                 Circle()
                     .fill(index == currentPage ? Color.blue : Color.gray.opacity(0.5))
-                    .frame(width: 8, height: 8)
+                    .frame(width: index == currentPage ? 10 : 8, height: index == currentPage ? 10 : 8)
+                    .animation(.spring(response: 0.3, dampingFraction: 0.7), value: currentPage)
             }
         }
         .padding(.vertical)

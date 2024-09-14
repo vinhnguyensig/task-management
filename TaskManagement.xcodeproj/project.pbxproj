@@ -16,6 +16,7 @@
 		1F341FDC2C8F33AC0098C834 /* TaskStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F341FDA2C8F33AC0098C834 /* TaskStatus.swift */; };
 		1F64945F2C8F722300344661 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F64945E2C8F722300344661 /* Utils.swift */; };
 		1F88FADA2C9537A800E09D88 /* AppConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F88FAD92C9537A800E09D88 /* AppConfiguration.swift */; };
+		1F88FADC2C95566D00E09D88 /* WalkthroughFeatureVuew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F88FADB2C95566D00E09D88 /* WalkthroughFeatureVuew.swift */; };
 		1F8A70D12C8E95BE00D99C9A /* TaskManagementApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8A70D02C8E95BE00D99C9A /* TaskManagementApp.swift */; };
 		1F8A70D32C8E95BE00D99C9A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8A70D22C8E95BE00D99C9A /* ContentView.swift */; };
 		1F8A70D52C8E95BF00D99C9A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1F8A70D42C8E95BF00D99C9A /* Assets.xcassets */; };
@@ -106,6 +107,7 @@
 		1F64945E2C8F722300344661 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		1F88FAD82C950C5700E09D88 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		1F88FAD92C9537A800E09D88 /* AppConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfiguration.swift; sourceTree = "<group>"; };
+		1F88FADB2C95566D00E09D88 /* WalkthroughFeatureVuew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalkthroughFeatureVuew.swift; sourceTree = "<group>"; };
 		1F8A70CD2C8E95BE00D99C9A /* TaskManagement.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TaskManagement.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F8A70D02C8E95BE00D99C9A /* TaskManagementApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskManagementApp.swift; sourceTree = "<group>"; };
 		1F8A70D22C8E95BE00D99C9A /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -336,6 +338,7 @@
 			isa = PBXGroup;
 			children = (
 				1FBC244D2C945585006FB7AE /* WalkthroughView.swift */,
+				1F88FADB2C95566D00E09D88 /* WalkthroughFeatureVuew.swift */,
 			);
 			path = WalkthroughView;
 			sourceTree = "<group>";
@@ -729,6 +732,7 @@
 				1FDA7F3C2C8EA1E400B969A1 /* TaskManagerDB.swift in Sources */,
 				1FAF294B2C9058EB00686EA3 /* NotificationService.swift in Sources */,
 				1FAF294D2C90693800686EA3 /* UserDefaultManager.swift in Sources */,
+				1F88FADC2C95566D00E09D88 /* WalkthroughFeatureVuew.swift in Sources */,
 				1FDA7F482C8EE0B000B969A1 /* AddTaskView.swift in Sources */,
 				1FBC243A2C93CFC6006FB7AE /* CalendarDateView.swift in Sources */,
 				1FCC9AB12C92975F00046ACF /* ConfettiSwiftUI.swift in Sources */,
