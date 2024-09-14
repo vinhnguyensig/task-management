@@ -9,9 +9,17 @@ import SwiftUI
 
 @main
 struct TaskManagementApp: App {
+    init() {
+        
+    }
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            if let _ = UserDefaultsManager.get(forKey: Constants.isReopenApp) {
+                //TaskTabBarView()
+                WalkthroughView()
+            } else {
+                WalkthroughView()
+            }
         }
     }
 }

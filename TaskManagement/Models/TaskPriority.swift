@@ -6,3 +6,34 @@
 //
 
 import Foundation
+import SwiftUI
+
+enum TaskPriority: String, CaseIterable, Codable, Comparable {
+    case urgent = "Urgent"
+    case high = "High"
+    case medium = "Medium"
+    case low = "Low"
+    
+    var color: Color {
+        switch self {
+        case .urgent: return .red
+        case .high: return .orange
+        case .medium: return .yellow
+        case .low: return .gray
+        }
+    }
+    
+    // Define the custom order for comparison
+    static func < (lhs: TaskPriority, rhs: TaskPriority) -> Bool {
+        switch (lhs, rhs) {
+        case (.urgent, _), (_, .urgent):
+            return lhs == .urgent
+        case (.high, _), (_, .high):
+            return lhs == .high
+        case (.medium, _), (_, .medium):
+            return lhs == .medium
+        case (.low, _):
+            return lhs == .low
+        }
+    }
+}
