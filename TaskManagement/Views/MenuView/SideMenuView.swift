@@ -40,7 +40,7 @@ struct SideMenuView: View {
     }
     
     private func taskListItem(title: String, systemImage: String, color: Color, status: String? = nil, category: String? = nil) -> some View {
-        NavigationLink(destination: TaskListView(status: status, customTitle: title)) {
+        NavigationLink(destination: TaskListView(status: status, customTitle: title, isAll: true)) {
             Label(title, systemImage: systemImage)
                 .font(.body)
                 .foregroundColor(color)

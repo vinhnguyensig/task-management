@@ -11,6 +11,7 @@ struct TaskListView: View {
     var category: String?
     var status: String?
     var customTitle: String?
+    var isAll: Bool?
     
     @StateObject private var viewModel = TaskListViewModel()
     @State private var isTodayTasks = true
@@ -26,6 +27,9 @@ struct TaskListView: View {
             }
             .navigationTitle(navigationTitle())
             .onAppear {
+                if let _ = isAll {
+                    isTodayTasks = false
+                }
                 viewModel.fetchTasks(category: category, isTodayTasks: isTodayTasks, status: status)
             }
             .toolbar {
@@ -96,28 +100,35 @@ struct TaskListView: View {
                 Section(header: Text("Filter")) {
                     Button(action: {
                         viewModel.currentFilter = .all
-                        viewModel.fetchTasks()
+                        viewModel.fetchTasks(category: viewModel.currentCategory, isTodayTasks: isTodayTasks)
                     }) {
                         Label("Show All", systemImage: viewModel.currentFilter == .all ? "checkmark" : "")
                     }
                     
                     Button(action: {
+                        viewModel.currentFilter = .ready
+                        viewModel.fetchTasks(isTodayTasks: isTodayTasks, status: TaskStatus.ready.rawValue)
+                    }) {
+                        Label("Ready", systemImage: viewModel.currentFilter == .ready ? "checkmark" : "")
+                    }
+                    
+                    Button(action: {
                         viewModel.currentFilter = .inProgress
-                        viewModel.fetchTasks(status: TaskStatus.inProgress.rawValue)
+                        viewModel.fetchTasks(isTodayTasks: isTodayTasks, status: TaskStatus.inProgress.rawValue)
                     }) {
                         Label("In Progress", systemImage: viewModel.currentFilter == .inProgress ? "checkmark" : "")
                     }
                     
                     Button(action: {
                         viewModel.currentFilter = .completed
-                        viewModel.fetchTasks(status: TaskStatus.completed.rawValue)
+                        viewModel.fetchTasks(isTodayTasks: isTodayTasks, status: TaskStatus.completed.rawValue)
                     }) {
                         Label("Completed", systemImage: viewModel.currentFilter == .completed ? "checkmark" : "")
                     }
                     
                     Button(action: {
                         viewModel.currentFilter = .backlog
-                        viewModel.fetchTasks(status: TaskStatus.backlog.rawValue)
+                        viewModel.fetchTasks(isTodayTasks: isTodayTasks, status: TaskStatus.backlog.rawValue)
                     }) {
                         Label("Backlog", systemImage: viewModel.currentFilter == .backlog ? "checkmark" : "")
                     }

@@ -20,8 +20,8 @@ class TaskListViewModel: ObservableObject {
     @Published var currentFilter: TaskFilter = .all
     
     var isTodayTask = true
+    var currentCategory: String?
     
-    private var currentCategory: String?
     private var notificationObserver: AnyCancellable?
     
     enum SortOrder {
@@ -37,6 +37,7 @@ class TaskListViewModel: ObservableObject {
     
     enum TaskFilter {
         case all
+        case ready
         case inProgress
         case completed
         case backlog
@@ -65,7 +66,7 @@ class TaskListViewModel: ObservableObject {
             ShareService.shared.currentCategory = category
             TaskManagerDB.shared.fetchTasks(by: category, completion: fetchMethod)
         } else if let status = status {
-            TaskManagerDB.shared.fetchTasks(status: status, completion: fetchMethod)
+            TaskManagerDB.shared.fetchTasks(status: status, isToday: isTodayTasks, category: currentCategory, completion: fetchMethod)
         } else if isTodayTasks {
             isTodayTask = true
             ShareService.shared.currentCategory = nil
