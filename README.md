@@ -105,6 +105,7 @@ Crash analytics is integrated to monitor app performance and user issues:
 
 ### Build TestFlight
 Redeem Code: DGNXVGST
+
 This image represents the app being built and deployed to TestFlight for testing purposes:
 
 ![Build Testflight](Resources/testflight.jpg)
@@ -117,7 +118,7 @@ This image represents the app being built and deployed to TestFlight for testing
 - **Languages**: Swift
 - **Frameworks**: SwiftUI, Combine
 - **Libraries**: Alamofire, RealmSwift
-- **Patterns**: Concurrency, Singleton, Delegate
+- **Patterns**: Concurrency, Singleton
 
 **Architecture: MVVM**
 
