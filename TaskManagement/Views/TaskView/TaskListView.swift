@@ -9,6 +9,8 @@ import SwiftUI
 
 struct TaskListView: View {
     var category: String?
+    var status: String?
+    var customTitle: String?
     
     @StateObject private var viewModel = TaskListViewModel()
     @State private var isTodayTasks = true
@@ -22,11 +24,12 @@ struct TaskListView: View {
             VStack {
                 taskContent
             }
-            .navigationTitle(navigationTitle)
+            .navigationTitle(navigationTitle())
             .onAppear {
-                viewModel.fetchTasks(category: category, isTodayTasks: isTodayTasks)
+                viewModel.fetchTasks(category: category, isTodayTasks: isTodayTasks, status: status)
             }
             .toolbar {
+                filterMenu
                 sortMenu
             }
             .alert(isPresented: .constant(viewModel.errorMessage != nil)) {
@@ -77,8 +80,13 @@ struct TaskListView: View {
     }
 
 
-    private var navigationTitle: String {
-        category == nil ? "Tasks for Today" : category!
+    private func navigationTitle() -> String {
+        if let catTitle = category {
+            return catTitle
+        } else if let title = customTitle {
+            return title
+        }
+        return "Tasks for Today"
     }
     
     private var filterMenu: some ToolbarContent {
@@ -87,47 +95,31 @@ struct TaskListView: View {
                 // Filter by Status
                 Section(header: Text("Filter")) {
                     Button(action: {
-                        viewModel.applyFilter()
+                        viewModel.currentFilter = .all
+                        viewModel.fetchTasks()
                     }) {
-                        Label("Show All", systemImage: "list.bullet.clipboard")
-                            .foregroundColor(viewModel.currentFilter == .all ? .blue : .primary)
-                            .overlay(
-                                viewModel.currentFilter == .all ? Image(systemName: "checkmark").foregroundColor(.blue) : nil,
-                                alignment: .trailing
-                            )
+                        Label("Show All", systemImage: viewModel.currentFilter == .all ? "checkmark" : "")
                     }
                     
                     Button(action: {
-                        viewModel.applyFilter(isCompleted: false)
+                        viewModel.currentFilter = .inProgress
+                        viewModel.fetchTasks(status: TaskStatus.inProgress.rawValue)
                     }) {
-                        Label("In Progress", systemImage: "figure.run")
-                            .foregroundColor(viewModel.currentFilter == .inProgress ? .blue : .primary)
-                            .overlay(
-                                viewModel.currentFilter == .inProgress ? Image(systemName: "checkmark").foregroundColor(.blue) : nil,
-                                alignment: .trailing
-                            )
+                        Label("In Progress", systemImage: viewModel.currentFilter == .inProgress ? "checkmark" : "")
                     }
                     
                     Button(action: {
-                        viewModel.applyFilter(isCompleted: true)
+                        viewModel.currentFilter = .completed
+                        viewModel.fetchTasks(status: TaskStatus.completed.rawValue)
                     }) {
-                        Label("Completed", systemImage: "checkmark.circle.fill")
-                            .foregroundColor(viewModel.currentFilter == .completed ? .blue : .primary)
-                            .overlay(
-                                viewModel.currentFilter == .completed ? Image(systemName: "checkmark").foregroundColor(.blue) : nil,
-                                alignment: .trailing
-                            )
+                        Label("Completed", systemImage: viewModel.currentFilter == .completed ? "checkmark" : "")
                     }
                     
                     Button(action: {
-                        viewModel.applyFilter(status: .backlog)
+                        viewModel.currentFilter = .backlog
+                        viewModel.fetchTasks(status: TaskStatus.backlog.rawValue)
                     }) {
-                        Label("Backlog", systemImage: "tray.fill")
-                            .foregroundColor(viewModel.currentFilter == .backlog ? .blue : .primary)
-                            .overlay(
-                                viewModel.currentFilter == .backlog ? Image(systemName: "checkmark").foregroundColor(.blue) : nil,
-                                alignment: .trailing
-                            )
+                        Label("Backlog", systemImage: viewModel.currentFilter == .backlog ? "checkmark" : "")
                     }
                 }
             } label: {

@@ -13,7 +13,6 @@ class TaskListViewModel: ObservableObject {
     
     // Published properties for observing in the UI
     @Published var tasks: [TaskModel] = []
-    @Published var filterTasks: [TaskModel] = []
     @Published var errorMessage: String?
     @Published var searchQuery: String = ""
     @Published var sortOrder: SortOrder = .descending
@@ -50,7 +49,7 @@ class TaskListViewModel: ObservableObject {
     
     // MARK: - Task Management Methods
     
-    func fetchTasks(category: String? = nil, isTodayTasks: Bool = false) {
+    func fetchTasks(category: String? = nil, isTodayTasks: Bool = false, status: String? = nil) {
         let fetchMethod: (Result<[TaskModel], Error>) -> Void = { [weak self] result in
             switch result {
             case .success(let loadedTasks):
@@ -65,8 +64,11 @@ class TaskListViewModel: ObservableObject {
             currentCategory = category
             ShareService.shared.currentCategory = category
             TaskManagerDB.shared.fetchTasks(by: category, completion: fetchMethod)
+        } else if let status = status {
+            TaskManagerDB.shared.fetchTasks(status: status, completion: fetchMethod)
         } else if isTodayTasks {
             isTodayTask = true
+            ShareService.shared.currentCategory = nil
             ShareService.shared.currentSelectedDate = Date()
             TaskManagerDB.shared.fetchTodayTasks(completion: fetchMethod)
         } else {
@@ -167,34 +169,6 @@ class TaskListViewModel: ObservableObject {
     func searchTasks(query: String) {
         searchQuery = query
         tasks = filteredTasks(by: nil)
-    }
-    
-    func applyFilter(status: TaskStatus? = nil, priority: TaskPriority? = nil, isCompleted: Bool? = nil) {
-        filterTasks = tasks.filter { task in
-            var statusMatches = true
-            var priorityMatches = true
-            var isCompletedMatches = true
-            
-            if let status = status {
-                statusMatches = task.status == status
-                if status == .backlog {
-                    currentFilter = .backlog
-                } else {
-                    currentFilter = .all
-                }
-            }
-            
-            if let priority = priority {
-                priorityMatches = task.priority == priority
-            }
-            
-            if let isCompleted = isCompleted {
-                isCompletedMatches = task.isCompleted == isCompleted
-                currentFilter = isCompleted ? .completed : .inProgress
-            }
-           
-            return statusMatches && priorityMatches && isCompletedMatches
-        }
     }
     
     // MARK: - Register Notification
