@@ -104,7 +104,7 @@ Crash analytics is integrated to monitor app performance and user issues:
 ## Deployment
 
 ### Build TestFlight
-
+Redeem Code: DGNXVGST
 This image represents the app being built and deployed to TestFlight for testing purposes:
 
 ![Build Testflight](Resources/testflight.jpg)
@@ -120,6 +120,7 @@ This image represents the app being built and deployed to TestFlight for testing
 - **Patterns**: Concurrency, Singleton, Delegate
 
 **Architecture: MVVM**
+
 MVVM separates UI, business logic, and data , which makes the app more modules, maintainent and easy for unit test.
 
 **Languages: Swift**
@@ -144,7 +145,7 @@ Concurrency: Swift’s async/await and Combine simplify handling asynchronous ta
 
 Singleton: Ensures a single instance for globally used resources, which reduces resource usage and eassyfor management.
 
-## More Features and Enhacement
+## More Features and Enhancement
 
 If I have more time, I will complete the tasks listed below.
 
