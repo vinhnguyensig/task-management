@@ -13,18 +13,12 @@ This README provides an overview of the app's features, structure, testing, and 
 Below are videos and screenshots showcasing the app's functionality:
 
 ### Demo Videos
-- [Quick Features Preview](https://www.youtube.com/watch?v=psUu8GVz78U&list=PL2UvDxnI-m4tkIUXoQLtd5II0dxxsdOsB&index=1)
-- https://www.youtube.com/watch?v=psUu8GVz78U&list=PL2UvDxnI-m4tkIUXoQLtd5II0dxxsdOsB&index=1
-- [Task List](https://www.youtube.com/shorts/psUu8GVz78U)
-- https://www.youtube.com/shorts/psUu8GVz78U
-- [Task Detail](https://www.youtube.com/watch?v=a8o5ctHCHt4)
-- https://www.youtube.com/watch?v=a8o5ctHCHt4
-- [Dashboard - Task Progress](https://www.youtube.com/watch?v=EbG2scD2wk8)
-- https://www.youtube.com/watch?v=EbG2scD2wk8
-- [Task Calendar Due Dates](https://www.youtube.com/watch?v=SxBNb9OsqtE)
-- https://www.youtube.com/watch?v=SxBNb9OsqtE
-- [Onboard Screens and Quick Code Review](https://www.youtube.com/watch?v=QG4QyI-XkzA)
-- https://www.youtube.com/watch?v=QG4QyI-XkzA
+- [Quick Features Preview](https://www.youtube.com/watch?v=psUu8GVz78U&list=PL2UvDxnI-m4tkIUXoQLtd5II0dxxsdOsB&index=1) https://www.youtube.com/watch?v=psUu8GVz78U&list=PL2UvDxnI-m4tkIUXoQLtd5II0dxxsdOsB&index=1
+- [Task List](https://www.youtube.com/shorts/psUu8GVz78U) https://www.youtube.com/shorts/psUu8GVz78U
+- [Task Detail](https://www.youtube.com/watch?v=a8o5ctHCHt4) https://www.youtube.com/watch?v=a8o5ctHCHt4
+- [Dashboard - Task Progress](https://www.youtube.com/watch?v=EbG2scD2wk8) https://www.youtube.com/watch?v=EbG2scD2wk8
+- [Task Calendar Due Dates](https://www.youtube.com/watch?v=SxBNb9OsqtE) https://www.youtube.com/watch?v=SxBNb9OsqtE
+- [Onboard Screens and Quick Code Review](https://www.youtube.com/watch?v=QG4QyI-XkzA) https://www.youtube.com/watch?v=QG4QyI-XkzA
 
 ### Screenshots
 
@@ -110,6 +104,7 @@ Crash analytics is integrated to monitor app performance and user issues:
 ## Deployment
 
 ### Build TestFlight
+Redeem Code: DGNXVGST
 
 This image represents the app being built and deployed to TestFlight for testing purposes:
 
@@ -123,9 +118,10 @@ This image represents the app being built and deployed to TestFlight for testing
 - **Languages**: Swift
 - **Frameworks**: SwiftUI, Combine
 - **Libraries**: Alamofire, RealmSwift
-- **Patterns**: Concurrency, Singleton, Delegate
+- **Patterns**: Concurrency, Singleton
 
 **Architecture: MVVM**
+
 MVVM separates UI, business logic, and data , which makes the app more modules, maintainent and easy for unit test.
 
 **Languages: Swift**
@@ -150,7 +146,7 @@ Concurrency: Swift’s async/await and Combine simplify handling asynchronous ta
 
 Singleton: Ensures a single instance for globally used resources, which reduces resource usage and eassyfor management.
 
-## More Features and Enhacement
+## More Features and Enhancement
 
 If I have more time, I will complete the tasks listed below.
 
