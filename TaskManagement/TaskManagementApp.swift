@@ -9,9 +9,6 @@ import SwiftUI
 
 @main
 struct TaskManagementApp: App {
-    init() {
-        
-    }
     var body: some Scene {
         WindowGroup {
             if let _ = UserDefaultsManager.get(forKey: Constants.isReopenApp) {
