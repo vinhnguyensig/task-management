@@ -41,6 +41,9 @@
 		1FAF294D2C90693800686EA3 /* UserDefaultManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FAF294C2C90693800686EA3 /* UserDefaultManager.swift */; };
 		1FB564A22C96C69C00D01238 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1FB564A02C96C69C00D01238 /* GoogleService-Info.plist */; };
 		1FB564A32C96C69C00D01238 /* APIKeys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1FB564A12C96C69C00D01238 /* APIKeys.plist */; };
+		1FB564A82C9705FA00D01238 /* task-template.json in Resources */ = {isa = PBXBuildFile; fileRef = 1FB564A72C9705FA00D01238 /* task-template.json */; };
+		1FB564AA2C97161600D01238 /* GenerateTaskViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB564A92C97161600D01238 /* GenerateTaskViewModel.swift */; };
+		1FB564AD2C97179800D01238 /* GenerateTaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB564AC2C97179800D01238 /* GenerateTaskView.swift */; };
 		1FBC243A2C93CFC6006FB7AE /* CalendarDateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FBC24392C93CFC6006FB7AE /* CalendarDateView.swift */; };
 		1FBC243E2C93E05A006FB7AE /* TaskDueDateSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FBC243D2C93E05A006FB7AE /* TaskDueDateSectionView.swift */; };
 		1FBC24402C93E09D006FB7AE /* EmtyTaskDueDateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FBC243F2C93E09D006FB7AE /* EmtyTaskDueDateView.swift */; };
@@ -136,6 +139,9 @@
 		1FAF294C2C90693800686EA3 /* UserDefaultManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaultManager.swift; sourceTree = "<group>"; };
 		1FB564A02C96C69C00D01238 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		1FB564A12C96C69C00D01238 /* APIKeys.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = APIKeys.plist; sourceTree = "<group>"; };
+		1FB564A72C9705FA00D01238 /* task-template.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "task-template.json"; sourceTree = "<group>"; };
+		1FB564A92C97161600D01238 /* GenerateTaskViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenerateTaskViewModel.swift; sourceTree = "<group>"; };
+		1FB564AC2C97179800D01238 /* GenerateTaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenerateTaskView.swift; sourceTree = "<group>"; };
 		1FBC24392C93CFC6006FB7AE /* CalendarDateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarDateView.swift; sourceTree = "<group>"; };
 		1FBC243D2C93E05A006FB7AE /* TaskDueDateSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDueDateSectionView.swift; sourceTree = "<group>"; };
 		1FBC243F2C93E09D006FB7AE /* EmtyTaskDueDateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmtyTaskDueDateView.swift; sourceTree = "<group>"; };
@@ -329,6 +335,14 @@
 			path = APIKeys;
 			sourceTree = "<group>";
 		};
+		1FB564AB2C97178000D01238 /* GenerateTaskView */ = {
+			isa = PBXGroup;
+			children = (
+				1FB564AC2C97179800D01238 /* GenerateTaskView.swift */,
+			);
+			path = GenerateTaskView;
+			sourceTree = "<group>";
+		};
 		1FBC24382C93CF9E006FB7AE /* SubViews */ = {
 			isa = PBXGroup;
 			children = (
@@ -422,6 +436,7 @@
 				1F990AF52C91305B003B5117 /* TaskCalendarViewModel.swift */,
 				1F94776C2C91EC5300480444 /* TaskReminderViewModel.swift */,
 				1FBC24542C94939D006FB7AE /* ChatAIViewModel.swift */,
+				1FB564A92C97161600D01238 /* GenerateTaskViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -429,6 +444,7 @@
 		1FDA7F072C8E9C3900B969A1 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				1FB564AB2C97178000D01238 /* GenerateTaskView */,
 				1FDA7F4D2C8EF39000B969A1 /* DashboardView */,
 				1FAF29422C90525400686EA3 /* TaskCalendarView */,
 				1FDA7F212C8E9EDA00B969A1 /* TaskView */,
@@ -457,6 +473,7 @@
 			isa = PBXGroup;
 			children = (
 				1FBC24452C942DAA006FB7AE /* LaunchIC.png */,
+				1FB564A72C9705FA00D01238 /* task-template.json */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -678,6 +695,7 @@
 				1FB564A22C96C69C00D01238 /* GoogleService-Info.plist in Resources */,
 				1FB564A32C96C69C00D01238 /* APIKeys.plist in Resources */,
 				1FBC24462C942DAA006FB7AE /* LaunchIC.png in Resources */,
+				1FB564A82C9705FA00D01238 /* task-template.json in Resources */,
 				1F8A70D52C8E95BF00D99C9A /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -769,6 +787,7 @@
 			files = (
 				1FDA7F242C8E9F0400B969A1 /* TaskRowView.swift in Sources */,
 				1FDA7F3C2C8EA1E400B969A1 /* TaskManagerDB.swift in Sources */,
+				1FB564AD2C97179800D01238 /* GenerateTaskView.swift in Sources */,
 				1FAF294B2C9058EB00686EA3 /* NotificationService.swift in Sources */,
 				1FAF294D2C90693800686EA3 /* UserDefaultManager.swift in Sources */,
 				1F88FADC2C95566D00E09D88 /* WalkthroughFeatureVuew.swift in Sources */,
@@ -792,6 +811,7 @@
 				1F990AF82C9133E5003B5117 /* DueDatePickerView.swift in Sources */,
 				1F341FD22C8EFD9E0098C834 /* TodayTaskProgressView.swift in Sources */,
 				1FBC244B2C9448D1006FB7AE /* ComingSoonView.swift in Sources */,
+				1FB564AA2C97161600D01238 /* GenerateTaskViewModel.swift in Sources */,
 				1FCC9AB62C92F11300046ACF /* Calendar+Extension.swift in Sources */,
 				1FBC24442C9424C8006FB7AE /* TaskProgress.swift in Sources */,
 				1FDA7F4C2C8EF0EE00B969A1 /* DashboardView.swift in Sources */,

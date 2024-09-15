@@ -109,7 +109,7 @@ struct WalkthroughView: View {
                 .padding(.horizontal)
             }
             .navigationDestination(isPresented: $navigateHome) {
-                TaskTabBarView()
+                GenerateTaskView(isFromWalkthough: true)
             }
         }
     }

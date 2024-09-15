@@ -24,6 +24,12 @@ class TaskEditViewModel: ObservableObject {
     init() {
     }
     
+    private func initChatViewModel() {
+        if chatAIViewModel == nil {
+            chatAIViewModel = ChatAIViewModel()
+        }
+    }
+    
     func addTask(title: String, startDate: Date? = nil, dueDate: Date? = nil, priority: TaskPriority = .medium, category: TaskCategory = .others, status: TaskStatus = .backlog, brief: String? = nil, detail: String? = nil, position: Int = 1, isCompleted: Bool = false) {
         let newTask = TaskModel(title: title,
                                 startDate: startDate,
@@ -87,9 +93,7 @@ class TaskEditViewModel: ObservableObject {
     }
     
     func fetchTaskDetailSuggestion(task: TaskModel) {
-        if chatAIViewModel == nil {
-            chatAIViewModel = ChatAIViewModel()
-        }
+        initChatViewModel()
         guard let viewModel = chatAIViewModel else { return }
         let prompt = createTaskPrompt(task: task)
         Task {
