@@ -16,6 +16,16 @@ struct OpenAIAPIConstants {
 enum OpenAIAPIEndpoint {
     case chatCompletions(messages: [OpenAIMessage])
     
+    var apiKey: String {
+        if let path = Bundle.main.path(forResource: "APIKeys", ofType: "plist"),
+           let dict = NSDictionary(contentsOfFile: path),
+           let apiKey = dict["OpenAIKey"] as? String {
+           return apiKey
+        } else {
+            print("API key not found")
+            return ""
+        }
+    }
     var path: String {
         switch self {
         case .chatCompletions:
@@ -49,7 +59,7 @@ enum OpenAIAPIEndpoint {
     /// Sets the headers for the API request.
     var headers: HTTPHeaders {
         return [
-            "Authorization": "Bearer \(APIKeys.openAIKey)",
+            "Authorization": "Bearer \(apiKey)",
             "Content-Type": "application/json"
         ]
     }

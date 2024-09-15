@@ -39,7 +39,8 @@
 		1FAF29472C9053B900686EA3 /* SideMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FAF29462C9053B900686EA3 /* SideMenuView.swift */; };
 		1FAF294B2C9058EB00686EA3 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FAF294A2C9058EB00686EA3 /* NotificationService.swift */; };
 		1FAF294D2C90693800686EA3 /* UserDefaultManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FAF294C2C90693800686EA3 /* UserDefaultManager.swift */; };
-		1FB5649F2C96B42B00D01238 /* APIKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB5649E2C96B42B00D01238 /* APIKeys.swift */; };
+		1FB564A22C96C69C00D01238 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1FB564A02C96C69C00D01238 /* GoogleService-Info.plist */; };
+		1FB564A32C96C69C00D01238 /* APIKeys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1FB564A12C96C69C00D01238 /* APIKeys.plist */; };
 		1FBC243A2C93CFC6006FB7AE /* CalendarDateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FBC24392C93CFC6006FB7AE /* CalendarDateView.swift */; };
 		1FBC243E2C93E05A006FB7AE /* TaskDueDateSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FBC243D2C93E05A006FB7AE /* TaskDueDateSectionView.swift */; };
 		1FBC24402C93E09D006FB7AE /* EmtyTaskDueDateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FBC243F2C93E09D006FB7AE /* EmtyTaskDueDateView.swift */; };
@@ -133,7 +134,8 @@
 		1FAF29482C90563F00686EA3 /* TaskManagement.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TaskManagement.entitlements; sourceTree = "<group>"; };
 		1FAF294A2C9058EB00686EA3 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		1FAF294C2C90693800686EA3 /* UserDefaultManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaultManager.swift; sourceTree = "<group>"; };
-		1FB5649E2C96B42B00D01238 /* APIKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKeys.swift; sourceTree = "<group>"; };
+		1FB564A02C96C69C00D01238 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		1FB564A12C96C69C00D01238 /* APIKeys.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = APIKeys.plist; sourceTree = "<group>"; };
 		1FBC24392C93CFC6006FB7AE /* CalendarDateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarDateView.swift; sourceTree = "<group>"; };
 		1FBC243D2C93E05A006FB7AE /* TaskDueDateSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDueDateSectionView.swift; sourceTree = "<group>"; };
 		1FBC243F2C93E09D006FB7AE /* EmtyTaskDueDateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmtyTaskDueDateView.swift; sourceTree = "<group>"; };
@@ -259,6 +261,7 @@
 				1F8A70D42C8E95BF00D99C9A /* Assets.xcassets */,
 				1FAF29482C90563F00686EA3 /* TaskManagement.entitlements */,
 				1F88FAD82C950C5700E09D88 /* Info.plist */,
+				1FB564A02C96C69C00D01238 /* GoogleService-Info.plist */,
 				1F8A70D62C8E95BF00D99C9A /* Preview Content */,
 				1FDA7F382C8EA0F700B969A1 /* Launch Screen.storyboard */,
 			);
@@ -318,6 +321,14 @@
 			path = NotificationService;
 			sourceTree = "<group>";
 		};
+		1FB564A42C96CD9600D01238 /* APIKeys */ = {
+			isa = PBXGroup;
+			children = (
+				1FB564A12C96C69C00D01238 /* APIKeys.plist */,
+			);
+			path = APIKeys;
+			sourceTree = "<group>";
+		};
 		1FBC24382C93CF9E006FB7AE /* SubViews */ = {
 			isa = PBXGroup;
 			children = (
@@ -350,7 +361,6 @@
 			children = (
 				1FBC244F2C948AF6006FB7AE /* OpenAIAPIEndpoint.swift */,
 				1FBC24502C948AF6006FB7AE /* NetworkError.swift */,
-				1FB5649E2C96B42B00D01238 /* APIKeys.swift */,
 			);
 			path = Endpoint;
 			sourceTree = "<group>";
@@ -522,6 +532,7 @@
 		1FDA7F3A2C8EA13B00B969A1 /* NetworkService */ = {
 			isa = PBXGroup;
 			children = (
+				1FB564A42C96CD9600D01238 /* APIKeys */,
 				1FBC24512C948AF6006FB7AE /* Endpoint */,
 				1FDA7F3D2C8EA1FA00B969A1 /* NetworkClient.swift */,
 			);
@@ -567,6 +578,7 @@
 				1F8A70CA2C8E95BE00D99C9A /* Frameworks */,
 				1F8A70CB2C8E95BE00D99C9A /* Resources */,
 				69AB6A9754A58ADEAE65601F /* [CP] Embed Pods Frameworks */,
+				1FB564A52C96D1C200D01238 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -663,6 +675,8 @@
 			files = (
 				1FDA7F392C8EA0F700B969A1 /* Launch Screen.storyboard in Resources */,
 				1F8A70D82C8E95BF00D99C9A /* Preview Assets.xcassets in Resources */,
+				1FB564A22C96C69C00D01238 /* GoogleService-Info.plist in Resources */,
+				1FB564A32C96C69C00D01238 /* APIKeys.plist in Resources */,
 				1FBC24462C942DAA006FB7AE /* LaunchIC.png in Resources */,
 				1F8A70D52C8E95BF00D99C9A /* Assets.xcassets in Resources */,
 			);
@@ -685,6 +699,28 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		1FB564A52C96D1C200D01238 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}",
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${PRODUCT_NAME}",
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Info.plist",
+				"$(TARGET_BUILD_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/GoogleService-Info.plist",
+				"$(TARGET_BUILD_DIR)/$(EXECUTABLE_PATH)",
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/FirebaseCrashlytics/run\"\n";
+		};
 		5D703D4771317F56221939CC /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -774,7 +810,6 @@
 				1FBC24522C948AF6006FB7AE /* OpenAIAPIEndpoint.swift in Sources */,
 				1FDA7F0D2C8E9DE500B969A1 /* Task.swift in Sources */,
 				1F341FD02C8EF71F0098C834 /* DashboardViewModel.swift in Sources */,
-				1FB5649F2C96B42B00D01238 /* APIKeys.swift in Sources */,
 				1F341FD92C8F07530098C834 /* Color+Extension.swift in Sources */,
 				1FDA7F0F2C8E9DFB00B969A1 /* TaskPriority.swift in Sources */,
 				1FAF29412C90040F00686EA3 /* DueDatePicker.swift in Sources */,
@@ -865,7 +900,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
@@ -978,6 +1013,64 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-l\"c++\"",
+					"-l\"compression\"",
+					"-l\"sqlite3\"",
+					"-l\"z\"",
+					"-framework",
+					"\"Alamofire\"",
+					"-framework",
+					"\"CFNetwork\"",
+					"-framework",
+					"\"CoreTelephony\"",
+					"-framework",
+					"\"FBLPromises\"",
+					"-framework",
+					"\"FirebaseCore\"",
+					"-framework",
+					"\"FirebaseCoreExtension\"",
+					"-framework",
+					"\"FirebaseCoreInternal\"",
+					"-framework",
+					"\"FirebaseCrashlytics\"",
+					"-framework",
+					"\"FirebaseInstallations\"",
+					"-framework",
+					"\"FirebaseMessaging\"",
+					"-framework",
+					"\"FirebaseRemoteConfigInterop\"",
+					"-framework",
+					"\"FirebaseSessions\"",
+					"-framework",
+					"\"Foundation\"",
+					"-framework",
+					"\"GoogleDataTransport\"",
+					"-framework",
+					"\"GoogleUtilities\"",
+					"-framework",
+					"\"Promises\"",
+					"-framework",
+					"\"Realm\"",
+					"-framework",
+					"\"RealmSwift\"",
+					"-framework",
+					"\"Security\"",
+					"-framework",
+					"\"SystemConfiguration\"",
+					"-framework",
+					"\"UIKit\"",
+					"-framework",
+					"\"nanopb\"",
+					"-weak_framework",
+					"\"SwiftUI\"",
+					"-weak_framework",
+					"\"UIKit\"",
+					"-weak_framework",
+					"\"UserNotifications\"",
+					"-ObjC",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = vn.todolist.taskmanagement;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -1014,6 +1107,64 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-l\"c++\"",
+					"-l\"compression\"",
+					"-l\"sqlite3\"",
+					"-l\"z\"",
+					"-framework",
+					"\"Alamofire\"",
+					"-framework",
+					"\"CFNetwork\"",
+					"-framework",
+					"\"CoreTelephony\"",
+					"-framework",
+					"\"FBLPromises\"",
+					"-framework",
+					"\"FirebaseCore\"",
+					"-framework",
+					"\"FirebaseCoreExtension\"",
+					"-framework",
+					"\"FirebaseCoreInternal\"",
+					"-framework",
+					"\"FirebaseCrashlytics\"",
+					"-framework",
+					"\"FirebaseInstallations\"",
+					"-framework",
+					"\"FirebaseMessaging\"",
+					"-framework",
+					"\"FirebaseRemoteConfigInterop\"",
+					"-framework",
+					"\"FirebaseSessions\"",
+					"-framework",
+					"\"Foundation\"",
+					"-framework",
+					"\"GoogleDataTransport\"",
+					"-framework",
+					"\"GoogleUtilities\"",
+					"-framework",
+					"\"Promises\"",
+					"-framework",
+					"\"Realm\"",
+					"-framework",
+					"\"RealmSwift\"",
+					"-framework",
+					"\"Security\"",
+					"-framework",
+					"\"SystemConfiguration\"",
+					"-framework",
+					"\"UIKit\"",
+					"-framework",
+					"\"nanopb\"",
+					"-weak_framework",
+					"\"SwiftUI\"",
+					"-weak_framework",
+					"\"UIKit\"",
+					"-weak_framework",
+					"\"UserNotifications\"",
+					"-ObjC",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = vn.todolist.taskmanagement;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;

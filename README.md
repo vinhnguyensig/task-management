@@ -97,7 +97,8 @@ Fastlane is used to automate the build and deployment process to TestFlight:
 
 Crash analytics is integrated to monitor app performance and user issues:
 
-- Coming Soon...
+![Crashanalytics 1](Resources/crashanalytics-1.png)
+![Crashanalytics 1](Resources/crashanalytics-2.png)
 
 ---
 

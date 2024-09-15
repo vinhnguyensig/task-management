@@ -13,7 +13,7 @@ profile
 *.xccheckout
 
 #Keys
-TaskManagement/Services/NetworkService/APIKeys/APIKeys.swift
+TaskManagement/Services/NetworkService/APIKeys/APIKeys.plist
 
 # Package management
 Pods/
@@ -33,3 +33,4 @@ fastlane/test_output
 # Example: Ignore specific build configurations
 # Debug-*
 # Release-*
+
