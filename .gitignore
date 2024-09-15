@@ -12,6 +12,9 @@ xcuserdata/
 profile
 *.xccheckout
 
+#Keys
+TaskManagement/Services/NetworkService/APIKeys/APIKeys.swift
+
 # Package management
 Pods/
 podfile.lock

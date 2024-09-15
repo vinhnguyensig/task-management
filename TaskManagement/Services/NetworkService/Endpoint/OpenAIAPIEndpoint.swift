@@ -10,7 +10,6 @@ import Alamofire
 
 struct OpenAIAPIConstants {
     static let baseURL = "https://api.openai.com"
-    static let apiKey = "<API Key>"
     static let model = "gpt-4o-mini"
 }
 
@@ -50,7 +49,7 @@ enum OpenAIAPIEndpoint {
     /// Sets the headers for the API request.
     var headers: HTTPHeaders {
         return [
-            "Authorization": "Bearer \(OpenAIAPIConstants.apiKey)",
+            "Authorization": "Bearer \(APIKeys.openAIKey)",
             "Content-Type": "application/json"
         ]
     }

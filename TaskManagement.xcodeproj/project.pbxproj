@@ -39,6 +39,7 @@
 		1FAF29472C9053B900686EA3 /* SideMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FAF29462C9053B900686EA3 /* SideMenuView.swift */; };
 		1FAF294B2C9058EB00686EA3 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FAF294A2C9058EB00686EA3 /* NotificationService.swift */; };
 		1FAF294D2C90693800686EA3 /* UserDefaultManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FAF294C2C90693800686EA3 /* UserDefaultManager.swift */; };
+		1FB5649F2C96B42B00D01238 /* APIKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB5649E2C96B42B00D01238 /* APIKeys.swift */; };
 		1FBC243A2C93CFC6006FB7AE /* CalendarDateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FBC24392C93CFC6006FB7AE /* CalendarDateView.swift */; };
 		1FBC243E2C93E05A006FB7AE /* TaskDueDateSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FBC243D2C93E05A006FB7AE /* TaskDueDateSectionView.swift */; };
 		1FBC24402C93E09D006FB7AE /* EmtyTaskDueDateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FBC243F2C93E09D006FB7AE /* EmtyTaskDueDateView.swift */; };
@@ -132,6 +133,7 @@
 		1FAF29482C90563F00686EA3 /* TaskManagement.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TaskManagement.entitlements; sourceTree = "<group>"; };
 		1FAF294A2C9058EB00686EA3 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		1FAF294C2C90693800686EA3 /* UserDefaultManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaultManager.swift; sourceTree = "<group>"; };
+		1FB5649E2C96B42B00D01238 /* APIKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKeys.swift; sourceTree = "<group>"; };
 		1FBC24392C93CFC6006FB7AE /* CalendarDateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarDateView.swift; sourceTree = "<group>"; };
 		1FBC243D2C93E05A006FB7AE /* TaskDueDateSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDueDateSectionView.swift; sourceTree = "<group>"; };
 		1FBC243F2C93E09D006FB7AE /* EmtyTaskDueDateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmtyTaskDueDateView.swift; sourceTree = "<group>"; };
@@ -348,6 +350,7 @@
 			children = (
 				1FBC244F2C948AF6006FB7AE /* OpenAIAPIEndpoint.swift */,
 				1FBC24502C948AF6006FB7AE /* NetworkError.swift */,
+				1FB5649E2C96B42B00D01238 /* APIKeys.swift */,
 			);
 			path = Endpoint;
 			sourceTree = "<group>";
@@ -771,6 +774,7 @@
 				1FBC24522C948AF6006FB7AE /* OpenAIAPIEndpoint.swift in Sources */,
 				1FDA7F0D2C8E9DE500B969A1 /* Task.swift in Sources */,
 				1F341FD02C8EF71F0098C834 /* DashboardViewModel.swift in Sources */,
+				1FB5649F2C96B42B00D01238 /* APIKeys.swift in Sources */,
 				1F341FD92C8F07530098C834 /* Color+Extension.swift in Sources */,
 				1FDA7F0F2C8E9DFB00B969A1 /* TaskPriority.swift in Sources */,
 				1FAF29412C90040F00686EA3 /* DueDatePicker.swift in Sources */,
@@ -954,7 +958,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = TaskManagement/TaskManagement.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_ASSET_PATHS = "\"TaskManagement/Preview Content\"";
 				DEVELOPMENT_TEAM = Y3X2RZ63VV;
 				ENABLE_PREVIEWS = YES;
@@ -990,7 +994,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = TaskManagement/TaskManagement.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_ASSET_PATHS = "\"TaskManagement/Preview Content\"";
 				DEVELOPMENT_TEAM = Y3X2RZ63VV;
 				ENABLE_PREVIEWS = YES;
