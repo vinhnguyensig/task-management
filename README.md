@@ -13,7 +13,7 @@ This README provides an overview of the app's features, structure, testing, and 
 Below are videos and screenshots showcasing the app's functionality:
 
 ### Demo Videos
-- [Quick Features Preview](https://www.youtube.com/watch?v=psUu8GVz78U&list=PL2UvDxnI-m4tkIUXoQLtd5II0dxxsdOsB&index=1) https://www.youtube.com/watch?v=psUu8GVz78U&list=PL2UvDxnI-m4tkIUXoQLtd5II0dxxsdOsB&index=1
+- [Quick Features Preview](https://www.youtube.com/watch?v=LfW9xte4CE0&list=PL2UvDxnI-m4tkIUXoQLtd5II0dxxsdOsB)
 - [Task List](https://www.youtube.com/shorts/psUu8GVz78U) https://www.youtube.com/shorts/psUu8GVz78U
 - [Task Detail](https://www.youtube.com/watch?v=a8o5ctHCHt4) https://www.youtube.com/watch?v=a8o5ctHCHt4
 - [Dashboard - Task Progress](https://www.youtube.com/watch?v=EbG2scD2wk8) https://www.youtube.com/watch?v=EbG2scD2wk8
