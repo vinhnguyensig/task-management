@@ -27,6 +27,7 @@ Below are videos and screenshots showcasing the app's functionality:
     <img src="Resources/sctoday.jpg" alt="Screenshot 2" height="300" style="margin-right: 10px;">
     <img src="Resources/scprogress.jpg" alt="Screenshot 3" height="300" style="margin-right: 10px;">
     <img src="Resources/scduedate.jpg" alt="Screenshot 4" height="300" style="margin-right: 10px;">
+    <img src="Resources/task-generator.jpg" alt="Screenshot 1" height="300" style="margin-right: 10px;">
     <img src="Resources/scadd-edit-task.jpg" alt="Screenshot 5" height="300" style="margin-right: 10px;">
     <img src="Resources/scdetail.jpg" alt="Screenshot 6" height="300" style="margin-right: 10px;">
     <img src="Resources/screminder.jpg" alt="Screenshot 7" height="300" style="margin-right: 10px;">
