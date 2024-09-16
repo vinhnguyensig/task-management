@@ -12,8 +12,7 @@ struct TaskManagementApp: App {
     var body: some Scene {
         WindowGroup {
             if let _ = UserDefaultsManager.get(forKey: Constants.isReopenApp) {
-                //TaskTabBarView()
-                GenerateTaskView(isFromWalkthough: true)
+                TaskTabBarView()
             } else {
                 WalkthroughView()
             }
