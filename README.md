@@ -149,7 +149,7 @@ Singleton: Ensures a single instance for globally used resources, which reduces 
 
 ## More Features and Enhancement
 
-If I have more time, I will complete the tasks listed below.
+To Do List, I will complete the tasks listed below.
 
 ![Ready](Resources/todos-1.png)
 ![Backlog](Resources/todos-2.png)
