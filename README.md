@@ -54,7 +54,7 @@ The following image shows the task list used to manage the development process:
 
 ### Unit Test Coverage
 
-Extensive unit tests have been written to ensure the quality and stability of the codebase, with a focus on achieving high test coverage. If I have more time, I will write more Unit Test and UI Test
+Extensive unit tests have been written to ensure the quality and stability of the codebase, with a focus on achieving high test coverage.
 
 ![Unit Test Coverage](Resources/test-coverage.png)
 
