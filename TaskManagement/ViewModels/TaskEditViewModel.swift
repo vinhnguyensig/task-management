@@ -74,6 +74,7 @@ class TaskEditViewModel: ObservableObject {
     }
     
     func updateTask(editTask: TaskModel) {
+        print("task progress = ", editTask.progress)
         TaskManagerDB.shared.updateTask(task: editTask) { [weak self] error in
             self?.handleMainAsync {
                 if let error = error {
@@ -84,6 +85,13 @@ class TaskEditViewModel: ObservableObject {
                     self?.isShouldPostNotify = true
                 }
             }
+        }
+    }
+    
+    func updateTaskProgress(editTask: TaskModel) {
+        print("task progress = ", editTask.progress)
+        TaskManagerDB.shared.updateTask(task: editTask) { [weak self] error in
+            self?.isShouldPostNotify = true
         }
     }
     

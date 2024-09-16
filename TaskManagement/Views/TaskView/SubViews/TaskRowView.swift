@@ -16,29 +16,39 @@ struct TaskRowView: View {
     @State private var isHighlighted = false
     
     var body: some View {
-        HStack {
-            // Checkmark Button to toggle task completion
-            CheckmarkButton(isCompleted: task.isCompleted) {
-                HapticManager.shared.triggerImpactFeedback(style: .medium)
-                onToggleComplete(task)
-            }
-
-            TaskInfoView(task: task)
-                .contentShape(Rectangle())
-                .onTapGesture {
-                    isShowDetail = true
+        VStack {
+            HStack {
+                // Checkmark Button to toggle task completion
+                CheckmarkButton(isCompleted: task.isCompleted) {
                     HapticManager.shared.triggerImpactFeedback(style: .medium)
-                    onTaskTapped(task)
-                    highlightRow()
+                    onToggleComplete(task)
                 }
-                .sheet(isPresented: $isShowDetail, content: {
-                    TaskDetailView(task: task)
-                        .presentationDetents([.medium, .large])
-                })
+                
+                TaskInfoView(task: task)
+                    .contentShape(Rectangle())
+                    .onTapGesture {
+                        isShowDetail = true
+                        HapticManager.shared.triggerImpactFeedback(style: .medium)
+                        onTaskTapped(task)
+                        highlightRow()
+                    }
+                    .sheet(isPresented: $isShowDetail, content: {
+                        if task.progress > 0 {
+                            TaskDetailView(task: task)
+                                .presentationDetents([.large])
+                        } else {
+                            TaskDetailView(task: task)
+                                .presentationDetents([.medium, .large])
+                        }
+                    })
+            }
+            .padding()
+            .background(isHighlighted ? Color.gray.opacity(0.2) : Color.clear)
+            .animation(.easeInOut(duration: 0.2), value: isHighlighted)
+            if task.progress > 0 {
+                LineProgressView(progress: task.progress, color: TaskProgress.getProgressColor(progress: task.progress))
+            }
         }
-        .padding()
-        .background(isHighlighted ? Color.gray.opacity(0.2) : Color.clear)
-        .animation(.easeInOut(duration: 0.2), value: isHighlighted)
     }
     
     private func highlightRow() {

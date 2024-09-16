@@ -23,6 +23,7 @@ struct SubTaskView: View {
     @State private var isExpanded = true
     @State private var title: String = ""
     @State private var subtasks = [TaskModel]()
+   
     @FocusState private var isTitleFocused: Bool
     
     var body: some View {
@@ -47,6 +48,12 @@ struct SubTaskView: View {
                 title = ""
                 subtasks = tasks
                 isTitleFocused = true
+                updateProgress()
+            }
+        })
+        .onReceive(editViewModel.$updatedTask, perform: { result in
+            if let _ = result {
+                updateProgress()
             }
         })
     }
@@ -59,8 +66,11 @@ struct SubTaskView: View {
                         HStack {
                             Label("Sub Tasks ", systemImage: "list.dash.header.rectangle")
                                 .foregroundColor(.secondary)
+                            Text("\(getCompleteNumber())")
+                                .foregroundStyle(.blue)
                             Spacer()
                             Button {
+                                updateProgress()
                                 withAnimation {
                                     isExpanded.toggle()
                                 }
@@ -72,7 +82,7 @@ struct SubTaskView: View {
                         if isExpanded {
                             subtasksView
                         } else {
-                            LineProgressView(progress: 0.6, color: TaskProgress.getProgressColor(progress: 0.6))
+                            LineProgressView(progress: task.progress, color: TaskProgress.getProgressColor(progress: task.progress))
                         }
                     }
                 }
@@ -151,8 +161,29 @@ struct SubTaskView: View {
             subtasks[index].isCompleted.toggle()
             var editTask = task
             editTask.isCompleted = subtasks[index].isCompleted
-            print("editTask title = \(editTask.title) complete = \(editTask.isCompleted) parentid = \(editTask.parentId)")
             editViewModel.updateTask(editTask: editTask)
+            
+        }
+    }
+    
+    private func getCompletedAndTotalCount() -> (completed: Int, total: Int) {
+        let completed = subtasks.filter { $0.isCompleted }.count
+        let total = subtasks.count
+        return (completed, total)
+    }
+
+    private func getCompleteNumber() -> String {
+        let (completed, total) = getCompletedAndTotalCount()
+        return String(format: "%d/%d", completed, total)
+    }
+
+    private func updateProgress() {
+        let (completed, total) = getCompletedAndTotalCount()
+        let progress = total > 0 ? Double(completed) / Double(total) : 0
+        if progress != task.progress {
+            task.progress = progress
+            print("completed = \(completed) total = \(total) updateProgress = ", progress)
+            editViewModel.updateTaskProgress(editTask: task)
         }
     }
     
