@@ -12,6 +12,9 @@ xcuserdata/
 profile
 *.xccheckout
 
+#Keys
+TaskManagement/Services/NetworkService/APIKeys/APIKeys.plist
+
 # Package management
 Pods/
 podfile.lock
@@ -30,3 +33,4 @@ fastlane/test_output
 # Example: Ignore specific build configurations
 # Debug-*
 # Release-*
+

@@ -5,4 +5,8 @@ use_frameworks!
 target 'TaskManagement' do
   pod 'RealmSwift'
   pod 'Alamofire'
+  pod 'FirebaseCore'
+  pod 'FirebaseMessaging'
+  pod 'FirebaseCrashlytics'
+  pod 'SwiftUIIntrospect', '~> 1.0'
 end

@@ -39,6 +39,11 @@
 		1FAF29472C9053B900686EA3 /* SideMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FAF29462C9053B900686EA3 /* SideMenuView.swift */; };
 		1FAF294B2C9058EB00686EA3 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FAF294A2C9058EB00686EA3 /* NotificationService.swift */; };
 		1FAF294D2C90693800686EA3 /* UserDefaultManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FAF294C2C90693800686EA3 /* UserDefaultManager.swift */; };
+		1FB564A22C96C69C00D01238 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1FB564A02C96C69C00D01238 /* GoogleService-Info.plist */; };
+		1FB564A32C96C69C00D01238 /* APIKeys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1FB564A12C96C69C00D01238 /* APIKeys.plist */; };
+		1FB564A82C9705FA00D01238 /* task-template.json in Resources */ = {isa = PBXBuildFile; fileRef = 1FB564A72C9705FA00D01238 /* task-template.json */; };
+		1FB564AA2C97161600D01238 /* GenerateTaskViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB564A92C97161600D01238 /* GenerateTaskViewModel.swift */; };
+		1FB564AD2C97179800D01238 /* GenerateTaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB564AC2C97179800D01238 /* GenerateTaskView.swift */; };
 		1FBC243A2C93CFC6006FB7AE /* CalendarDateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FBC24392C93CFC6006FB7AE /* CalendarDateView.swift */; };
 		1FBC243E2C93E05A006FB7AE /* TaskDueDateSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FBC243D2C93E05A006FB7AE /* TaskDueDateSectionView.swift */; };
 		1FBC24402C93E09D006FB7AE /* EmtyTaskDueDateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FBC243F2C93E09D006FB7AE /* EmtyTaskDueDateView.swift */; };
@@ -132,6 +137,11 @@
 		1FAF29482C90563F00686EA3 /* TaskManagement.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TaskManagement.entitlements; sourceTree = "<group>"; };
 		1FAF294A2C9058EB00686EA3 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		1FAF294C2C90693800686EA3 /* UserDefaultManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaultManager.swift; sourceTree = "<group>"; };
+		1FB564A02C96C69C00D01238 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		1FB564A12C96C69C00D01238 /* APIKeys.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = APIKeys.plist; sourceTree = "<group>"; };
+		1FB564A72C9705FA00D01238 /* task-template.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "task-template.json"; sourceTree = "<group>"; };
+		1FB564A92C97161600D01238 /* GenerateTaskViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenerateTaskViewModel.swift; sourceTree = "<group>"; };
+		1FB564AC2C97179800D01238 /* GenerateTaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenerateTaskView.swift; sourceTree = "<group>"; };
 		1FBC24392C93CFC6006FB7AE /* CalendarDateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarDateView.swift; sourceTree = "<group>"; };
 		1FBC243D2C93E05A006FB7AE /* TaskDueDateSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDueDateSectionView.swift; sourceTree = "<group>"; };
 		1FBC243F2C93E09D006FB7AE /* EmtyTaskDueDateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmtyTaskDueDateView.swift; sourceTree = "<group>"; };
@@ -257,6 +267,7 @@
 				1F8A70D42C8E95BF00D99C9A /* Assets.xcassets */,
 				1FAF29482C90563F00686EA3 /* TaskManagement.entitlements */,
 				1F88FAD82C950C5700E09D88 /* Info.plist */,
+				1FB564A02C96C69C00D01238 /* GoogleService-Info.plist */,
 				1F8A70D62C8E95BF00D99C9A /* Preview Content */,
 				1FDA7F382C8EA0F700B969A1 /* Launch Screen.storyboard */,
 			);
@@ -314,6 +325,22 @@
 				1FAF294A2C9058EB00686EA3 /* NotificationService.swift */,
 			);
 			path = NotificationService;
+			sourceTree = "<group>";
+		};
+		1FB564A42C96CD9600D01238 /* APIKeys */ = {
+			isa = PBXGroup;
+			children = (
+				1FB564A12C96C69C00D01238 /* APIKeys.plist */,
+			);
+			path = APIKeys;
+			sourceTree = "<group>";
+		};
+		1FB564AB2C97178000D01238 /* GenerateTaskView */ = {
+			isa = PBXGroup;
+			children = (
+				1FB564AC2C97179800D01238 /* GenerateTaskView.swift */,
+			);
+			path = GenerateTaskView;
 			sourceTree = "<group>";
 		};
 		1FBC24382C93CF9E006FB7AE /* SubViews */ = {
@@ -409,6 +436,7 @@
 				1F990AF52C91305B003B5117 /* TaskCalendarViewModel.swift */,
 				1F94776C2C91EC5300480444 /* TaskReminderViewModel.swift */,
 				1FBC24542C94939D006FB7AE /* ChatAIViewModel.swift */,
+				1FB564A92C97161600D01238 /* GenerateTaskViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -416,6 +444,7 @@
 		1FDA7F072C8E9C3900B969A1 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				1FB564AB2C97178000D01238 /* GenerateTaskView */,
 				1FDA7F4D2C8EF39000B969A1 /* DashboardView */,
 				1FAF29422C90525400686EA3 /* TaskCalendarView */,
 				1FDA7F212C8E9EDA00B969A1 /* TaskView */,
@@ -444,6 +473,7 @@
 			isa = PBXGroup;
 			children = (
 				1FBC24452C942DAA006FB7AE /* LaunchIC.png */,
+				1FB564A72C9705FA00D01238 /* task-template.json */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -519,6 +549,7 @@
 		1FDA7F3A2C8EA13B00B969A1 /* NetworkService */ = {
 			isa = PBXGroup;
 			children = (
+				1FB564A42C96CD9600D01238 /* APIKeys */,
 				1FBC24512C948AF6006FB7AE /* Endpoint */,
 				1FDA7F3D2C8EA1FA00B969A1 /* NetworkClient.swift */,
 			);
@@ -564,6 +595,7 @@
 				1F8A70CA2C8E95BE00D99C9A /* Frameworks */,
 				1F8A70CB2C8E95BE00D99C9A /* Resources */,
 				69AB6A9754A58ADEAE65601F /* [CP] Embed Pods Frameworks */,
+				1FB564A52C96D1C200D01238 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -660,7 +692,10 @@
 			files = (
 				1FDA7F392C8EA0F700B969A1 /* Launch Screen.storyboard in Resources */,
 				1F8A70D82C8E95BF00D99C9A /* Preview Assets.xcassets in Resources */,
+				1FB564A22C96C69C00D01238 /* GoogleService-Info.plist in Resources */,
+				1FB564A32C96C69C00D01238 /* APIKeys.plist in Resources */,
 				1FBC24462C942DAA006FB7AE /* LaunchIC.png in Resources */,
+				1FB564A82C9705FA00D01238 /* task-template.json in Resources */,
 				1F8A70D52C8E95BF00D99C9A /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -682,6 +717,28 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		1FB564A52C96D1C200D01238 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}",
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${PRODUCT_NAME}",
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Info.plist",
+				"$(TARGET_BUILD_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/GoogleService-Info.plist",
+				"$(TARGET_BUILD_DIR)/$(EXECUTABLE_PATH)",
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/FirebaseCrashlytics/run\"\n";
+		};
 		5D703D4771317F56221939CC /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -730,6 +787,7 @@
 			files = (
 				1FDA7F242C8E9F0400B969A1 /* TaskRowView.swift in Sources */,
 				1FDA7F3C2C8EA1E400B969A1 /* TaskManagerDB.swift in Sources */,
+				1FB564AD2C97179800D01238 /* GenerateTaskView.swift in Sources */,
 				1FAF294B2C9058EB00686EA3 /* NotificationService.swift in Sources */,
 				1FAF294D2C90693800686EA3 /* UserDefaultManager.swift in Sources */,
 				1F88FADC2C95566D00E09D88 /* WalkthroughFeatureVuew.swift in Sources */,
@@ -753,6 +811,7 @@
 				1F990AF82C9133E5003B5117 /* DueDatePickerView.swift in Sources */,
 				1F341FD22C8EFD9E0098C834 /* TodayTaskProgressView.swift in Sources */,
 				1FBC244B2C9448D1006FB7AE /* ComingSoonView.swift in Sources */,
+				1FB564AA2C97161600D01238 /* GenerateTaskViewModel.swift in Sources */,
 				1FCC9AB62C92F11300046ACF /* Calendar+Extension.swift in Sources */,
 				1FBC24442C9424C8006FB7AE /* TaskProgress.swift in Sources */,
 				1FDA7F4C2C8EF0EE00B969A1 /* DashboardView.swift in Sources */,
@@ -861,7 +920,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
@@ -954,7 +1013,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = TaskManagement/TaskManagement.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_ASSET_PATHS = "\"TaskManagement/Preview Content\"";
 				DEVELOPMENT_TEAM = Y3X2RZ63VV;
 				ENABLE_PREVIEWS = YES;
@@ -974,6 +1033,64 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-l\"c++\"",
+					"-l\"compression\"",
+					"-l\"sqlite3\"",
+					"-l\"z\"",
+					"-framework",
+					"\"Alamofire\"",
+					"-framework",
+					"\"CFNetwork\"",
+					"-framework",
+					"\"CoreTelephony\"",
+					"-framework",
+					"\"FBLPromises\"",
+					"-framework",
+					"\"FirebaseCore\"",
+					"-framework",
+					"\"FirebaseCoreExtension\"",
+					"-framework",
+					"\"FirebaseCoreInternal\"",
+					"-framework",
+					"\"FirebaseCrashlytics\"",
+					"-framework",
+					"\"FirebaseInstallations\"",
+					"-framework",
+					"\"FirebaseMessaging\"",
+					"-framework",
+					"\"FirebaseRemoteConfigInterop\"",
+					"-framework",
+					"\"FirebaseSessions\"",
+					"-framework",
+					"\"Foundation\"",
+					"-framework",
+					"\"GoogleDataTransport\"",
+					"-framework",
+					"\"GoogleUtilities\"",
+					"-framework",
+					"\"Promises\"",
+					"-framework",
+					"\"Realm\"",
+					"-framework",
+					"\"RealmSwift\"",
+					"-framework",
+					"\"Security\"",
+					"-framework",
+					"\"SystemConfiguration\"",
+					"-framework",
+					"\"UIKit\"",
+					"-framework",
+					"\"nanopb\"",
+					"-weak_framework",
+					"\"SwiftUI\"",
+					"-weak_framework",
+					"\"UIKit\"",
+					"-weak_framework",
+					"\"UserNotifications\"",
+					"-ObjC",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = vn.todolist.taskmanagement;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -990,7 +1107,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = TaskManagement/TaskManagement.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_ASSET_PATHS = "\"TaskManagement/Preview Content\"";
 				DEVELOPMENT_TEAM = Y3X2RZ63VV;
 				ENABLE_PREVIEWS = YES;
@@ -1010,6 +1127,64 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-l\"c++\"",
+					"-l\"compression\"",
+					"-l\"sqlite3\"",
+					"-l\"z\"",
+					"-framework",
+					"\"Alamofire\"",
+					"-framework",
+					"\"CFNetwork\"",
+					"-framework",
+					"\"CoreTelephony\"",
+					"-framework",
+					"\"FBLPromises\"",
+					"-framework",
+					"\"FirebaseCore\"",
+					"-framework",
+					"\"FirebaseCoreExtension\"",
+					"-framework",
+					"\"FirebaseCoreInternal\"",
+					"-framework",
+					"\"FirebaseCrashlytics\"",
+					"-framework",
+					"\"FirebaseInstallations\"",
+					"-framework",
+					"\"FirebaseMessaging\"",
+					"-framework",
+					"\"FirebaseRemoteConfigInterop\"",
+					"-framework",
+					"\"FirebaseSessions\"",
+					"-framework",
+					"\"Foundation\"",
+					"-framework",
+					"\"GoogleDataTransport\"",
+					"-framework",
+					"\"GoogleUtilities\"",
+					"-framework",
+					"\"Promises\"",
+					"-framework",
+					"\"Realm\"",
+					"-framework",
+					"\"RealmSwift\"",
+					"-framework",
+					"\"Security\"",
+					"-framework",
+					"\"SystemConfiguration\"",
+					"-framework",
+					"\"UIKit\"",
+					"-framework",
+					"\"nanopb\"",
+					"-weak_framework",
+					"\"SwiftUI\"",
+					"-weak_framework",
+					"\"UIKit\"",
+					"-weak_framework",
+					"\"UserNotifications\"",
+					"-ObjC",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = vn.todolist.taskmanagement;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;

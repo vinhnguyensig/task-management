@@ -13,7 +13,7 @@ This README provides an overview of the app's features, structure, testing, and 
 Below are videos and screenshots showcasing the app's functionality:
 
 ### Demo Videos
-- [Quick Features Preview](https://www.youtube.com/watch?v=psUu8GVz78U&list=PL2UvDxnI-m4tkIUXoQLtd5II0dxxsdOsB&index=1) https://www.youtube.com/watch?v=psUu8GVz78U&list=PL2UvDxnI-m4tkIUXoQLtd5II0dxxsdOsB&index=1
+- [Quick Features Preview](https://www.youtube.com/watch?v=LfW9xte4CE0&list=PL2UvDxnI-m4tkIUXoQLtd5II0dxxsdOsB)
 - [Task List](https://www.youtube.com/shorts/psUu8GVz78U) https://www.youtube.com/shorts/psUu8GVz78U
 - [Task Detail](https://www.youtube.com/watch?v=a8o5ctHCHt4) https://www.youtube.com/watch?v=a8o5ctHCHt4
 - [Dashboard - Task Progress](https://www.youtube.com/watch?v=EbG2scD2wk8) https://www.youtube.com/watch?v=EbG2scD2wk8
@@ -97,7 +97,8 @@ Fastlane is used to automate the build and deployment process to TestFlight:
 
 Crash analytics is integrated to monitor app performance and user issues:
 
-- Coming Soon...
+![Crashanalytics 1](Resources/crashanalytics-1.png)
+![Crashanalytics 1](Resources/crashanalytics-2.png)
 
 ---
 
@@ -148,7 +149,7 @@ Singleton: Ensures a single instance for globally used resources, which reduces 
 
 ## More Features and Enhancement
 
-If I have more time, I will complete the tasks listed below.
+To Do List, I will complete the tasks listed below.
 
 ![Ready](Resources/todos-1.png)
 ![Backlog](Resources/todos-2.png)

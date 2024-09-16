@@ -49,7 +49,7 @@ enum TaskCategory: String, CaseIterable, Codable {
         case .learning: return "book.closed.fill"
         case .travel: return "airplane.departure"
         case .events: return "calendar"
-        case .others: return "list.star"
+        case .others: return "moon.stars"
         }
     }
 }

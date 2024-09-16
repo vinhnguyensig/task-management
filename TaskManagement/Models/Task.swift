@@ -29,7 +29,7 @@ struct TaskModel: Identifiable, Codable {
     init(id: String = UUID().uuidString,
          title: String,
          startDate: Date? = nil,
-         dueDate: Date? = nil,
+         dueDate: Date? = Date(),
          estimateHour: Double? = nil,
          priority: TaskPriority = .medium,
          category: TaskCategory = .others,

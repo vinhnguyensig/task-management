@@ -30,7 +30,7 @@ class Utils {
     }
     
     static func clearSpecialChar(text: String) -> String {
-        let pattern = "[^a-zA-Z0-9 .,?!\n:]"
+        let pattern = "[^a-zA-Z0-9 .,?!\n:'()]"
         
         do {
             let regex = try NSRegularExpression(pattern: pattern, options: [])
