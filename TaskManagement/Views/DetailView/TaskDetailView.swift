@@ -31,7 +31,7 @@ struct TaskDetailView: View {
     
     var body: some View {
         NavigationStack {
-            ScrollView {
+            ScrollView(showsIndicators: false, content: {
                 VStack(alignment: .leading, spacing: 16) {
                     taskHeader
                     taskMetaInfo
@@ -40,15 +40,14 @@ struct TaskDetailView: View {
                     Divider()
                     briefDescriptionSection
                     detailedDescriptionSection
-                    Divider()
                     SubTaskView(task: task, viewModel: viewModel, editViewModel: editviewModel)
                 }
-                .padding()
-            }
+            })
             .frame(maxWidth: .infinity)
+            .padding()
             .onAppear(perform: setupView)
             .onDisappear{ handleDisappear() }
-            .navigationTitle(task.title)
+            .navigationTitle("")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
@@ -116,20 +115,20 @@ private extension TaskDetailView {
             .font(.subheadline)
             .accessibilityLabel("Priority: \(task.priority.rawValue)")
             .onTapGesture {
-               HapticManager.shared.triggerImpactFeedback(style: .light)
-               isSelectedPriority = true
+                HapticManager.shared.triggerImpactFeedback(style: .light)
+                isSelectedPriority = true
             }
             .actionSheet(isPresented: $isSelectedPriority) {
                 ActionSheet(
-                        title: Text("Select Status"),
-                        buttons: TaskPriority.allCases.map { priority in
+                    title: Text("Select Status"),
+                    buttons: TaskPriority.allCases.map { priority in
                             .default(Text(priority.rawValue)) {
                                 selectedPriority = priority
                                 task.priority = priority
                                 editviewModel.updateTask(editTask: task)
                             }
-                        } + [.cancel()]
-                    )
+                    } + [.cancel()]
+                )
             }
     }
     
@@ -144,19 +143,19 @@ private extension TaskDetailView {
         }
         .onTapGesture {
             HapticManager.shared.triggerImpactFeedback(style: .light)
-           isSelectedCategory = true
+            isSelectedCategory = true
         }
         .actionSheet(isPresented: $isSelectedCategory) {
             ActionSheet(
-                    title: Text("Select Status"),
-                    buttons: TaskCategory.allCases.map { category in
+                title: Text("Select Status"),
+                buttons: TaskCategory.allCases.map { category in
                         .default(Text(category.rawValue)) {
                             selectedCategory = category
                             task.category = category
                             editviewModel.updateTask(editTask: task)
                         }
-                    } + [.cancel()]
-                )
+                } + [.cancel()]
+            )
         }
     }
     
@@ -170,20 +169,20 @@ private extension TaskDetailView {
         }
         .onTapGesture {
             HapticManager.shared.triggerImpactFeedback(style: .light)
-           isSelectedStatus = true
+            isSelectedStatus = true
         }
         .actionSheet(isPresented: $isSelectedStatus) {
             ActionSheet(
-                    title: Text("Select Status"),
-                    buttons: TaskStatus.allCases.map { status in
+                title: Text("Select Status"),
+                buttons: TaskStatus.allCases.map { status in
                         .default(Text(status.rawValue)) {
                             selectedStatus = status
                             task.status = status
                             task.isCompleted = isTaskCompleted
                             editviewModel.updateTask(editTask: task)
                         }
-                    } + [.cancel()]
-                )
+                } + [.cancel()]
+            )
         }
     }
     
@@ -191,6 +190,7 @@ private extension TaskDetailView {
         VStack(alignment: .leading, spacing: 4) {
             if let dueDate = task.dueDate {
                 dueDateView(dueDate)
+                    .padding(.vertical, 8)
             }
             reminderSection
         }

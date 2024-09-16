@@ -16,83 +16,115 @@ import SwiftUI
 
 struct SubTaskView: View {
     @State var task: TaskModel
-    @StateObject var viewModel: TaskDetailsViewModel
+    @ObservedObject var viewModel: TaskDetailsViewModel
     @ObservedObject var editViewModel: TaskEditViewModel
     
     @State private var isAddingSubTask = false
     @State private var title: String = ""
+    @State private var subtasks = [TaskModel]()
     @FocusState private var isTitleFocused: Bool
     
     var body: some View {
-        VStack {
+        VStack(alignment: .leading, content: {
             subtasksSection
             subTaskInputSection
             if !isAddingSubTask {
                 addSubTaskButton
             }
-        }
+        })
         .onAppear {
             viewModel.loadSubtasks(parentId: task.id)
         }
+        .onReceive(editViewModel.$addedTask, perform: { result in
+            if let _ = result {
+                viewModel.loadSubtasks(parentId: task.id)
+            }
+        })
+        .onReceive(viewModel.$subtasks, perform: { result in
+            if let tasks = result {
+                title = ""
+                subtasks = tasks
+            }
+        })
     }
     
-    var subtasksSection: some View {
-        List {
-            ForEach(viewModel.subtasks) { sTask in
-                Text(sTask.title)
-                    .foregroundStyle(.primary)
+    private var subtasksSection: some View {
+        Group {
+            if !subtasks.isEmpty {
+                VStack(alignment: .leading, spacing: 8) {
+                    VStack(alignment: .leading, spacing: 8) {
+                        Label("Sub Tasks ", systemImage: "list.dash.header.rectangle")
+                            .foregroundColor(.secondary)
+                        subtasksView
+                    }
+                }
             }
-            .listStyle(.plain)
-            .listRowSpacing(8)
-            .background(Color(UIColor.systemBackground))
+        }
+        .padding(.vertical, 8)
+    }
+    
+    private var subtasksView: some View {
+        ScrollView {
+            ForEach(subtasks) { sTask in
+                HStack {
+                    Circle()
+                        .fill(sTask.isCompleted ? Color.green : Color.gray)
+                        .frame(width: 12, height: 12)
+                    
+                    Text(sTask.title)
+                        .font(.headline)
+                        .foregroundColor(.primary)
+                    
+                    Spacer()
+                    
+                    // Priority indicator
+                    if sTask.priority == .high {
+                        Image(systemName: "exclamationmark.triangle.fill")
+                            .foregroundColor(.red)
+                    }
+                }
+                .padding(.vertical, 8)
+            }
         }
     }
     
-    var subTaskInputSection: some View {
+    private var subTaskInputSection: some View {
         Group {
             if isAddingSubTask {
-                TextField("Enter sub-task name", text: $title)
-                    .focused($isTitleFocused)
-                    .onAppear { isTitleFocused = true }
-                    .toolbar {
-                        ToolbarItemGroup(placement: .keyboard) {
-                            Spacer()
-                            saveButton
+                HStack {
+                    TextField("Enter subtask name", text: $title)
+                        .focused($isTitleFocused)
+                        .onAppear { isTitleFocused = true }
+                        .submitLabel(.done)
+                        .onSubmit {
+                            if !title.isEmpty {
+                                addSubTask()
+                                isAddingSubTask = false
+                                isTitleFocused = false
+                            }
                         }
+                        .padding(8)
+                    Spacer()
+                    Button("Add") {
+                        HapticManager.shared.triggerImpactFeedback(style: .medium)
+                        addSubTask()
                     }
-                    .submitLabel(.done)
-                    .onSubmit {
-                        if !title.isEmpty {
-                            addSubTask()
-                        }
-                    }
-                    .onReceive(editViewModel.$addedTask, perform: { newTask in
-                        if let subtask = newTask {
-                            viewModel.addSubTask(subTask: subtask)
-                            print("added task title = ", subtask.title)
-                            title = ""
-                        }
-                    })
+                    .foregroundColor(.blue)
+                    .disabled(title.isEmpty)
+                }
+                Spacer()
             }
         }
-        .padding(8)
     }
     
-    var addSubTaskButton: some View {
+    
+    private var addSubTaskButton: some View {
         Button {
             isAddingSubTask = true
         } label: {
             Label("Add Subtask", systemImage: "plus.rectangle")
                 .foregroundColor(.blue)
         }
-    }
-    
-    private var saveButton: some View {
-        Button("Add") {
-            HapticManager.shared.triggerImpactFeedback(style: .medium)
-            addSubTask()
-        }
-        .disabled(title.isEmpty)
     }
     
     private func addSubTask() {
