@@ -9,8 +9,8 @@ import SwiftUI
 
 struct TaskDetailView: View {
     @State var task: TaskModel
-    @StateObject var viewModel = TaskDetailsViewModel()
-    @StateObject var reminderViewModel = TaskReminderViewModel()
+    @StateObject private var viewModel = TaskDetailsViewModel()
+    @StateObject private var reminderViewModel = TaskReminderViewModel()
     @StateObject private var editviewModel = TaskEditViewModel()
     
     @Environment(\.dismiss) var dismiss
@@ -40,13 +40,15 @@ struct TaskDetailView: View {
                     Divider()
                     briefDescriptionSection
                     detailedDescriptionSection
+                    Divider()
+                    SubTaskView(task: task, viewModel: viewModel, editViewModel: editviewModel)
                 }
                 .padding()
             }
             .frame(maxWidth: .infinity)
             .onAppear(perform: setupView)
             .onDisappear{ handleDisappear() }
-            .navigationTitle(task.status.rawValue)
+            .navigationTitle(task.title)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {

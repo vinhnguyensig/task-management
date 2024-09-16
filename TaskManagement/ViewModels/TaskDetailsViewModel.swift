@@ -12,8 +12,17 @@ import Combine
 @MainActor
 class TaskDetailsViewModel: ObservableObject {
     @Published var task: TaskModel?
+    @Published var subtasks: [TaskModel] = []
     
     private var notificationObserver: AnyCancellable?
+    
+    func addSubTask(subTask: TaskModel) {
+        subtasks.append(subTask)
+    }
+    
+    func loadSubtasks(parentId: String) {
+        
+    }
     
     func registerObserveTaskInfo() {
         if notificationObserver == nil {

@@ -59,6 +59,31 @@ class TaskEditViewModel: ObservableObject {
         }
     }
     
+    func addSubtask(title: String, dueDate: Date? = nil, priority: TaskPriority = .medium, category: TaskCategory = .others, status: TaskStatus = .backlog, brief: String? = nil, detail: String? = nil, position: Int = 1, isCompleted: Bool = false, parentId: String) {
+        let newTask = TaskModel(title: title,
+                                dueDate: dueDate,
+                                priority: priority,
+                                category: category,
+                                status: status,
+                                brief: brief,
+                                detail: detail,
+                                isCompleted: isCompleted,
+                                position: position,
+                                parentId: parentId)
+        
+        TaskManagerDB.shared.createTask(task: newTask) { [weak self] error in
+            DispatchQueue.main.async {
+                if let error = error {
+                    self?.errorMessage = "Error adding subtask: \(error.localizedDescription)"
+                    print(self?.errorMessage ?? "Unknown error")
+                } else {
+                    self?.addedTask = newTask
+                    print("added subtask")
+                }
+            }
+        }
+    }
+    
     func updateTask(id: String, title: String, startDate: Date? = nil, dueDate: Date? = nil, priority: TaskPriority = .medium, category: TaskCategory = .others, status: TaskStatus = .backlog, brief: String? = nil, detail: String? = nil, position: Int = 1, isCompleted: Bool = false) {
         
         let editTask = TaskModel(id: id,
