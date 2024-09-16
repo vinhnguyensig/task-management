@@ -26,11 +26,7 @@ class GenerateTaskViewModel: ObservableObject {
         viewModel.$responseMessage
             .dropFirst()
             .sink {[weak self] result in
-                DispatchQueue.main.async {
-                    self?.isGenerateSuccess = true
-                    self?.isLoading = false
-                }
-                print("result = ", result)
+                //print("result = ", result)
                 self?.processTaskList(text: result)
             }
             .store(in: &cancellables)
@@ -83,7 +79,8 @@ class GenerateTaskViewModel: ObservableObject {
                     if let jsonArray = try JSONSerialization.jsonObject(with: jsonData, options: []) as? [[String: Any]] {
                         var tasks = [TaskModel]()
                         var position = 1
-                        for item in jsonArray {
+                        let reverseArr = jsonArray.reversed()
+                        for item in reverseArr {
                             if let title = item["title"] as? String {
                                 let brief = item["brief"] as? String ?? ""
                                 let detail = item["detail"] as? String ?? ""
@@ -93,14 +90,8 @@ class GenerateTaskViewModel: ObservableObject {
                             }
                         }
                         if tasks.count > 0 {
-                            for task in tasks {
-                                print("task title = ", task.title)
-                                TaskManagerDB.shared.createTask(task: task) { error in
-                                    if let _ = error {
-                                        print("can not save task ", task.title)
-                                    }
-                                }
-                            }
+                            //let reTasks = Array(tasks.reversed())
+                            saveTasks(tasks: tasks)
                         } else {
                             handleFailGenerateTask()
                         }
@@ -116,6 +107,26 @@ class GenerateTaskViewModel: ObservableObject {
         } else {
             print("Failed to parse jsonRange")
             handleFailGenerateTask()
+        }
+    }
+    
+    func saveTasks(tasks: [TaskModel], index: Int = 0) {
+        if index < tasks.count {
+            let task = tasks[index]
+            print("Processing task title = ", task.title)
+            TaskManagerDB.shared.createTask(task: task) { [weak self] error in
+                if let _ = error {
+                    print("Could not save task ", task.title)
+                }
+
+                self?.saveTasks(tasks: tasks, index: index + 1)
+            }
+        } else {
+            print("All tasks processed.")
+            DispatchQueue.main.async {
+                self.isGenerateSuccess = true
+                self.isLoading = false
+            }
         }
     }
     

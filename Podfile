@@ -8,4 +8,5 @@ target 'TaskManagement' do
   pod 'FirebaseCore'
   pod 'FirebaseMessaging'
   pod 'FirebaseCrashlytics'
+  pod 'SwiftUIIntrospect', '~> 1.0'
 end

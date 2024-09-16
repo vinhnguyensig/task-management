@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftUIIntrospect
 
 struct GenerateTaskView: View {
     var isFromWalkthough: Bool = false
@@ -14,6 +15,8 @@ struct GenerateTaskView: View {
     @State private var requirement: String = ""
     @State private var isNavigateHome: Bool = false
     @State private var isGenerating: Bool = false
+    @State private var isGeneratedSuccess: Bool = false
+    @FocusState private var isFocus: Bool
     
     var body: some View {
         NavigationStack {
@@ -21,11 +24,11 @@ struct GenerateTaskView: View {
                 Text("Describe Your Tasks or Idea")
                     .font(.title2)
                     .fontWeight(.semibold)
-                    .foregroundStyle(.purple)
+                    .foregroundStyle(.blue)
                     .multilineTextAlignment(.center)
                     .padding(.top, 20)
                 
-                Text("Provide a detailed description of the tasks or ideas you want to generate. The more specific you are, the more accurate the generated tasks will be.")
+                Text("Provide a requirement of the tasks or ideas you want to generate. The more specific you are, the more accurate the generated tasks will be.")
                     .foregroundColor(.secondary)
                     .multilineTextAlignment(.center)
                     .padding(.horizontal, 8)
@@ -41,6 +44,8 @@ struct GenerateTaskView: View {
                         RoundedRectangle(cornerRadius: 12)
                             .stroke(Color.gray.opacity(0.3), lineWidth: 1)
                     )
+                    .focused($isFocus)
+                    .onAppear { isFocus = true }
                     .accessibilityLabel("Task or Idea Description")
                     .accessibilityHint("Enter the description of the task or idea you wish to generate.")
                 
@@ -52,6 +57,26 @@ struct GenerateTaskView: View {
                         .padding(.top, 5)
                 }
                 
+                if isGeneratedSuccess {
+                    Text("Generated tasks successful.")
+                        .foregroundColor(.green)
+                        .font(.headline)
+                        .padding(.top, 5)
+                    Spacer()
+                    Button(action: {
+                        isNavigateHome = true
+                    }) {
+                        Label("View Task List", systemImage: "paperplane.fill")
+                           .frame(maxWidth: .infinity)
+                           .padding()
+                           .background(Color.blue)
+                           .foregroundColor(.white)
+                           .cornerRadius(10)
+                           .font(.headline)
+                                           
+                    }
+                }
+                
                 if viewModel.isLoading {
                     VStack(spacing: 8) {
                         ProgressView()
@@ -60,10 +85,11 @@ struct GenerateTaskView: View {
                             .foregroundColor(.orange)
                     }
                     .padding()
-                } else {
+                } else if !isGeneratedSuccess {
                     Button(action: {
                         if !viewModel.isLoading {
                             isGenerating = true
+                            isFocus = false
                             viewModel.generateTasks(requirement: requirement)
                         }
                     }) {
@@ -92,7 +118,8 @@ struct GenerateTaskView: View {
                 Spacer()
             }
             .padding()
-            .navigationTitle("")
+            .navigationTitle("Task Generator")
+            .navigationBarTitleDisplayMode(.inline)
             .navigationBarBackButtonHidden(isFromWalkthough)
             .navigationDestination(isPresented: $isNavigateHome) {
                 if isFromWalkthough {
@@ -103,7 +130,11 @@ struct GenerateTaskView: View {
             }
             .onReceive(viewModel.$isGenerateSuccess) { status in
                 if status {
-                    isNavigateHome = true
+                    if isFromWalkthough {
+                        isGeneratedSuccess = true
+                    } else {
+                        isNavigateHome = true
+                    }
                 }
             }
         }
