@@ -11,7 +11,7 @@ struct TaskDetailView: View {
     @State var task: TaskModel
     @StateObject private var viewModel = TaskDetailsViewModel()
     @StateObject private var reminderViewModel = TaskReminderViewModel()
-    @StateObject private var editviewModel = TaskEditViewModel()
+    @StateObject private var editViewModel = TaskEditViewModel()
     
     @Environment(\.dismiss) var dismiss
     
@@ -40,7 +40,7 @@ struct TaskDetailView: View {
                     Divider()
                     briefDescriptionSection
                     detailedDescriptionSection
-                    SubTaskView(task: task, viewModel: viewModel, editViewModel: editviewModel)
+                    SubTaskView(task: task, viewModel: viewModel, editViewModel: editViewModel)
                 }
             })
             .frame(maxWidth: .infinity)
@@ -73,8 +73,8 @@ struct TaskDetailView: View {
     }
     
     private func handleDisappear() {
-        if editviewModel.isShouldPostNotify {
-            editviewModel.isShouldPostNotify = false
+        if editViewModel.isShouldPostNotify {
+            editViewModel.isShouldPostNotify = false
             NotificationCenter.default.post(name: Notification.Name(Constants.taskNotificationInfo), object: nil, userInfo: ["reload": true])
         }
     }
@@ -125,7 +125,7 @@ private extension TaskDetailView {
                             .default(Text(priority.rawValue)) {
                                 selectedPriority = priority
                                 task.priority = priority
-                                editviewModel.updateTask(editTask: task)
+                                editViewModel.updateTask(editTask: task)
                             }
                     } + [.cancel()]
                 )
@@ -152,7 +152,7 @@ private extension TaskDetailView {
                         .default(Text(category.rawValue)) {
                             selectedCategory = category
                             task.category = category
-                            editviewModel.updateTask(editTask: task)
+                            editViewModel.updateTask(editTask: task)
                         }
                 } + [.cancel()]
             )
@@ -179,7 +179,7 @@ private extension TaskDetailView {
                             selectedStatus = status
                             task.status = status
                             task.isCompleted = isTaskCompleted
-                            editviewModel.updateTask(editTask: task)
+                            editViewModel.updateTask(editTask: task)
                         }
                 } + [.cancel()]
             )

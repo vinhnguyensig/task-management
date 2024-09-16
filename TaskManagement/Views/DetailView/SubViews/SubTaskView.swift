@@ -20,6 +20,7 @@ struct SubTaskView: View {
     @ObservedObject var editViewModel: TaskEditViewModel
     
     @State private var isAddingSubTask = false
+    @State private var isExpanded = true
     @State private var title: String = ""
     @State private var subtasks = [TaskModel]()
     @FocusState private var isTitleFocused: Bool
@@ -31,6 +32,7 @@ struct SubTaskView: View {
             if !isAddingSubTask {
                 addSubTaskButton
             }
+            Spacer()
         })
         .onAppear {
             viewModel.loadSubtasks(parentId: task.id)
@@ -44,6 +46,7 @@ struct SubTaskView: View {
             if let tasks = result {
                 title = ""
                 subtasks = tasks
+                isTitleFocused = true
             }
         })
     }
@@ -53,9 +56,24 @@ struct SubTaskView: View {
             if !subtasks.isEmpty {
                 VStack(alignment: .leading, spacing: 8) {
                     VStack(alignment: .leading, spacing: 8) {
-                        Label("Sub Tasks ", systemImage: "list.dash.header.rectangle")
-                            .foregroundColor(.secondary)
-                        subtasksView
+                        HStack {
+                            Label("Sub Tasks ", systemImage: "list.dash.header.rectangle")
+                                .foregroundColor(.secondary)
+                            Spacer()
+                            Button {
+                                withAnimation {
+                                    isExpanded.toggle()
+                                }
+                            } label: {
+                                Image(systemName: isExpanded ? "chevron.down" : "chevron.right")
+                                    .padding()
+                            }
+                        }
+                        if isExpanded {
+                            subtasksView
+                        } else {
+                            LineProgressView(progress: 0.6, color: TaskProgress.getProgressColor(progress: 0.6))
+                        }
                     }
                 }
             }
@@ -65,25 +83,25 @@ struct SubTaskView: View {
     
     private var subtasksView: some View {
         ScrollView {
-            ForEach(subtasks) { sTask in
-                HStack {
-                    Circle()
-                        .fill(sTask.isCompleted ? Color.green : Color.gray)
-                        .frame(width: 12, height: 12)
-                    
-                    Text(sTask.title)
-                        .font(.headline)
-                        .foregroundColor(.primary)
-                    
-                    Spacer()
-                    
-                    // Priority indicator
-                    if sTask.priority == .high {
-                        Image(systemName: "exclamationmark.triangle.fill")
-                            .foregroundColor(.red)
+            VStack(alignment: .leading, spacing: 4) {
+                ForEach(subtasks) { sTask in
+                    HStack(alignment: .center) {
+                        CheckmarkButton(isCompleted: sTask.isCompleted) {
+                            toggleCompletion(for: sTask)
+                        }
+
+                        Text(sTask.title)
+                            .font(.subheadline)
+                            .foregroundColor(.primary)
+                            .lineLimit(2)
+                            .accessibilityLabel("Task title: \(sTask.title)")
                     }
+                    .padding(.vertical, 8)
+                    .padding(.horizontal)
+                    .background(Color(.systemBackground))
+                    .cornerRadius(8)
+                    .accessibilityElement(children: .combine)
                 }
-                .padding(.vertical, 8)
             }
         }
     }
@@ -99,13 +117,14 @@ struct SubTaskView: View {
                         .onSubmit {
                             if !title.isEmpty {
                                 addSubTask()
-                                isAddingSubTask = false
-                                isTitleFocused = false
                             }
+                            isAddingSubTask = false
+                            isTitleFocused = false
                         }
                         .padding(8)
                     Spacer()
                     Button("Add") {
+                        isTitleFocused = false
                         HapticManager.shared.triggerImpactFeedback(style: .medium)
                         addSubTask()
                     }
@@ -124,6 +143,16 @@ struct SubTaskView: View {
         } label: {
             Label("Add Subtask", systemImage: "plus.rectangle")
                 .foregroundColor(.blue)
+        }
+    }
+    
+    private func toggleCompletion(for task: TaskModel) {
+        if let index = subtasks.firstIndex(where: { $0.id == task.id }) {
+            subtasks[index].isCompleted.toggle()
+            var editTask = task
+            editTask.isCompleted = subtasks[index].isCompleted
+            print("editTask title = \(editTask.title) complete = \(editTask.isCompleted) parentid = \(editTask.parentId)")
+            editViewModel.updateTask(editTask: editTask)
         }
     }
     

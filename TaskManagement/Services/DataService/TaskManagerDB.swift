@@ -122,6 +122,9 @@ class TaskManagerDB {
                 let predicate = NSPredicate(format: "parentId == %@", parentId)
                 let taskEntities = realm.objects(TaskEntity.self).filter(predicate)
                 let tasks = Array(taskEntities.map { self.task(from: $0) })
+                for task in tasks {
+                    print("parentid = ", task.parentId)
+                }
                 completion(.success(tasks))
             case .failure(let error):
                 completion(.failure(error))
@@ -277,6 +280,7 @@ class TaskManagerDB {
                     assignees: Array(entity.assignees),
                     isCompleted: entity.isCompleted,
                     position: entity.position,
-                    createdAt: entity.createdAt)
+                    createdAt: entity.createdAt,
+                    parentId: entity.parentId)
     }
 }
