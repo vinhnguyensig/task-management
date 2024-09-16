@@ -90,7 +90,6 @@ class GenerateTaskViewModel: ObservableObject {
                             }
                         }
                         if tasks.count > 0 {
-                            //let reTasks = Array(tasks.reversed())
                             saveTasks(tasks: tasks)
                         } else {
                             handleFailGenerateTask()
