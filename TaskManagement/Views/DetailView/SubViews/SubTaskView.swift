@@ -27,63 +27,30 @@ struct SubTaskView: View {
     @FocusState private var isTitleFocused: Bool
     
     var body: some View {
-        VStack(alignment: .leading, content: {
+        VStack(alignment: .leading) {
             subtasksSection
-            subTaskInputSection
-            if !isAddingSubTask {
+            if isAddingSubTask {
+                subTaskInputSection
+            } else {
                 addSubTaskButton
             }
             Spacer()
-        })
-        .onAppear {
-            viewModel.loadSubtasks(parentId: task.id)
         }
-        .onReceive(editViewModel.$addedTask, perform: { result in
-            if let _ = result {
-                viewModel.loadSubtasks(parentId: task.id)
-            }
-        })
-        .onReceive(viewModel.$subtasks, perform: { result in
-            if let tasks = result {
-                title = ""
-                subtasks = tasks
-                isTitleFocused = true
-                updateProgress()
-            }
-        })
-        .onReceive(editViewModel.$updatedTask, perform: { result in
-            if let _ = result {
-                updateProgress()
-            }
-        })
+        .onAppear(perform: loadSubtasks)
+        .onReceive(editViewModel.$addedTask, perform: handleAddedTask)
+        .onReceive(viewModel.$subtasks, perform: handleLoadedSubtasks)
+        .onReceive(editViewModel.$updatedTask, perform: handleUpdatedTask)
     }
     
     private var subtasksSection: some View {
         Group {
             if !subtasks.isEmpty {
                 VStack(alignment: .leading, spacing: 8) {
-                    VStack(alignment: .leading, spacing: 8) {
-                        HStack {
-                            Label("Sub Tasks ", systemImage: "list.dash.header.rectangle")
-                                .foregroundColor(.secondary)
-                            Text("\(getCompleteNumber())")
-                                .foregroundStyle(.blue)
-                            Spacer()
-                            Button {
-                                updateProgress()
-                                withAnimation {
-                                    isExpanded.toggle()
-                                }
-                            } label: {
-                                Image(systemName: isExpanded ? "chevron.down" : "chevron.right")
-                                    .padding()
-                            }
-                        }
-                        if isExpanded {
-                            subtasksView
-                        } else {
-                            LineProgressView(progress: task.progress, color: TaskProgress.getProgressColor(progress: task.progress))
-                        }
+                    headerSection
+                    if isExpanded {
+                        subtasksListView
+                    } else {
+                        LineProgressView(progress: task.progress, color: TaskProgress.getProgressColor(progress: task.progress))
                     }
                 }
             }
@@ -91,15 +58,28 @@ struct SubTaskView: View {
         .padding(.vertical, 8)
     }
     
-    private var subtasksView: some View {
+    private var headerSection: some View {
+        HStack {
+            Label("Sub Tasks", systemImage: "list.dash.header.rectangle")
+                .foregroundColor(.secondary)
+            Text(getCompletedTaskRatio())
+                .foregroundStyle(.blue)
+            Spacer()
+            Button(action: toggleExpanded) {
+                Image(systemName: isExpanded ? "chevron.down" : "chevron.right")
+                    .padding()
+            }
+        }
+    }
+    
+    private var subtasksListView: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 4) {
                 ForEach(subtasks, id: \.id) { sTask in
-                    HStack(alignment: .center) {
+                    HStack {
                         CheckmarkButton(isCompleted: sTask.isCompleted) {
                             toggleCompletion(for: sTask)
                         }
-
                         Text(sTask.title)
                             .font(.subheadline)
                             .foregroundColor(.primary)
@@ -110,79 +90,94 @@ struct SubTaskView: View {
                     .padding(.horizontal)
                     .background(Color(.systemBackground))
                     .cornerRadius(8)
-                    .accessibilityElement(children: .combine)
                 }
             }
         }
     }
     
     private var subTaskInputSection: some View {
-        Group {
-            if isAddingSubTask {
-                HStack {
-                    TextField("Enter subtask name", text: $title)
-                        .focused($isTitleFocused)
-                        .onAppear { isTitleFocused = true }
-                        .submitLabel(.done)
-                        .onSubmit {
-                            if !title.isEmpty {
-                                addSubTask()
-                            }
-                            isAddingSubTask = false
-                            isTitleFocused = false
-                        }
-                        .padding(8)
-                    Spacer()
-                    Button("Add") {
-                        isTitleFocused = false
-                        HapticManager.shared.triggerImpactFeedback(style: .medium)
-                        addSubTask()
-                    }
-                    .foregroundColor(.blue)
-                    .disabled(title.isEmpty)
-                }
-                Spacer()
-            }
+        HStack {
+            TextField("Enter subtask name", text: $title)
+                .focused($isTitleFocused)
+                .onAppear { isTitleFocused = true }
+                .submitLabel(.done)
+                .onSubmit(addSubTaskIfNotEmpty)
+                .padding(8)
+            Spacer()
+            Button("Add", action: addSubTaskIfNotEmpty)
+                .foregroundColor(.blue)
+                .disabled(title.isEmpty)
         }
     }
     
-    
     private var addSubTaskButton: some View {
-        Button {
-            isAddingSubTask = true
-        } label: {
+        Button(action: { isAddingSubTask = true }) {
             Label("Add Subtask", systemImage: "plus.rectangle")
                 .foregroundColor(.blue)
+        }
+    }
+    
+    // MARK: - Helper Methods
+    
+    private func loadSubtasks() {
+        viewModel.loadSubtasks(parentId: task.id)
+    }
+    
+    private func handleAddedTask(_ result: TaskModel?) {
+        if result != nil {
+            viewModel.loadSubtasks(parentId: task.id)
+        }
+    }
+    
+    private func handleLoadedSubtasks(_ result: [TaskModel]?) {
+        if let tasks = result {
+            title = ""
+            subtasks = tasks
+            isTitleFocused = true
+            updateProgress()
+        }
+    }
+    
+    private func handleUpdatedTask(_ result: TaskModel?) {
+        if result != nil {
+            updateProgress()
         }
     }
     
     private func toggleCompletion(for task: TaskModel) {
         if let index = subtasks.firstIndex(where: { $0.id == task.id }) {
             subtasks[index].isCompleted.toggle()
-            var editTask = task
-            editTask.isCompleted = subtasks[index].isCompleted
-            editViewModel.updateTask(editTask: editTask)
-            
+            var updatedTask = task
+            updatedTask.isCompleted = subtasks[index].isCompleted
+            editViewModel.updateTask(editTask: updatedTask)
         }
     }
     
-    private func getCompletedAndTotalCount() -> (completed: Int, total: Int) {
-        let completed = subtasks.filter { $0.isCompleted }.count
-        let total = subtasks.count
-        return (completed, total)
+    private func toggleExpanded() {
+        withAnimation {
+            isExpanded.toggle()
+        }
     }
-
-    private func getCompleteNumber() -> String {
-        let (completed, total) = getCompletedAndTotalCount()
-        return String(format: "%d/%d", completed, total)
+    
+    private func addSubTaskIfNotEmpty() {
+        if !title.isEmpty {
+            addSubTask()
+            isAddingSubTask = false
+            isTitleFocused = false
+        }
     }
-
+    
+    private func getCompletedTaskRatio() -> String {
+        let completedCount = subtasks.filter { $0.isCompleted }.count
+        return "\(completedCount)/\(subtasks.count)"
+    }
+    
     private func updateProgress() {
-        let (completed, total) = getCompletedAndTotalCount()
-        let progress = total > 0 ? Double(completed) / Double(total) : 0
+        let completedCount = subtasks.filter { $0.isCompleted }.count
+        let totalCount = subtasks.count
+        let progress = totalCount > 0 ? Double(completedCount) / Double(totalCount) : 0
         if progress != task.progress {
             task.progress = progress
-            print("completed = \(completed) total = \(total) updateProgress = ", progress)
             editViewModel.updateTaskProgress(editTask: task)
         }
     }

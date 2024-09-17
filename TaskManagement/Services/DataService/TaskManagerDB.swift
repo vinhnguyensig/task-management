@@ -105,9 +105,6 @@ class TaskManagerDB {
                     let predicate = NSPredicate(format: "dueDate >= %@ AND dueDate < %@ AND parentId == nil", startOfDay as NSDate, endOfDay as NSDate)
                     let taskEntities = realm.objects(TaskEntity.self).filter(predicate)
                     let tasks = Array(taskEntities.map { self.task(from: $0) })
-                    for task in tasks {
-                        print("progress = ", task.progress)
-                    }
                     completion(.success(tasks))
                 } else {
                     completion(.success([]))

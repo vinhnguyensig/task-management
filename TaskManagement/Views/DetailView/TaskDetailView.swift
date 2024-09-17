@@ -238,7 +238,7 @@ private extension TaskDetailView {
     var briefDescriptionSection: some View {
         Group {
             if !brief.isEmpty {
-                descriptionSection(title: "Brief Description", text: brief, systemImage: "text.book.closed", minHeight: 60, maxHeight: 100)
+                descriptionSection(title: "Brief", text: brief, systemImage: "text.book.closed", minHeight: 60, maxHeight: 100)
             }
         }
         .padding(.vertical, 8)
