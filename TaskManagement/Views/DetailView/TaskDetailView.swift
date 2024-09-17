@@ -19,16 +19,12 @@ struct TaskDetailView: View {
     @State private var detail: String = ""
     @State private var isAddReminder = false
     @State private var isNavigateEdit = false
-    
     @State private var selectedStatus = TaskStatus.ready
     @State private var isSelectedStatus = false
-    
     @State private var selectedCategory = TaskCategory.work
     @State private var isSelectedCategory = false
-    
     @State private var selectedPriority = TaskPriority.medium
     @State private var isSelectedPriority = false
-    
     @State private var isExpandedDetail = true
     
     var body: some View {

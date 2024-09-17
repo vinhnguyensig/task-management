@@ -159,10 +159,10 @@ struct SubTaskView: View {
         if let tasks = result {
             title = ""
             subtasks = tasks
-            isTitleFocused = true
             updateProgress()
             if subtasks.count > 0 {
                 isExpandedDetail = false
+                isTitleFocused = true
             }
         }
     }
@@ -195,7 +195,6 @@ struct SubTaskView: View {
     private func addSubTaskIfNotEmpty() {
         if !title.isEmpty {
             addSubTask()
-            isAddingSubTask = false
             isTitleFocused = false
         }
     }
