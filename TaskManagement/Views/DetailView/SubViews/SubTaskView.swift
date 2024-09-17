@@ -94,7 +94,7 @@ struct SubTaskView: View {
     private var subtasksView: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 4) {
-                ForEach(subtasks) { sTask in
+                ForEach(subtasks, id: \.id) { sTask in
                     HStack(alignment: .center) {
                         CheckmarkButton(isCompleted: sTask.isCompleted) {
                             toggleCompletion(for: sTask)

@@ -62,7 +62,7 @@ struct TaskListView: View {
     
     private var taskListView: some View {
         List {
-            ForEach(viewModel.tasks) { task in
+            ForEach(viewModel.tasks, id: \.id) { task in
                 TaskRowView(task: task,
                             onToggleComplete: { task in
                                 if !task.isCompleted {
