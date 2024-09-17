@@ -32,7 +32,7 @@ struct TaskDetailView: View {
     var body: some View {
         NavigationStack {
             ScrollView(showsIndicators: false, content: {
-                VStack(alignment: .leading, spacing: 16) {
+                VStack(alignment: .leading, spacing: 8) {
                     taskHeader
                     taskMetaInfo
                     Divider()

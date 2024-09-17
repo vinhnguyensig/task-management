@@ -34,7 +34,6 @@ struct SubTaskView: View {
             } else {
                 addSubTaskButton
             }
-            Spacer()
         }
         .onAppear(perform: loadSubtasks)
         .onReceive(editViewModel.$addedTask, perform: handleAddedTask)
@@ -45,17 +44,15 @@ struct SubTaskView: View {
     private var subtasksSection: some View {
         Group {
             if !subtasks.isEmpty {
-                VStack(alignment: .leading, spacing: 8) {
-                    headerSection
-                    if isExpanded {
-                        subtasksListView
-                    } else {
-                        LineProgressView(progress: task.progress, color: TaskProgress.getProgressColor(progress: task.progress))
-                    }
+                headerSection
+                if isExpanded {
+                    subtasksListView
+                } else {
+                    LineProgressView(progress: task.progress, color: TaskProgress.getProgressColor(progress: task.progress))
+                        .padding(.vertical, 4)
                 }
             }
         }
-        .padding(.vertical, 8)
     }
     
     private var headerSection: some View {
@@ -73,27 +70,36 @@ struct SubTaskView: View {
     }
     
     private var subtasksListView: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 4) {
-                ForEach(subtasks, id: \.id) { sTask in
-                    HStack {
-                        CheckmarkButton(isCompleted: sTask.isCompleted) {
-                            toggleCompletion(for: sTask)
-                        }
-                        Text(sTask.title)
-                            .font(.subheadline)
-                            .foregroundColor(.primary)
-                            .lineLimit(2)
-                            .accessibilityLabel("Task title: \(sTask.title)")
+        List {
+            ForEach(subtasks, id: \.id) { sTask in
+                HStack {
+                    CheckmarkButton(isCompleted: sTask.isCompleted) {
+                        toggleCompletion(for: sTask)
                     }
-                    .padding(.vertical, 8)
-                    .padding(.horizontal)
-                    .background(Color(.systemBackground))
-                    .cornerRadius(8)
+                    Text(sTask.title)
+                        .font(.subheadline)
+                        .foregroundColor(.primary)
+                        .lineLimit(2)
+                        .accessibilityLabel("Task title: \(sTask.title)")
                 }
+                .padding(.vertical, 4)
+                .background(Color(.systemBackground))
+                .cornerRadius(8)
+                .contentShape(Rectangle())
             }
+            .onDelete(perform: { indexSet in
+                
+            })
+            .onMove(perform: { indices, newOffset in
+            })
+            .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
         }
+        .listStyle(.plain)
+        .listRowSpacing(2)
+        .frame(height: CGFloat(subtasks.count * 55))
+        .padding(.horizontal)
     }
+
     
     private var subTaskInputSection: some View {
         HStack {
