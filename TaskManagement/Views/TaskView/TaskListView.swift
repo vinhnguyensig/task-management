@@ -16,8 +16,6 @@ struct TaskListView: View {
     @StateObject private var viewModel = TaskListViewModel()
     @State private var isTodayTasks = true
     @State private var showingSortOptions = false
-    
-    @State private var showConfetti = false
     @State private var confettiCounter = 0
     
     var body: some View {

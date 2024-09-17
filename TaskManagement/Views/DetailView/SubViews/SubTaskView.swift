@@ -18,12 +18,16 @@ struct SubTaskView: View {
     @State var task: TaskModel
     @ObservedObject var viewModel: TaskDetailsViewModel
     @ObservedObject var editViewModel: TaskEditViewModel
+    @Binding var isExpandedDetail: Bool
     
     @State private var isAddingSubTask = false
     @State private var isExpanded = true
     @State private var isShowDetail = false
     @State private var title: String = ""
     @State private var subtasks = [TaskModel]()
+    
+    @State private var showConfetti = false
+    @State private var confettiCounter = 0
     
     @FocusState private var isTitleFocused: Bool
     
@@ -46,6 +50,7 @@ struct SubTaskView: View {
                     .presentationDetents([.medium])
             }
         })
+        .confettiCannon(counter: $confettiCounter, num: 50, openingAngle: Angle(degrees: 0), closingAngle: Angle(degrees: 360), radius: 200)
     }
     
     private var subtasksSection: some View {
@@ -156,6 +161,9 @@ struct SubTaskView: View {
             subtasks = tasks
             isTitleFocused = true
             updateProgress()
+            if subtasks.count > 0 {
+                isExpandedDetail = false
+            }
         }
     }
     
@@ -170,7 +178,11 @@ struct SubTaskView: View {
             subtasks[index].isCompleted.toggle()
             var updatedTask = task
             updatedTask.isCompleted = subtasks[index].isCompleted
+            updatedTask.status = .completed
             editViewModel.updateTask(editTask: updatedTask)
+            if updatedTask.isCompleted {
+                confettiCounter += 1
+            }
         }
     }
     

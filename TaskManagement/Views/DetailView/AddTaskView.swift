@@ -285,7 +285,8 @@ struct AddTaskView: View {
             status: selectedStatus,
             brief: brief,
             detail: detail,
-            isCompleted: isTaskCompleted
+            isCompleted: isTaskCompleted,
+            parentId: editTask.parentId
         )
     }
 

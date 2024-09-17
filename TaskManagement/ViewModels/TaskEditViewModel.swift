@@ -54,7 +54,7 @@ class TaskEditViewModel: ObservableObject {
         }
     }
     
-    func updateTask(id: String, title: String, startDate: Date? = nil, dueDate: Date? = nil, priority: TaskPriority = .medium, category: TaskCategory = .others, status: TaskStatus = .backlog, brief: String? = nil, detail: String? = nil, position: Int = 1, isCompleted: Bool = false) {
+    func updateTask(id: String, title: String, startDate: Date? = nil, dueDate: Date? = nil, priority: TaskPriority = .medium, category: TaskCategory = .others, status: TaskStatus = .backlog, brief: String? = nil, detail: String? = nil, position: Int = 1, isCompleted: Bool = false, parentId: String? = nil) {
         
         let editTask = TaskModel(id: id,
                                  title: title,
@@ -69,7 +69,8 @@ class TaskEditViewModel: ObservableObject {
                                  assignees: [],
                                  isCompleted: isCompleted,
                                  position: position,
-                                 attachments: [])
+                                 attachments: [],
+                                 parentId: parentId)
         updateTask(editTask: editTask)
     }
     

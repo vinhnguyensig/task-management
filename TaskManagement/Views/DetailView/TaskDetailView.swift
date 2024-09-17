@@ -29,6 +29,8 @@ struct TaskDetailView: View {
     @State private var selectedPriority = TaskPriority.medium
     @State private var isSelectedPriority = false
     
+    @State private var isExpandedDetail = true
+    
     var body: some View {
         NavigationStack {
             ScrollView(showsIndicators: false, content: {
@@ -41,7 +43,7 @@ struct TaskDetailView: View {
                     briefDescriptionSection
                     detailedDescriptionSection
                     if task.parentId == nil {
-                        SubTaskView(task: task, viewModel: viewModel, editViewModel: editViewModel)
+                        SubTaskView(task: task, viewModel: viewModel, editViewModel: editViewModel, isExpandedDetail: $isExpandedDetail)
                     }
                 }
             })
@@ -239,35 +241,59 @@ private extension TaskDetailView {
     var briefDescriptionSection: some View {
         Group {
             if !brief.isEmpty {
-                descriptionSection(title: "Brief", text: brief, systemImage: "text.book.closed", minHeight: 60, maxHeight: 100)
+                descriptionSection(title: "Brief", text: brief, systemImage: "text.book.closed", minHeight: 50, maxHeight: 100)
             }
         }
-        .padding(.vertical, 8)
     }
     
     var detailedDescriptionSection: some View {
         Group {
             if !detail.isEmpty {
-                VStack(alignment: .leading, spacing: 8) {
-                    descriptionSection(title: "Task Detail", text: detail, systemImage: "doc.text", minHeight: 100)
+                VStack(alignment: .leading) {
+                    descriptionSection(title: "Task Detail", text: detail, systemImage: "doc.text", minHeight: 80, maxHeight: .infinity)
                 }
             }
         }
-        .padding(.vertical, 8)
     }
     
     func descriptionSection(title: String, text: String, systemImage: String, minHeight: CGFloat, maxHeight: CGFloat = .infinity) -> some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Label(title, systemImage: systemImage)
-                .foregroundColor(.secondary)
+        VStack(alignment: .leading) {
+            
+            if isLongDetail(text: text) {
+                HStack {
+                    Label(title, systemImage: systemImage)
+                        .foregroundColor(.secondary)
+                    Spacer()
+                    Button(action: {
+                        withAnimation {
+                            isExpandedDetail.toggle()
+                        }
+                    }) {
+                        Image(systemName: isExpandedDetail ? "chevron.down" : "chevron.right")
+                            .padding()
+                    }
+                }
+            } else {
+                Label(title, systemImage: systemImage)
+                    .foregroundColor(.secondary)
+            }
+
             Text(text)
-                .frame(minHeight: minHeight, maxHeight: maxHeight)
-                .padding(1)
+                .fixedSize(horizontal: false, vertical: true)
+                .frame(minHeight: minHeight)
+                .lineLimit(isExpandedDetail ? nil : 3)
                 .background(Color(UIColor.systemBackground))
                 .cornerRadius(8)
         }
     }
     
+    private func isLongDetail(text: String) -> Bool {
+        if text.count > 300 {
+            return true
+        }
+        return false
+    }
+
     private var isTaskCompleted: Bool {
         [.completed, .inReview, .done].contains(selectedStatus)
     }
