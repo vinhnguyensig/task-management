@@ -15,14 +15,17 @@ class TaskEditViewModel: ObservableObject {
     @Published var taskAIDetail: String?
     @Published var errorMessage: String?
     @Published var isLoading: Bool = false
+    @Published var isGenerateSuccess: Bool = false
     
     var isShouldPostNotify: Bool = false
     
     lazy var chatAIViewModel: ChatAIViewModel? = ChatAIViewModel()
+    lazy var generateTaskVideoModel: GenerateTaskViewModel? = GenerateTaskViewModel()
+    
     private var cancellables = Set<AnyCancellable>()
     
     init() {}
-
+    
     // MARK: - Task Operations
     
     func addTask(title: String, startDate: Date? = nil, dueDate: Date? = nil, priority: TaskPriority = .medium, category: TaskCategory = .others, status: TaskStatus = .backlog, brief: String? = nil, detail: String? = nil, position: Int = 1, isCompleted: Bool = false) {
@@ -103,7 +106,7 @@ class TaskEditViewModel: ObservableObject {
         }
     }
     
-    // MARK: - Task Suggestions
+    // MARK: - Task generator
     
     func fetchTaskDetailSuggestion(task: TaskModel) {
         guard let viewModel = chatAIViewModel else { return }
@@ -120,7 +123,7 @@ class TaskEditViewModel: ObservableObject {
                             self?.errorMessage = errorMessage
                         }
                     } else {
-                        let responseDetail = Utils.clearSpecialChar(text: response)
+                        let responseDetail = Utils.formatChatAIResponse(text: response)
                         self?.handleMainAsync {
                             self?.taskAIDetail = responseDetail
                         }
@@ -129,7 +132,38 @@ class TaskEditViewModel: ObservableObject {
                 .store(in: &cancellables)
         }
     }
-
+    
+    func generateSubTasks(task: TaskModel) {
+        var requirement = task.title
+        if let brief = task.brief {
+            requirement += "Brief: " + brief
+        }
+        if let detail = task.detail {
+            requirement += "Task Detail: " + detail
+        }
+        if let viewModel = generateTaskVideoModel {
+            Task {
+               await viewModel.generateSubTasks(requirement: requirement, task: task)
+            }
+            Publishers.CombineLatest(viewModel.$isGenerateSuccess, viewModel.$errorMessage)
+                .sink { [weak self] (response, error) in
+                    self?.isLoading = false
+                    if let errorMessage = error {
+                        self?.handleMainAsync {
+                            self?.errorMessage = errorMessage
+                        }
+                    } else {
+                        self?.handleMainAsync {
+                            if response {
+                                self?.isGenerateSuccess = true
+                            }
+                        }
+                    }
+                }
+                .store(in: &cancellables)
+        }
+    }
+    
     // MARK: - Subtasks
     
     func addSubtask(title: String, dueDate: Date? = nil, priority: TaskPriority = .medium, category: TaskCategory = .others, status: TaskStatus = .backlog, brief: String? = nil, detail: String? = nil, position: Int = 1, isCompleted: Bool = false, parentId: String) {
@@ -179,7 +213,7 @@ class TaskEditViewModel: ObservableObject {
         prompt = Utils.clearSpecialChar(text: prompt)
         return prompt
     }
-
+    
     private func handleMainAsync(_ block: @escaping () -> Void) {
         DispatchQueue.main.async {
             block()

@@ -17,6 +17,7 @@ class GenerateTaskViewModel: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
     
     let viewModel = ChatAIViewModel()
+    var parentTask: TaskModel?
     
     init() {
         bindData()
@@ -26,7 +27,7 @@ class GenerateTaskViewModel: ObservableObject {
         viewModel.$responseMessage
             .dropFirst()
             .sink {[weak self] result in
-                //print("result = ", result)
+                print("result = ", result)
                 self?.processTaskList(text: result)
             }
             .store(in: &cancellables)
@@ -62,6 +63,23 @@ class GenerateTaskViewModel: ObservableObject {
         }
     }
     
+    func generateSubTasks(requirement: String, task: TaskModel) async {
+        if let template = getTemplate() {
+            self.isLoading = true
+            parentTask = task
+            var prompt = "Please create sub tasks from main task in requirement."
+            prompt = prompt + "Output is json format like this"
+            prompt = prompt + template
+            prompt = prompt + "Requirement: " + requirement
+            print("prompt = ", prompt)
+           
+            await viewModel.fetchChatCompletion(singleMessage: prompt)
+                
+        } else {
+            handleFailGenerateTask()
+        }
+    }
+    
     private func handleFailGenerateTask() {
         DispatchQueue.main.async {
             self.isGenerateSuccess = false
@@ -80,12 +98,16 @@ class GenerateTaskViewModel: ObservableObject {
                         var tasks = [TaskModel]()
                         var position = 1
                         let reverseArr = jsonArray.reversed()
+                        var parentId: String? = nil
+                        if let task = parentTask {
+                            parentId = task.id
+                        }
                         for item in reverseArr {
                             if let title = item["title"] as? String {
                                 let brief = item["brief"] as? String ?? ""
                                 let detail = item["detail"] as? String ?? ""
                                 position = position + 1
-                                let task = TaskModel(title: title, brief: brief, detail: detail, position: position)
+                                let task = TaskModel(title: title, brief: brief, detail: detail, position: position, parentId: parentId)
                                 tasks.append(task)
                             }
                         }

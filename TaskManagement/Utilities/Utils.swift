@@ -44,5 +44,10 @@ class Utils {
             return text
         }
     }
+    
+    static func formatChatAIResponse(text: String) -> String {
+        text.replacingOccurrences(of: "*", with: "")
+            .replacingOccurrences(of: "#", with: "")
+    }
 
 }

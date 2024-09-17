@@ -21,6 +21,7 @@ struct SubTaskView: View {
     @Binding var isExpandedDetail: Bool
     
     @State private var isAddingSubTask = false
+    @State private var isGeneratingSubTask = false
     @State private var isExpanded = true
     @State private var isShowDetail = false
     @State private var title: String = ""
@@ -34,20 +35,39 @@ struct SubTaskView: View {
     var body: some View {
         VStack(alignment: .leading) {
             subtasksSection
-            if isAddingSubTask {
-                subTaskInputSection
+            if !isGeneratingSubTask {
+                if isAddingSubTask {
+                    subTaskInputSection
+                } else {
+                    addSubTaskButton
+                }
             } else {
-                addSubTaskButton
+                VStack {
+                   ProgressView()
+                   Text("Generating Sub-Tasks...")
+                       .font(.subheadline)
+                       .foregroundColor(.orange)
+                    Spacer()
+               }
+               .frame(maxWidth: .infinity)
+               .multilineTextAlignment(.center)
             }
         }
         .onAppear(perform: loadSubtasks)
         .onReceive(editViewModel.$addedTask, perform: handleAddedTask)
         .onReceive(viewModel.$subtasks, perform: handleLoadedSubtasks)
         .onReceive(editViewModel.$updatedTask, perform: handleUpdatedTask)
+        .onReceive(editViewModel.$isGenerateSuccess, perform: { status in
+            if status {
+                isGeneratingSubTask = false
+                isExpanded = true
+                loadSubtasks()
+            }
+        })
         .sheet(isPresented: $isShowDetail, content: {
             if let sTask = viewModel.selectedSubtask {
                 TaskDetailView(task: sTask)
-                    .presentationDetents([.medium])
+                    .presentationDetents([.medium, .large])
             }
         })
         .confettiCannon(counter: $confettiCounter, num: 50, openingAngle: Angle(degrees: 0), closingAngle: Angle(degrees: 360), radius: 200)
@@ -137,9 +157,19 @@ struct SubTaskView: View {
     }
     
     private var addSubTaskButton: some View {
-        Button(action: { isAddingSubTask = true }) {
-            Label("Add Subtask", systemImage: "plus.rectangle")
-                .foregroundColor(.blue)
+        HStack {
+            Button(action: { isAddingSubTask = true }) {
+                Label("Add Subtask", systemImage: "plus.rectangle")
+                    .foregroundColor(.blue)
+            }
+            Spacer()
+            Button(action: {
+                isGeneratingSubTask = true
+                editViewModel.generateSubTasks(task: task)
+            }) {
+                Label("Generate Sub-Tasks", systemImage: "sparkles")
+                    .foregroundColor(.blue)
+            }
         }
     }
     

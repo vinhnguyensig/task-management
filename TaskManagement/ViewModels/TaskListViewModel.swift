@@ -92,15 +92,10 @@ class TaskListViewModel: ObservableObject {
     }
     
     func moveTask(from source: IndexSet, to destination: Int) {
-        // Move the tasks in the local array
         tasks.move(fromOffsets: source, toOffset: destination)
-        
-        // Update the positions of tasks in the local array
         for (index, _) in tasks.enumerated() {
             tasks[index].position = index + 1
         }
-        
-        // Save the updated positions to Realm
         TaskManagerDB.shared.updateTaskPositions(tasks) { [weak self] error in
             if let error = error {
                 self?.errorMessage = "Error updating task positions: \(error.localizedDescription)"
