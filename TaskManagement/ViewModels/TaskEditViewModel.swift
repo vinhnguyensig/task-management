@@ -93,6 +93,15 @@ class TaskEditViewModel: ObservableObject {
         }
     }
     
+    func deleteTask(subtask: TaskModel) {
+        TaskManagerDB.shared.deleteTask(task: subtask) { [weak self] error in
+            if let error = error {
+                self?.errorMessage = "Error deleting task: \(error.localizedDescription)"
+                print(self?.errorMessage ?? "Unknown error")
+            }
+        }
+    }
+    
     // MARK: - Task Suggestions
     
     func fetchTaskDetailSuggestion(task: TaskModel) {

@@ -40,7 +40,9 @@ struct TaskDetailView: View {
                     Divider()
                     briefDescriptionSection
                     detailedDescriptionSection
-                    SubTaskView(task: task, viewModel: viewModel, editViewModel: editViewModel)
+                    if task.parentId == nil {
+                        SubTaskView(task: task, viewModel: viewModel, editViewModel: editViewModel)
+                    }
                 }
             })
             .frame(maxWidth: .infinity)
@@ -56,7 +58,6 @@ struct TaskDetailView: View {
                             .foregroundColor(.gray)
                     }
                 }
-                
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Edit") {
                         HapticManager.shared.triggerImpactFeedback(style: .medium)

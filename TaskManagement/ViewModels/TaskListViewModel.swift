@@ -85,7 +85,7 @@ class TaskListViewModel: ObservableObject {
                     self?.errorMessage = "Error deleting task: \(error.localizedDescription)"
                     print(self?.errorMessage ?? "Unknown error")
                 } else {
-                    self?.tasks.remove(at: offset) // Remove from the local list after deletion
+                    self?.tasks.remove(at: offset)
                 }
             }
         }
@@ -119,7 +119,6 @@ class TaskListViewModel: ObservableObject {
                 self?.errorMessage = "Error updating task: \(error.localizedDescription)"
                 print(self?.errorMessage ?? "Unknown error")
             } else {
-                // Fetch tasks only if update succeeds
                 self?.fetchTasks(category: self?.currentCategory, isTodayTasks: self?.isTodayTask ?? true)
             }
         }

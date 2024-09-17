@@ -21,9 +21,10 @@ struct SubTaskView: View {
     
     @State private var isAddingSubTask = false
     @State private var isExpanded = true
+    @State private var isShowDetail = false
     @State private var title: String = ""
     @State private var subtasks = [TaskModel]()
-   
+    
     @FocusState private var isTitleFocused: Bool
     
     var body: some View {
@@ -39,6 +40,12 @@ struct SubTaskView: View {
         .onReceive(editViewModel.$addedTask, perform: handleAddedTask)
         .onReceive(viewModel.$subtasks, perform: handleLoadedSubtasks)
         .onReceive(editViewModel.$updatedTask, perform: handleUpdatedTask)
+        .sheet(isPresented: $isShowDetail, content: {
+            if let sTask = viewModel.selectedSubtask {
+                TaskDetailView(task: sTask)
+                    .presentationDetents([.medium])
+            }
+        })
     }
     
     private var subtasksSection: some View {
@@ -76,19 +83,27 @@ struct SubTaskView: View {
                     CheckmarkButton(isCompleted: sTask.isCompleted) {
                         toggleCompletion(for: sTask)
                     }
+                    
                     Text(sTask.title)
                         .font(.subheadline)
                         .foregroundColor(.primary)
                         .lineLimit(2)
                         .accessibilityLabel("Task title: \(sTask.title)")
+                        .onTapGesture {
+                            viewModel.selectedSubtask = sTask
+                            isShowDetail = true
+                        }
                 }
                 .padding(.vertical, 4)
                 .background(Color(.systemBackground))
                 .cornerRadius(8)
-                .contentShape(Rectangle())
             }
             .onDelete(perform: { indexSet in
-                
+                indexSet.forEach { index in
+                    let stask = subtasks[index]
+                    editViewModel.deleteTask(subtask: stask)
+                    subtasks.remove(at: index)
+                }
             })
             .onMove(perform: { indices, newOffset in
             })
@@ -99,7 +114,7 @@ struct SubTaskView: View {
         .frame(height: CGFloat(subtasks.count * 55))
         .padding(.horizontal)
     }
-
+    
     
     private var subTaskInputSection: some View {
         HStack {

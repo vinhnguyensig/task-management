@@ -13,6 +13,9 @@ import Combine
 class TaskDetailsViewModel: ObservableObject {
     @Published var task: TaskModel?
     @Published var subtasks: [TaskModel]?
+    
+    var selectedSubtask: TaskModel?
+    
     private var notificationObserver: AnyCancellable?
     
     func loadSubtasks(parentId: String) {
