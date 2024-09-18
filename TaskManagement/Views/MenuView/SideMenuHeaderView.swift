@@ -62,7 +62,7 @@ struct SideMenuHeaderView: View {
                         .foregroundColor(.secondary)
                     
                     Button(action: {
-                        isNavigateSignIn = true
+                        viewModel.signInWithGoogle()
                     }) {
                         Text("Sign In")
                             .foregroundColor(.blue)
