@@ -1,5 +1,5 @@
 //
-//  GoogleSigninView.swift
+//  SigninView.swift
 //  TaskManagement
 //
 //  Created by Vinh Nguyen on 18/9/24.
@@ -8,7 +8,8 @@
 import Foundation
 import SwiftUI
 
-struct GoogleSigninView: View {
+struct SigninView: View {
+    
     @StateObject private var signInViewModel = SignInViewModel()
 
     var body: some View {

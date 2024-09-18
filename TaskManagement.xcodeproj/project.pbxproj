@@ -19,7 +19,8 @@
 		1F487DF92C9A892700066D5C /* ChatAIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F487DF82C9A892700066D5C /* ChatAIModel.swift */; };
 		1F487DFC2C9A8BF800066D5C /* SignInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F487DFB2C9A8BF800066D5C /* SignInViewModel.swift */; };
 		1F487DFE2C9AB8D300066D5C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F487DFD2C9AB8D300066D5C /* AppDelegate.swift */; };
-		1F487E012C9ABF8E00066D5C /* GoogleSigninView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F487E002C9ABF8E00066D5C /* GoogleSigninView.swift */; };
+		1F487E012C9ABF8E00066D5C /* SigninView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F487E002C9ABF8E00066D5C /* SigninView.swift */; };
+		1F487E032C9AD48800066D5C /* SideMenuHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F487E022C9AD48800066D5C /* SideMenuHeaderView.swift */; };
 		1F64945F2C8F722300344661 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F64945E2C8F722300344661 /* Utils.swift */; };
 		1F88FADA2C9537A800E09D88 /* AppConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F88FAD92C9537A800E09D88 /* AppConfiguration.swift */; };
 		1F88FADC2C95566D00E09D88 /* WalkthroughFeatureVuew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F88FADB2C95566D00E09D88 /* WalkthroughFeatureVuew.swift */; };
@@ -121,7 +122,8 @@
 		1F487DF82C9A892700066D5C /* ChatAIModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatAIModel.swift; sourceTree = "<group>"; };
 		1F487DFB2C9A8BF800066D5C /* SignInViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewModel.swift; sourceTree = "<group>"; };
 		1F487DFD2C9AB8D300066D5C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		1F487E002C9ABF8E00066D5C /* GoogleSigninView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSigninView.swift; sourceTree = "<group>"; };
+		1F487E002C9ABF8E00066D5C /* SigninView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SigninView.swift; sourceTree = "<group>"; };
+		1F487E022C9AD48800066D5C /* SideMenuHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuHeaderView.swift; sourceTree = "<group>"; };
 		1F64945E2C8F722300344661 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		1F88FAD82C950C5700E09D88 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		1F88FAD92C9537A800E09D88 /* AppConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfiguration.swift; sourceTree = "<group>"; };
@@ -255,7 +257,7 @@
 		1F487DFF2C9ABF7600066D5C /* AuthenticationView */ = {
 			isa = PBXGroup;
 			children = (
-				1F487E002C9ABF8E00066D5C /* GoogleSigninView.swift */,
+				1F487E002C9ABF8E00066D5C /* SigninView.swift */,
 			);
 			path = AuthenticationView;
 			sourceTree = "<group>";
@@ -346,6 +348,7 @@
 			isa = PBXGroup;
 			children = (
 				1FAF29462C9053B900686EA3 /* SideMenuView.swift */,
+				1F487E022C9AD48800066D5C /* SideMenuHeaderView.swift */,
 			);
 			path = MenuView;
 			sourceTree = "<group>";
@@ -831,6 +834,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1F487DFE2C9AB8D300066D5C /* AppDelegate.swift in Sources */,
+				1F487E032C9AD48800066D5C /* SideMenuHeaderView.swift in Sources */,
 				1FDA7F242C8E9F0400B969A1 /* TaskRowView.swift in Sources */,
 				1FDA7F3C2C8EA1E400B969A1 /* TaskManagerDB.swift in Sources */,
 				1FB564AD2C97179800D01238 /* GenerateTaskView.swift in Sources */,
@@ -855,7 +859,7 @@
 				1F341FDB2C8F33AC0098C834 /* TaskStatus.swift in Sources */,
 				1FDA7F3E2C8EA1FA00B969A1 /* NetworkClient.swift in Sources */,
 				1F341FD42C8EFDEC0098C834 /* TaskInProgressView.swift in Sources */,
-				1F487E012C9ABF8E00066D5C /* GoogleSigninView.swift in Sources */,
+				1F487E012C9ABF8E00066D5C /* SigninView.swift in Sources */,
 				1F990AF82C9133E5003B5117 /* DueDatePickerView.swift in Sources */,
 				1F341FD22C8EFD9E0098C834 /* TodayTaskProgressView.swift in Sources */,
 				1FBC244B2C9448D1006FB7AE /* ComingSoonView.swift in Sources */,

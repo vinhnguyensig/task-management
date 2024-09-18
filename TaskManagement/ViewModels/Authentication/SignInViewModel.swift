@@ -38,18 +38,15 @@ class SignInViewModel: ObservableObject {
             return
         }
         
-        let config = GIDConfiguration(clientID: clientID)
-        
-        // Get the active window scene
         guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
               let rootViewController = windowScene.windows.first?.rootViewController else {
-            self.errorMessage = "Root View Controller not found"
             return
         }
         
+        let config = GIDConfiguration(clientID: clientID)
+        
         GIDSignIn.sharedInstance.configuration = config
         
-        // Start the sign in flow!
         GIDSignIn.sharedInstance.signIn(withPresenting: rootViewController) { [unowned self] result, error in
             if let error = error {
                 self.errorMessage = error.localizedDescription
@@ -72,7 +69,7 @@ class SignInViewModel: ObservableObject {
                 
                 if let firebaseUser = authResult?.user {
                     self?.user = UserModel(user: firebaseUser)
-                    self?.errorMessage = nil  // Clear error message on successful sign-in
+                    self?.errorMessage = nil
                 }
             }
         }
