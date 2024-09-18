@@ -64,23 +64,3 @@ enum OpenAIAPIEndpoint {
         ]
     }
 }
-
-/// A message structure for OpenAI API interactions.
-struct OpenAIMessage: Codable {
-    let role: String
-    let content: String
-}
-
-/// Structure for making chat completion requests to OpenAI.
-struct ChatCompletionRequest: Codable {
-    let model: String
-    let messages: [OpenAIMessage]
-}
-
-/// Structure for parsing chat completion responses from OpenAI.
-struct ChatCompletionResponse: Codable {
-    struct Choice: Codable {
-        let message: OpenAIMessage
-    }
-    let choices: [Choice]
-}

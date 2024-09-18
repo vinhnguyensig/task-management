@@ -171,6 +171,7 @@ struct SubTaskView: View {
                     .foregroundColor(.blue)
             }
         }
+        .padding()
     }
     
     // MARK: - Helper Methods

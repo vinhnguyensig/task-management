@@ -14,6 +14,12 @@
 		1F341FD92C8F07530098C834 /* Color+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F341FD82C8F07530098C834 /* Color+Extension.swift */; };
 		1F341FDB2C8F33AC0098C834 /* TaskStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F341FDA2C8F33AC0098C834 /* TaskStatus.swift */; };
 		1F341FDC2C8F33AC0098C834 /* TaskStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F341FDA2C8F33AC0098C834 /* TaskStatus.swift */; };
+		1F487DF32C9A7F8600066D5C /* AuthenticationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F487DF22C9A7F8600066D5C /* AuthenticationViewModel.swift */; };
+		1F487DF72C9A882A00066D5C /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F487DF62C9A882A00066D5C /* UserModel.swift */; };
+		1F487DF92C9A892700066D5C /* ChatAIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F487DF82C9A892700066D5C /* ChatAIModel.swift */; };
+		1F487DFC2C9A8BF800066D5C /* SignInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F487DFB2C9A8BF800066D5C /* SignInViewModel.swift */; };
+		1F487DFE2C9AB8D300066D5C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F487DFD2C9AB8D300066D5C /* AppDelegate.swift */; };
+		1F487E012C9ABF8E00066D5C /* GoogleSigninView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F487E002C9ABF8E00066D5C /* GoogleSigninView.swift */; };
 		1F64945F2C8F722300344661 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F64945E2C8F722300344661 /* Utils.swift */; };
 		1F88FADA2C9537A800E09D88 /* AppConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F88FAD92C9537A800E09D88 /* AppConfiguration.swift */; };
 		1F88FADC2C95566D00E09D88 /* WalkthroughFeatureVuew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F88FADB2C95566D00E09D88 /* WalkthroughFeatureVuew.swift */; };
@@ -110,6 +116,12 @@
 		1F341FD52C8EFE230098C834 /* TaskGroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskGroupView.swift; sourceTree = "<group>"; };
 		1F341FD82C8F07530098C834 /* Color+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extension.swift"; sourceTree = "<group>"; };
 		1F341FDA2C8F33AC0098C834 /* TaskStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskStatus.swift; sourceTree = "<group>"; };
+		1F487DF22C9A7F8600066D5C /* AuthenticationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationViewModel.swift; sourceTree = "<group>"; };
+		1F487DF62C9A882A00066D5C /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
+		1F487DF82C9A892700066D5C /* ChatAIModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatAIModel.swift; sourceTree = "<group>"; };
+		1F487DFB2C9A8BF800066D5C /* SignInViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewModel.swift; sourceTree = "<group>"; };
+		1F487DFD2C9AB8D300066D5C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		1F487E002C9ABF8E00066D5C /* GoogleSigninView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSigninView.swift; sourceTree = "<group>"; };
 		1F64945E2C8F722300344661 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		1F88FAD82C950C5700E09D88 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		1F88FAD92C9537A800E09D88 /* AppConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfiguration.swift; sourceTree = "<group>"; };
@@ -232,6 +244,22 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		1F487DFA2C9A8BE300066D5C /* Authentication */ = {
+			isa = PBXGroup;
+			children = (
+				1F487DFB2C9A8BF800066D5C /* SignInViewModel.swift */,
+			);
+			path = Authentication;
+			sourceTree = "<group>";
+		};
+		1F487DFF2C9ABF7600066D5C /* AuthenticationView */ = {
+			isa = PBXGroup;
+			children = (
+				1F487E002C9ABF8E00066D5C /* GoogleSigninView.swift */,
+			);
+			path = AuthenticationView;
+			sourceTree = "<group>";
+		};
 		1F8A70C42C8E95BE00D99C9A = {
 			isa = PBXGroup;
 			children = (
@@ -272,6 +300,7 @@
 				1FB564A02C96C69C00D01238 /* GoogleService-Info.plist */,
 				1F8A70D62C8E95BF00D99C9A /* Preview Content */,
 				1FDA7F382C8EA0F700B969A1 /* Launch Screen.storyboard */,
+				1F487DFD2C9AB8D300066D5C /* AppDelegate.swift */,
 			);
 			path = TaskManagement;
 			sourceTree = "<group>";
@@ -439,6 +468,7 @@
 		1FDA7F062C8E9C2C00B969A1 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				1F487DFA2C9A8BE300066D5C /* Authentication */,
 				1F341FCF2C8EF71F0098C834 /* DashboardViewModel.swift */,
 				1FDA7F152C8E9E6A00B969A1 /* TaskListViewModel.swift */,
 				1FDA7F182C8E9E7F00B969A1 /* TaskDetailsViewModel.swift */,
@@ -447,6 +477,7 @@
 				1F94776C2C91EC5300480444 /* TaskReminderViewModel.swift */,
 				1FBC24542C94939D006FB7AE /* ChatAIViewModel.swift */,
 				1FB564A92C97161600D01238 /* GenerateTaskViewModel.swift */,
+				1F487DF22C9A7F8600066D5C /* AuthenticationViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -454,6 +485,7 @@
 		1FDA7F072C8E9C3900B969A1 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				1F487DFF2C9ABF7600066D5C /* AuthenticationView */,
 				1FB564AB2C97178000D01238 /* GenerateTaskView */,
 				1FDA7F4D2C8EF39000B969A1 /* DashboardView */,
 				1FAF29422C90525400686EA3 /* TaskCalendarView */,
@@ -475,6 +507,8 @@
 				1FDA7F122C8E9E2200B969A1 /* TaskCategory.swift */,
 				1F341FDA2C8F33AC0098C834 /* TaskStatus.swift */,
 				1FBC24432C9424C8006FB7AE /* TaskProgress.swift */,
+				1F487DF62C9A882A00066D5C /* UserModel.swift */,
+				1F487DF82C9A892700066D5C /* ChatAIModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -796,10 +830,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1F487DFE2C9AB8D300066D5C /* AppDelegate.swift in Sources */,
 				1FDA7F242C8E9F0400B969A1 /* TaskRowView.swift in Sources */,
 				1FDA7F3C2C8EA1E400B969A1 /* TaskManagerDB.swift in Sources */,
 				1FB564AD2C97179800D01238 /* GenerateTaskView.swift in Sources */,
 				1FAF294B2C9058EB00686EA3 /* NotificationService.swift in Sources */,
+				1F487DFC2C9A8BF800066D5C /* SignInViewModel.swift in Sources */,
 				1FAF294D2C90693800686EA3 /* UserDefaultManager.swift in Sources */,
 				1F88FADC2C95566D00E09D88 /* WalkthroughFeatureVuew.swift in Sources */,
 				1FDA7F482C8EE0B000B969A1 /* AddTaskView.swift in Sources */,
@@ -819,6 +855,7 @@
 				1F341FDB2C8F33AC0098C834 /* TaskStatus.swift in Sources */,
 				1FDA7F3E2C8EA1FA00B969A1 /* NetworkClient.swift in Sources */,
 				1F341FD42C8EFDEC0098C834 /* TaskInProgressView.swift in Sources */,
+				1F487E012C9ABF8E00066D5C /* GoogleSigninView.swift in Sources */,
 				1F990AF82C9133E5003B5117 /* DueDatePickerView.swift in Sources */,
 				1F341FD22C8EFD9E0098C834 /* TodayTaskProgressView.swift in Sources */,
 				1FBC244B2C9448D1006FB7AE /* ComingSoonView.swift in Sources */,
@@ -835,10 +872,12 @@
 				1FCC9AAF2C92975F00046ACF /* SlimRectangle.swift in Sources */,
 				1FDA7F502C8EF3E000B969A1 /* CircleProgressView.swift in Sources */,
 				1FAF293F2C9003D100686EA3 /* Date+Extension.swift in Sources */,
+				1F487DF92C9A892700066D5C /* ChatAIModel.swift in Sources */,
 				1FAF29472C9053B900686EA3 /* SideMenuView.swift in Sources */,
 				1FBC24422C93E2B9006FB7AE /* View+Extension.swift in Sources */,
 				1FCC9AB42C92A6DB00046ACF /* HapticManager.swift in Sources */,
 				1FBC24522C948AF6006FB7AE /* OpenAIAPIEndpoint.swift in Sources */,
+				1F487DF72C9A882A00066D5C /* UserModel.swift in Sources */,
 				1FBC2D742C98076D00478312 /* SubTaskView.swift in Sources */,
 				1FDA7F0D2C8E9DE500B969A1 /* TaskModel.swift in Sources */,
 				1F341FD02C8EF71F0098C834 /* DashboardViewModel.swift in Sources */,
@@ -852,6 +891,7 @@
 				1FDA7F162C8E9E6A00B969A1 /* TaskListViewModel.swift in Sources */,
 				1FDA7F442C8EBFBD00B969A1 /* TaskEntity.swift in Sources */,
 				1FDA7F192C8E9E7F00B969A1 /* TaskDetailsViewModel.swift in Sources */,
+				1F487DF32C9A7F8600066D5C /* AuthenticationViewModel.swift in Sources */,
 				1FCC9AB22C92975F00046ACF /* View+ConfettiCannon.swift in Sources */,
 				1FBC24402C93E09D006FB7AE /* EmtyTaskDueDateView.swift in Sources */,
 				1FDA7F1C2C8E9E9700B969A1 /* TaskEditViewModel.swift in Sources */,
