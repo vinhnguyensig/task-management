@@ -30,7 +30,7 @@ class Utils {
     }
     
     static func clearSpecialChar(text: String) -> String {
-        let pattern = "[^a-zA-Z0-9 .,?!\n:'()]"
+        let pattern = "[^a-zA-Z0-9 .,?!\n:'(){}$@<>]"
         
         do {
             let regex = try NSRegularExpression(pattern: pattern, options: [])
@@ -43,6 +43,11 @@ class Utils {
             print("Error creating regex: \(error)")
             return text
         }
+    }
+    
+    static func formatChatAIResponse(text: String) -> String {
+        text.replacingOccurrences(of: "*", with: "")
+            .replacingOccurrences(of: "#", with: "")
     }
 
 }

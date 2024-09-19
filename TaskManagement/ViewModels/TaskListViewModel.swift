@@ -85,22 +85,17 @@ class TaskListViewModel: ObservableObject {
                     self?.errorMessage = "Error deleting task: \(error.localizedDescription)"
                     print(self?.errorMessage ?? "Unknown error")
                 } else {
-                    self?.tasks.remove(at: offset) // Remove from the local list after deletion
+                    self?.tasks.remove(at: offset)
                 }
             }
         }
     }
     
     func moveTask(from source: IndexSet, to destination: Int) {
-        // Move the tasks in the local array
         tasks.move(fromOffsets: source, toOffset: destination)
-        
-        // Update the positions of tasks in the local array
         for (index, _) in tasks.enumerated() {
             tasks[index].position = index + 1
         }
-        
-        // Save the updated positions to Realm
         TaskManagerDB.shared.updateTaskPositions(tasks) { [weak self] error in
             if let error = error {
                 self?.errorMessage = "Error updating task positions: \(error.localizedDescription)"
@@ -119,7 +114,6 @@ class TaskListViewModel: ObservableObject {
                 self?.errorMessage = "Error updating task: \(error.localizedDescription)"
                 print(self?.errorMessage ?? "Unknown error")
             } else {
-                // Fetch tasks only if update succeeds
                 self?.fetchTasks(category: self?.currentCategory, isTodayTasks: self?.isTodayTask ?? true)
             }
         }

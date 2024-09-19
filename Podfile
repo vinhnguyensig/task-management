@@ -9,4 +9,6 @@ target 'TaskManagement' do
   pod 'FirebaseMessaging'
   pod 'FirebaseCrashlytics'
   pod 'SwiftUIIntrospect', '~> 1.0'
+  pod 'Firebase/Auth'
+  pod 'GoogleSignIn'
 end

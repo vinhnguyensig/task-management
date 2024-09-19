@@ -31,3 +31,34 @@ struct CircleProgressView: View {
         }
     }
 }
+
+struct LineProgressView: View {
+    var progress: Double
+    var color: Color = .purple
+
+    var body: some View {
+        HStack {
+            GeometryReader { geometry in
+                ZStack(alignment: .leading) {
+                    RoundedRectangle(cornerRadius: 5)
+                        .frame(height: 8)
+                        .foregroundColor(color.opacity(0.3))
+                    
+                    RoundedRectangle(cornerRadius: 5)
+                        .frame(width: CGFloat(min(progress, 1.0)) * geometry.size.width, height: 8)
+                        .foregroundColor(color)
+                        .animation(.linear, value: progress)
+                }
+            }
+            .frame(height: 8)
+        
+            Text(String(format: "%.0f%%", min(progress, 1.0) * 100.0))
+                .font(.caption)
+                .bold()
+                .foregroundColor(color)
+                .padding(.leading, 8)
+        }
+        .padding(.horizontal)
+    }
+}
+

@@ -103,7 +103,7 @@ struct AddTaskView: View {
     private var taskTitleField: some View {
         TextField("Enter task title", text: $title)
             .focused($isTitleFocused)
-            .onAppear { isTitleFocused = true }
+            .onAppear { isTitleFocused = task == nil }
             .toolbar {
                         ToolbarItemGroup(placement: .keyboard) {
                             Spacer()
@@ -285,7 +285,8 @@ struct AddTaskView: View {
             status: selectedStatus,
             brief: brief,
             detail: detail,
-            isCompleted: isTaskCompleted
+            isCompleted: isTaskCompleted,
+            parentId: editTask.parentId
         )
     }
 
@@ -309,6 +310,7 @@ struct AddTaskView: View {
     // MARK: - Handlers
     private func setupView() {
         if let editTask = task {
+            isTitleFocused = false
             title = editTask.title
             brief = editTask.brief ?? ""
             detail = editTask.detail ?? ""

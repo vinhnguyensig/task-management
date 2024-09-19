@@ -12,6 +12,11 @@ struct SideMenuView: View {
         NavigationStack {
             VStack(alignment: .leading) {
                 List {
+                    Section {
+                        SideMenuHeaderView()
+                    }
+                    .listRowSeparator(.hidden)
+                    
                     taskListItem(title: "All Tasks", systemImage: "list.bullet", color: .blue)
                     taskListItem(title: "Completed Tasks", systemImage: "checkmark.circle", color: .green, status: TaskStatus.completed.rawValue)
                     taskListItem(title: "Backlog", systemImage: "tray.full.fill", color: .gray,  status: TaskStatus.backlog.rawValue)

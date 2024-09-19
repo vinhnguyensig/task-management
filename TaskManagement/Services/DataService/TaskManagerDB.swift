@@ -102,13 +102,27 @@ class TaskManagerDB {
                 let calendar = Calendar.current
                 let startOfDay = calendar.startOfDay(for: Date())
                 if let endOfDay = calendar.date(byAdding: .day, value: 1, to: startOfDay) {
-                    let predicate = NSPredicate(format: "dueDate >= %@ AND dueDate < %@", startOfDay as NSDate, endOfDay as NSDate)
+                    let predicate = NSPredicate(format: "dueDate >= %@ AND dueDate < %@ AND parentId == nil", startOfDay as NSDate, endOfDay as NSDate)
                     let taskEntities = realm.objects(TaskEntity.self).filter(predicate)
                     let tasks = Array(taskEntities.map { self.task(from: $0) })
                     completion(.success(tasks))
                 } else {
                     completion(.success([]))
                 }
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
+    
+    func fetchSubtasks(parentId: String, completion: @escaping (Result<[TaskModel], Error>) -> Void) {
+        getRealm { result in
+            switch result {
+            case .success(let realm):
+                let predicate = NSPredicate(format: "parentId == %@", parentId)
+                let taskEntities = realm.objects(TaskEntity.self).filter(predicate)
+                let tasks = Array(taskEntities.map { self.task(from: $0) })
+                completion(.success(tasks))
             case .failure(let error):
                 completion(.failure(error))
             }
@@ -241,10 +255,12 @@ class TaskManagerDB {
         entity.brief = task.brief
         entity.detail = task.detail
         entity.assignees.append(objectsIn: task.assignees ?? [])
+        entity.progress = task.progress
         entity.isCompleted = task.isCompleted
         entity.createdAt = task.createdAt
         entity.position = task.position
         entity.attachments.append(objectsIn: task.attachments ?? [])
+        entity.parentId = task.parentId
         return entity
     }
     
@@ -260,8 +276,10 @@ class TaskManagerDB {
                     brief: entity.brief,
                     detail: entity.detail,
                     assignees: Array(entity.assignees),
+                    progress: entity.progress,
                     isCompleted: entity.isCompleted,
                     position: entity.position,
-                    createdAt: entity.createdAt)
+                    createdAt: entity.createdAt,
+                    parentId: entity.parentId)
     }
 }

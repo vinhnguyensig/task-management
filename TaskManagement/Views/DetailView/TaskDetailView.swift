@@ -9,9 +9,9 @@ import SwiftUI
 
 struct TaskDetailView: View {
     @State var task: TaskModel
-    @StateObject var viewModel = TaskDetailsViewModel()
-    @StateObject var reminderViewModel = TaskReminderViewModel()
-    @StateObject private var editviewModel = TaskEditViewModel()
+    @StateObject private var viewModel = TaskDetailsViewModel()
+    @StateObject private var reminderViewModel = TaskReminderViewModel()
+    @StateObject private var editViewModel = TaskEditViewModel()
     
     @Environment(\.dismiss) var dismiss
     
@@ -19,20 +19,18 @@ struct TaskDetailView: View {
     @State private var detail: String = ""
     @State private var isAddReminder = false
     @State private var isNavigateEdit = false
-    
     @State private var selectedStatus = TaskStatus.ready
     @State private var isSelectedStatus = false
-    
     @State private var selectedCategory = TaskCategory.work
     @State private var isSelectedCategory = false
-    
     @State private var selectedPriority = TaskPriority.medium
     @State private var isSelectedPriority = false
+    @State private var isExpandedDetail = true
     
     var body: some View {
         NavigationStack {
-            ScrollView {
-                VStack(alignment: .leading, spacing: 16) {
+            ScrollView(showsIndicators: false, content: {
+                VStack(alignment: .leading, spacing: 8) {
                     taskHeader
                     taskMetaInfo
                     Divider()
@@ -40,13 +38,16 @@ struct TaskDetailView: View {
                     Divider()
                     briefDescriptionSection
                     detailedDescriptionSection
+                    if task.parentId == nil {
+                        SubTaskView(task: task, viewModel: viewModel, editViewModel: editViewModel, isExpandedDetail: $isExpandedDetail)
+                    }
                 }
-                .padding()
-            }
+            })
             .frame(maxWidth: .infinity)
+            .padding()
             .onAppear(perform: setupView)
             .onDisappear{ handleDisappear() }
-            .navigationTitle(task.status.rawValue)
+            .navigationTitle("")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
@@ -55,7 +56,6 @@ struct TaskDetailView: View {
                             .foregroundColor(.gray)
                     }
                 }
-                
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Edit") {
                         HapticManager.shared.triggerImpactFeedback(style: .medium)
@@ -72,8 +72,8 @@ struct TaskDetailView: View {
     }
     
     private func handleDisappear() {
-        if editviewModel.isShouldPostNotify {
-            editviewModel.isShouldPostNotify = false
+        if editViewModel.isShouldPostNotify {
+            editViewModel.isShouldPostNotify = false
             NotificationCenter.default.post(name: Notification.Name(Constants.taskNotificationInfo), object: nil, userInfo: ["reload": true])
         }
     }
@@ -114,20 +114,20 @@ private extension TaskDetailView {
             .font(.subheadline)
             .accessibilityLabel("Priority: \(task.priority.rawValue)")
             .onTapGesture {
-               HapticManager.shared.triggerImpactFeedback(style: .light)
-               isSelectedPriority = true
+                HapticManager.shared.triggerImpactFeedback(style: .light)
+                isSelectedPriority = true
             }
             .actionSheet(isPresented: $isSelectedPriority) {
                 ActionSheet(
-                        title: Text("Select Status"),
-                        buttons: TaskPriority.allCases.map { priority in
+                    title: Text("Select Status"),
+                    buttons: TaskPriority.allCases.map { priority in
                             .default(Text(priority.rawValue)) {
                                 selectedPriority = priority
                                 task.priority = priority
-                                editviewModel.updateTask(editTask: task)
+                                editViewModel.updateTask(editTask: task)
                             }
-                        } + [.cancel()]
-                    )
+                    } + [.cancel()]
+                )
             }
     }
     
@@ -142,19 +142,19 @@ private extension TaskDetailView {
         }
         .onTapGesture {
             HapticManager.shared.triggerImpactFeedback(style: .light)
-           isSelectedCategory = true
+            isSelectedCategory = true
         }
         .actionSheet(isPresented: $isSelectedCategory) {
             ActionSheet(
-                    title: Text("Select Status"),
-                    buttons: TaskCategory.allCases.map { category in
+                title: Text("Select Status"),
+                buttons: TaskCategory.allCases.map { category in
                         .default(Text(category.rawValue)) {
                             selectedCategory = category
                             task.category = category
-                            editviewModel.updateTask(editTask: task)
+                            editViewModel.updateTask(editTask: task)
                         }
-                    } + [.cancel()]
-                )
+                } + [.cancel()]
+            )
         }
     }
     
@@ -168,20 +168,20 @@ private extension TaskDetailView {
         }
         .onTapGesture {
             HapticManager.shared.triggerImpactFeedback(style: .light)
-           isSelectedStatus = true
+            isSelectedStatus = true
         }
         .actionSheet(isPresented: $isSelectedStatus) {
             ActionSheet(
-                    title: Text("Select Status"),
-                    buttons: TaskStatus.allCases.map { status in
+                title: Text("Select Status"),
+                buttons: TaskStatus.allCases.map { status in
                         .default(Text(status.rawValue)) {
                             selectedStatus = status
                             task.status = status
                             task.isCompleted = isTaskCompleted
-                            editviewModel.updateTask(editTask: task)
+                            editViewModel.updateTask(editTask: task)
                         }
-                    } + [.cancel()]
-                )
+                } + [.cancel()]
+            )
         }
     }
     
@@ -189,6 +189,7 @@ private extension TaskDetailView {
         VStack(alignment: .leading, spacing: 4) {
             if let dueDate = task.dueDate {
                 dueDateView(dueDate)
+                    .padding(.vertical, 8)
             }
             reminderSection
         }
@@ -236,35 +237,59 @@ private extension TaskDetailView {
     var briefDescriptionSection: some View {
         Group {
             if !brief.isEmpty {
-                descriptionSection(title: "Brief Description", text: brief, systemImage: "text.book.closed", minHeight: 60, maxHeight: 100)
+                descriptionSection(title: "Brief", text: brief, systemImage: "text.book.closed", minHeight: 50, maxHeight: 100)
             }
         }
-        .padding(.vertical, 8)
     }
     
     var detailedDescriptionSection: some View {
         Group {
             if !detail.isEmpty {
-                VStack(alignment: .leading, spacing: 8) {
-                    descriptionSection(title: "Task Detail", text: detail, systemImage: "doc.text", minHeight: 100)
+                VStack(alignment: .leading) {
+                    descriptionSection(title: "Task Detail", text: detail, systemImage: "doc.text", minHeight: 80, maxHeight: .infinity)
                 }
             }
         }
-        .padding(.vertical, 8)
     }
     
     func descriptionSection(title: String, text: String, systemImage: String, minHeight: CGFloat, maxHeight: CGFloat = .infinity) -> some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Label(title, systemImage: systemImage)
-                .foregroundColor(.secondary)
+        VStack(alignment: .leading) {
+            
+            if isLongDetail(text: text) {
+                HStack {
+                    Label(title, systemImage: systemImage)
+                        .foregroundColor(.secondary)
+                    Spacer()
+                    Button(action: {
+                        withAnimation {
+                            isExpandedDetail.toggle()
+                        }
+                    }) {
+                        Image(systemName: isExpandedDetail ? "chevron.down" : "chevron.right")
+                            .padding()
+                    }
+                }
+            } else {
+                Label(title, systemImage: systemImage)
+                    .foregroundColor(.secondary)
+            }
+
             Text(text)
-                .frame(minHeight: minHeight, maxHeight: maxHeight)
-                .padding(1)
+                .fixedSize(horizontal: false, vertical: true)
+                .frame(minHeight: minHeight)
+                .lineLimit(isExpandedDetail ? nil : 3)
                 .background(Color(UIColor.systemBackground))
                 .cornerRadius(8)
         }
     }
     
+    private func isLongDetail(text: String) -> Bool {
+        if text.count > 300 {
+            return true
+        }
+        return false
+    }
+
     private var isTaskCompleted: Bool {
         [.completed, .inReview, .done].contains(selectedStatus)
     }
