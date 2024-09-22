@@ -51,7 +51,9 @@ struct TaskGroupView: View {
         .padding(.top, 16)
         .padding(.bottom, 50)
         .onAppear {
-            viewModel.loadGroupTasks()
+            Task {
+               await viewModel.loadGroupTasks()
+            }
         }
     }
 }

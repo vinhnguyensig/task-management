@@ -39,7 +39,9 @@ struct TaskInProgressView: View {
         }
         .padding(.vertical)
         .onAppear {
-            viewModel.loadProgressTask()
+            Task {
+               await viewModel.loadProgressTask()
+            }
         }
     }
 }
