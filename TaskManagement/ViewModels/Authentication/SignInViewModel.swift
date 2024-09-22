@@ -47,7 +47,7 @@ class SignInViewModel: ObservableObject {
         
         GIDSignIn.sharedInstance.configuration = config
         
-        GIDSignIn.sharedInstance.signIn(withPresenting: rootViewController) { [ self] result, error in
+        GIDSignIn.sharedInstance.signIn(withPresenting: rootViewController) { [unowned self] result, error in
             if let error = error {
                 self.errorMessage = error.localizedDescription
                 return
