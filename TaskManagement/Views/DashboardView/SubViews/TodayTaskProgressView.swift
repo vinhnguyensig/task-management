@@ -60,7 +60,9 @@ struct TodayTaskProgressView: View {
             TaskListView()
         }
         .onAppear {
-            viewModel.loadTodayProgress()
+            Task {
+               await viewModel.loadTodayProgress()
+            }
         }
     }
 }

@@ -49,7 +49,8 @@ class TaskManagerDB {
         getRealm { result in
             switch result {
             case .success(let realm):
-                let taskEntities = realm.objects(TaskEntity.self)
+                let predicate = NSPredicate(format: "parentId == nil")
+                let taskEntities = realm.objects(TaskEntity.self).filter(predicate)
                 let tasks = Array(taskEntities.map { self.task(from: $0) })
                 completion(.success(tasks))
             case .failure(let error):
@@ -62,7 +63,7 @@ class TaskManagerDB {
         getRealm { result in
             switch result {
             case .success(let realm):
-                let predicate = NSPredicate(format: "category == %@", category)
+                let predicate = NSPredicate(format: "category == %@ AND parentId == nil", category)
                 let taskEntities = realm.objects(TaskEntity.self).filter(predicate)
                 let tasks = Array(taskEntities.map { self.task(from: $0) })
                 completion(.success(tasks))
@@ -76,14 +77,14 @@ class TaskManagerDB {
         getRealm { result in
             switch result {
             case .success(let realm):
-                var predicate = NSPredicate(format: "status == %@", status)
+                var predicate = NSPredicate(format: "status == %@ AND parentId == nil", status)
                 if let category = category {
-                    predicate = NSPredicate(format: "status == %@ AND category == %@", status, category)
+                    predicate = NSPredicate(format: "status == %@ AND category == %@ AND parentId == nil", status, category)
                 } else if isToday {
                     let calendar = Calendar.current
                     let startOfDay = calendar.startOfDay(for: Date())
                     if let endOfDay = calendar.date(byAdding: .day, value: 1, to: startOfDay) {
-                        predicate = NSPredicate(format: "dueDate >= %@ AND dueDate < %@ AND status == %@", startOfDay as NSDate, endOfDay as NSDate, status)
+                        predicate = NSPredicate(format: "dueDate >= %@ AND dueDate < %@ AND status == %@ AND parentId == nil", startOfDay as NSDate, endOfDay as NSDate, status)
                     }
                 }
                 let taskEntities = realm.objects(TaskEntity.self).filter(predicate)
@@ -216,7 +217,7 @@ class TaskManagerDB {
         getRealm { result in
             switch result {
             case .success(let realm):
-                let predicate = NSPredicate(format: "isCompleted == false AND status != %@", TaskStatus.backlog.rawValue)
+                let predicate = NSPredicate(format: "isCompleted == false AND status != %@ AND parentId == nil", TaskStatus.backlog.rawValue)
                 let taskEntities = realm.objects(TaskEntity.self).filter(predicate)
                 let tasks = Array(taskEntities.map { self.task(from: $0) })
                 completion(.success(tasks))
@@ -231,7 +232,7 @@ class TaskManagerDB {
         getRealm { result in
             switch result {
             case .success(let realm):
-                let taskEntities = realm.objects(TaskEntity.self).filter("isCompleted == true")
+                let taskEntities = realm.objects(TaskEntity.self).filter("isCompleted == true AND parentId == nil")
                 let tasks = Array(taskEntities.map { self.task(from: $0) })
                 completion(.success(tasks))
             case .failure(let error):
