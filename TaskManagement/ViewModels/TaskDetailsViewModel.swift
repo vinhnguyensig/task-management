@@ -24,7 +24,7 @@ class TaskDetailsViewModel: ObservableObject {
             case .success(let loadedTasks):
                 self?.subtasks = loadedTasks.sorted { $0.createdAt > $1.createdAt }
             case .failure(let error):
-                print("Unknown error")
+                print("Unknown error ", error.localizedDescription)
             }
         }
     }
