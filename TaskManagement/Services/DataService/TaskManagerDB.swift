@@ -8,7 +8,7 @@
 import Foundation
 import RealmSwift
 
-class TaskManagerDB {
+class TaskManagerDB: TaskManagerDBProtocol {
     static let shared = TaskManagerDB()
     
     private init() {}

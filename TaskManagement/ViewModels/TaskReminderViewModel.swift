@@ -19,7 +19,7 @@ class TaskReminderViewModel: ObservableObject {
     // MARK: - Request Notification Authorization
     
     // Request notification permission and update the authorization status
-    func requestNotificationAuthorization() {
+    func requestionNotifictionAuthorization() {
         NotificationManager.shared.requestAuthorization()
         
         NotificationManager.shared.$isAuthorized
@@ -41,7 +41,7 @@ class TaskReminderViewModel: ObservableObject {
         // Avoid adding duplicate reminders
         guard recentAddedReminder != task.id else { return }
         
-        requestNotificationAuthorization()
+        requestionNotifictionAuthorization()
         
         NotificationManager.shared.$isAuthorized
             .dropFirst()
@@ -74,7 +74,7 @@ class TaskReminderViewModel: ObservableObject {
     // Update the reminder if it is already set
     func updateReminder(task: TaskModel) {
         // Cancel existing reminder if set
-        if isReminderSet(id: task.id) {
+        if isSetReminder(id: task.id) {
             NotificationManager.shared.cancelNotification(identifier: task.id)
         }
         // Set a new reminder
@@ -95,7 +95,7 @@ class TaskReminderViewModel: ObservableObject {
     }
     
     // Check if a reminder is already set
-    func isReminderSet(id: String) -> Bool {
+    func isSetReminder(id: String) -> Bool {
         return UserDefaultsManager.get(forKey: id) != nil
     }
     

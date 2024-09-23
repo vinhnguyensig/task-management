@@ -11,6 +11,8 @@ import Combine
 @MainActor
 class TaskListViewModel: ObservableObject {
     
+    private var taskManager: TaskManagerDBProtocol
+    
     // Published properties for UI binding
     @Published var tasks: [TaskModel] = []
     @Published var errorMessage: String?
@@ -44,7 +46,8 @@ class TaskListViewModel: ObservableObject {
     }
     
     // MARK: - Initialization
-    init() {
+    init(taskManager: TaskManagerDBProtocol = TaskManagerDB.shared) {
+        self.taskManager = taskManager
         registerObserveTaskInfo()
     }
     
@@ -64,16 +67,16 @@ class TaskListViewModel: ObservableObject {
         if let category = category {
             currentCategory = category
             ShareService.shared.currentCategory = category
-            TaskManagerDB.shared.fetchTasks(by: category, completion: fetchCompletion)
+            taskManager.fetchTasks(by: category, completion: fetchCompletion)
         } else if let status = status {
-            TaskManagerDB.shared.fetchTasks(status: status, isToday: isTodayTasks, category: currentCategory, completion: fetchCompletion)
+            taskManager.fetchTasks(status: status, isToday: isTodayTasks, category: currentCategory, completion: fetchCompletion)
         } else if isTodayTasks {
             isTodayTask = true
             ShareService.shared.currentCategory = nil
             ShareService.shared.currentSelectedDate = Date()
-            TaskManagerDB.shared.fetchTodayTasks(completion: fetchCompletion)
+            taskManager.fetchTodayTasks(completion: fetchCompletion)
         } else {
-            TaskManagerDB.shared.getAllTasks(completion: fetchCompletion)
+            taskManager.getAllTasks(completion: fetchCompletion)
         }
     }
     
@@ -81,7 +84,7 @@ class TaskListViewModel: ObservableObject {
     func deleteTask(at offsets: IndexSet) {
         offsets.forEach { offset in
             let task = tasks[offset]
-            TaskManagerDB.shared.deleteTask(task: task) { [weak self] error in
+            taskManager.deleteTask(task: task) { [weak self] error in
                 if let error = error {
                     self?.handleError("Error deleting task: \(error.localizedDescription)")
                 } else {
@@ -96,7 +99,7 @@ class TaskListViewModel: ObservableObject {
         tasks.move(fromOffsets: source, toOffset: destination)
         tasks.enumerated().forEach { index, _ in tasks[index].position = index + 1 }
         
-        TaskManagerDB.shared.updateTaskPositions(tasks) { [weak self] error in
+        taskManager.updateTaskPositions(tasks) { [weak self] error in
             if let error = error {
                 self?.handleError("Error updating task positions: \(error.localizedDescription)")
             }
@@ -109,7 +112,7 @@ class TaskListViewModel: ObservableObject {
         updatedTask.isCompleted.toggle()
         updatedTask.status = updatedTask.isCompleted ? .completed : .ready
         
-        TaskManagerDB.shared.updateTask(task: updatedTask) { [weak self] error in
+        taskManager.updateTask(task: updatedTask) { [weak self] error in
             if let error = error {
                 self?.handleError("Error updating task: \(error.localizedDescription)")
             } else {
