@@ -10,6 +10,8 @@ import Combine
 
 @MainActor
 class TaskEditViewModel: ObservableObject {
+    private var taskManager: TaskManagerDBProtocol
+    
     @Published var addedTask: TaskModel?
     @Published var updatedTask: TaskModel?
     @Published var taskAIDetail: String?
@@ -19,12 +21,12 @@ class TaskEditViewModel: ObservableObject {
     
     var isShouldPostNotify: Bool = false
     
-    lazy var chatAIViewModel: ChatAIViewModel? = ChatAIViewModel()
-    lazy var generateTaskVideoModel: GenerateTaskViewModel? = GenerateTaskViewModel()
-    
     private var cancellables = Set<AnyCancellable>()
     
-    init() {}
+    // MARK: - Initialization
+    init(taskManager: TaskManagerDBProtocol = TaskManagerDB.shared) {
+        self.taskManager = taskManager
+    }
     
     // MARK: - Task Operations
     
@@ -43,7 +45,7 @@ class TaskEditViewModel: ObservableObject {
                                 position: position,
                                 attachments: [])
         
-        TaskManagerDB.shared.createTask(task: newTask) { [weak self] error in
+        taskManager.createTask(task: newTask) { [weak self] error in
             self?.handleMainAsync {
                 if let error = error {
                     self?.errorMessage = "Error adding task: \(error.localizedDescription)"
@@ -78,7 +80,7 @@ class TaskEditViewModel: ObservableObject {
     }
     
     func updateTask(editTask: TaskModel) {
-        TaskManagerDB.shared.updateTask(task: editTask) { [weak self] error in
+        taskManager.updateTask(task: editTask) { [weak self] error in
             self?.handleMainAsync {
                 if let error = error {
                     self?.errorMessage = "Error updating task: \(error.localizedDescription)"
@@ -92,75 +94,17 @@ class TaskEditViewModel: ObservableObject {
     }
     
     func updateTaskProgress(editTask: TaskModel) {
-        TaskManagerDB.shared.updateTask(task: editTask) { [weak self] error in
+        taskManager.updateTask(task: editTask) { [weak self] error in
             self?.isShouldPostNotify = true
         }
     }
     
     func deleteTask(subtask: TaskModel) {
-        TaskManagerDB.shared.deleteTask(task: subtask) { [weak self] error in
+        taskManager.deleteTask(task: subtask) { [weak self] error in
             if let error = error {
                 self?.errorMessage = "Error deleting task: \(error.localizedDescription)"
                 print(self?.errorMessage ?? "Unknown error")
             }
-        }
-    }
-    
-    // MARK: - Task generator
-    
-    func fetchTaskDetailSuggestion(task: TaskModel) {
-        guard let viewModel = chatAIViewModel else { return }
-        let prompt = createTaskPrompt(task: task)
-        self.isLoading = true
-        Task {
-            await viewModel.fetchChatCompletion(singleMessage: prompt)
-            
-            Publishers.CombineLatest(viewModel.$responseMessage, viewModel.$errorMessage)
-                .sink { [weak self] (response, error) in
-                    self?.isLoading = false
-                    if let errorMessage = error {
-                        self?.handleMainAsync {
-                            self?.errorMessage = errorMessage
-                        }
-                    } else {
-                        let responseDetail = Utils.formatChatAIResponse(text: response)
-                        self?.handleMainAsync {
-                            self?.taskAIDetail = responseDetail
-                        }
-                    }
-                }
-                .store(in: &cancellables)
-        }
-    }
-    
-    func generateSubTasks(task: TaskModel) {
-        var requirement = task.title
-        if let brief = task.brief {
-            requirement += "Brief: " + brief
-        }
-        if let detail = task.detail {
-            requirement += "Task Detail: " + detail
-        }
-        if let viewModel = generateTaskVideoModel {
-            Task {
-               await viewModel.generateSubTasks(requirement: requirement, task: task)
-            }
-            Publishers.CombineLatest(viewModel.$isGenerateSuccess, viewModel.$errorMessage)
-                .sink { [weak self] (response, error) in
-                    self?.isLoading = false
-                    if let errorMessage = error {
-                        self?.handleMainAsync {
-                            self?.errorMessage = errorMessage
-                        }
-                    } else {
-                        self?.handleMainAsync {
-                            if response {
-                                self?.isGenerateSuccess = true
-                            }
-                        }
-                    }
-                }
-                .store(in: &cancellables)
         }
     }
     
@@ -178,7 +122,7 @@ class TaskEditViewModel: ObservableObject {
                                 position: position,
                                 parentId: parentId)
         
-        TaskManagerDB.shared.createTask(task: newTask) { [weak self] error in
+        taskManager.createTask(task: newTask) { [weak self] error in
             self?.handleMainAsync {
                 if let error = error {
                     self?.errorMessage = "Error adding subtask: \(error.localizedDescription)"
@@ -191,28 +135,6 @@ class TaskEditViewModel: ObservableObject {
     }
     
     // MARK: - Private Methods
-    
-    private func createTaskPrompt(task: TaskModel) -> String {
-        var prompt = "Task: \(task.title)\n"
-        
-        if let dueDate = task.dueDate {
-            let formatter = DateFormatter()
-            formatter.dateStyle = .medium
-            prompt += "Due Date: \(formatter.string(from: dueDate))\n"
-        }
-        
-        prompt += "Priority: \(task.priority.rawValue.capitalized)\n"
-        prompt += "Category: \(task.category.rawValue.capitalized)\n"
-        prompt += "Status: \(task.status.rawValue.capitalized)\n"
-        
-        if let brief = task.brief, !brief.isEmpty {
-            prompt += "Brief: \(brief)\n"
-        }
-        
-        prompt += task.isCompleted ? "The task is completed.\n" : "The task is not completed yet.\n"
-        prompt = Utils.clearSpecialChar(text: prompt)
-        return prompt
-    }
     
     private func handleMainAsync(_ block: @escaping () -> Void) {
         DispatchQueue.main.async {

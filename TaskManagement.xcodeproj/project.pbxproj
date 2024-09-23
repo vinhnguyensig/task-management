@@ -102,6 +102,8 @@
 		1FDF3DE12CA17957009D100F /* HapticManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCC9AB32C92A6DB00046ACF /* HapticManager.swift */; };
 		1FDF3DE22CA1795C009D100F /* AppConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F88FAD92C9537A800E09D88 /* AppConfiguration.swift */; };
 		1FDF3DE32CA17960009D100F /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F64945E2C8F722300344661 /* Utils.swift */; };
+		1FDF3DE42CA1865E009D100F /* TaskEditViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDA7F1B2C8E9E9700B969A1 /* TaskEditViewModel.swift */; };
+		1FDF3DE52CA186AB009D100F /* ChatAIViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FBC24542C94939D006FB7AE /* ChatAIViewModel.swift */; };
 		5A8B0A679F98436298504E5F /* Pods_TaskManagement.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DCFD7E81FE717BB38E9F109C /* Pods_TaskManagement.framework */; };
 /* End PBXBuildFile section */
 
@@ -948,6 +950,8 @@
 				1F341FDC2C8F33AC0098C834 /* TaskStatus.swift in Sources */,
 				1FDF3DE32CA17960009D100F /* Utils.swift in Sources */,
 				1FDF3DDF2CA1794C009D100F /* Constants.swift in Sources */,
+				1FDF3DE42CA1865E009D100F /* TaskEditViewModel.swift in Sources */,
+				1FDF3DE52CA186AB009D100F /* ChatAIViewModel.swift in Sources */,
 				1FDF3DE22CA1795C009D100F /* AppConfiguration.swift in Sources */,
 				1FDA7F102C8E9E0600B969A1 /* TaskModel.swift in Sources */,
 				1FDF3DDA2CA1716A009D100F /* TaskManagerDBProtocol.swift in Sources */,

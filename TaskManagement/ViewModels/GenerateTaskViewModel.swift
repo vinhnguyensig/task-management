@@ -10,6 +10,8 @@ import Combine
 
 @MainActor
 class GenerateTaskViewModel: ObservableObject {
+    
+    @Published var responseMessage: String = ""
     @Published var isLoading: Bool = false
     @Published var isGenerateSuccess: Bool = false
     @Published var errorMessage: String?
@@ -46,6 +48,30 @@ class GenerateTaskViewModel: ObservableObject {
             .store(in: &cancellables)
     }
     
+    func fetchTaskDetailSuggestion(task: TaskModel) {
+        let prompt = createTaskPrompt(task: task)
+        self.isLoading = true
+        Task {
+            await viewModel.fetchChatCompletion(singleMessage: prompt)
+            
+            Publishers.CombineLatest(viewModel.$responseMessage, viewModel.$errorMessage)
+                .sink { [weak self] (response, error) in
+                    self?.isLoading = false
+                    if let errorMessage = error {
+                        DispatchQueue.main.async {
+                            self?.errorMessage = errorMessage
+                        }
+                    } else {
+                        let responseDetail = Utils.formatChatAIResponse(text: response)
+                        DispatchQueue.main.async {
+                            self?.responseMessage = responseDetail
+                        }
+                    }
+                }
+                .store(in: &cancellables)
+        }
+    }
+    
     func generateTasks(requirement: String) {
         if let template = getTemplate() {
             self.isLoading = true
@@ -60,6 +86,20 @@ class GenerateTaskViewModel: ObservableObject {
             }
         } else {
             handleFailGenerateTask()
+        }
+    }
+    
+    func generateSubTasks(task: TaskModel) {
+        var requirement = task.title
+        if let brief = task.brief {
+            requirement += "Brief: " + brief
+        }
+        if let detail = task.detail {
+            requirement += "Task Detail: " + detail
+        }
+       
+        Task {
+            await generateSubTasks(requirement: requirement, task: task)
         }
     }
     
@@ -165,5 +205,27 @@ class GenerateTaskViewModel: ObservableObject {
             handleFailGenerateTask()
         }
         return nil
+    }
+    
+    private func createTaskPrompt(task: TaskModel) -> String {
+        var prompt = "Task: \(task.title)\n"
+        
+        if let dueDate = task.dueDate {
+            let formatter = DateFormatter()
+            formatter.dateStyle = .medium
+            prompt += "Due Date: \(formatter.string(from: dueDate))\n"
+        }
+        
+        prompt += "Priority: \(task.priority.rawValue.capitalized)\n"
+        prompt += "Category: \(task.category.rawValue.capitalized)\n"
+        prompt += "Status: \(task.status.rawValue.capitalized)\n"
+        
+        if let brief = task.brief, !brief.isEmpty {
+            prompt += "Brief: \(brief)\n"
+        }
+        
+        prompt += task.isCompleted ? "The task is completed.\n" : "The task is not completed yet.\n"
+        prompt = Utils.clearSpecialChar(text: prompt)
+        return prompt
     }
 }

@@ -6,7 +6,22 @@
 //
 
 import XCTest
+@testable import TaskManagement
 
 final class TestTaskEditViewModel: XCTestCase {
+    var viewModel: TaskEditViewModel!
+    var mockManagerDB: TaskManagerDB!
+    
+    @MainActor override func setUp() {
+        super.setUp()
+        mockManagerDB = TaskManagerDB()
+        viewModel = TaskEditViewModel(taskManager: mockManagerDB)
+    }
+    
+    override func tearDown() {
+        viewModel = nil
+        mockManagerDB = nil
+        super.tearDown()
+    }
 
 }

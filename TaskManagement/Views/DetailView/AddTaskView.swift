@@ -12,6 +12,7 @@ struct AddTaskView: View {
     
     @StateObject var viewModel = TaskEditViewModel()
     @StateObject var reminderViewModel = TaskReminderViewModel()
+    @StateObject private var generatorViewModel = GenerateTaskViewModel()
     
     @Environment(\.dismiss) var dismiss
     
@@ -146,18 +147,16 @@ struct AddTaskView: View {
                     Button(action: {
                         isLoading = true
                         let taskInfo = getTaskInfo()
-                        viewModel.fetchTaskDetailSuggestion(task: taskInfo)
+                        generatorViewModel.fetchTaskDetailSuggestion(task: taskInfo)
                     }) {
                         isLoading ? Label("Generating task detail...", systemImage: "wand.and.stars")
                             .foregroundColor(.orange) :
                         Label("Generate task detail with AI", systemImage: "wand.and.stars")
                             .foregroundColor(.blue)
                     }
-                    .onReceive(viewModel.$taskAIDetail, perform: { result in
+                    .onReceive(generatorViewModel.$responseMessage, perform: { result in
                         isLoading = false
-                        if let content = result {
-                            detail = content
-                        }
+                        detail = result
                     })
                     .disabled(isLoading)
                 }

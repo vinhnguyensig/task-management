@@ -10,7 +10,7 @@ import Foundation
 class TaskManagerDB: TaskManagerDBProtocol {
     static let shared = TaskManagerDB()
     
-    private init() {}
+    init() {}
     
     var tasksToReturn: [TaskModel] = []
     var errorToReturn: Error?
@@ -45,6 +45,10 @@ class TaskManagerDB: TaskManagerDBProtocol {
         } else {
             completion(.success(tasksToReturn))
         }
+    }
+    
+    func createTask(task: TaskModel, completion: @escaping (Error?) -> Void) {
+        
     }
     
     func deleteTask(task: TaskModel, completion: @escaping ((any Error)?) -> Void) {
