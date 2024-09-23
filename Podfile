@@ -11,4 +11,5 @@ target 'TaskManagement' do
   pod 'SwiftUIIntrospect', '~> 1.0'
   pod 'Firebase/Auth'
   pod 'GoogleSignIn'
+  pod 'FirebasePerformance'
 end
