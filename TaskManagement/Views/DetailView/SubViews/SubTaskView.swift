@@ -211,10 +211,7 @@ struct SubTaskView: View {
             var updatedTask = task
             updatedTask.isCompleted = subtasks[index].isCompleted
             updatedTask.status = .completed
-            editViewModel.updateTask(editTask: updatedTask)
-            if updatedTask.isCompleted {
-                confettiCounter += 1
-            }
+            editViewModel.updateTask(id: task.id ,title: "Test Edit task")
         }
     }
     

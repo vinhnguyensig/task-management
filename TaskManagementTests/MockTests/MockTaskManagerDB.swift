@@ -48,7 +48,11 @@ class TaskManagerDB: TaskManagerDBProtocol {
     }
     
     func createTask(task: TaskModel, completion: @escaping (Error?) -> Void) {
-        
+        if let error = errorToReturn {
+            completion(error)
+        } else {
+            completion(nil)
+        }
     }
     
     func deleteTask(task: TaskModel, completion: @escaping ((any Error)?) -> Void) {

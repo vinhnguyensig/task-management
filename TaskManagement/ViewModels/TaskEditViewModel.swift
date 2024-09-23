@@ -14,14 +14,12 @@ class TaskEditViewModel: ObservableObject {
     
     @Published var addedTask: TaskModel?
     @Published var updatedTask: TaskModel?
-    @Published var taskAIDetail: String?
     @Published var errorMessage: String?
     @Published var isLoading: Bool = false
-    @Published var isGenerateSuccess: Bool = false
-    
+   
     var isShouldPostNotify: Bool = false
     
-    private var cancellables = Set<AnyCancellable>()
+    var cancellables = Set<AnyCancellable>()
     
     // MARK: - Initialization
     init(taskManager: TaskManagerDBProtocol = TaskManagerDB.shared) {
@@ -29,8 +27,10 @@ class TaskEditViewModel: ObservableObject {
     }
     
     // MARK: - Task Operations
-    
+
+    /// Adds a new task with the specified parameters.
     func addTask(title: String, startDate: Date? = nil, dueDate: Date? = nil, priority: TaskPriority = .medium, category: TaskCategory = .others, status: TaskStatus = .backlog, brief: String? = nil, detail: String? = nil, position: Int = 1, isCompleted: Bool = false) {
+        
         let newTask = TaskModel(title: title,
                                 startDate: startDate,
                                 dueDate: dueDate,
@@ -59,6 +59,7 @@ class TaskEditViewModel: ObservableObject {
         }
     }
     
+    /// Updates an existing task with new parameters.
     func updateTask(id: String, title: String, startDate: Date? = nil, dueDate: Date? = nil, priority: TaskPriority = .medium, category: TaskCategory = .others, status: TaskStatus = .backlog, brief: String? = nil, detail: String? = nil, position: Int = 1, isCompleted: Bool = false, parentId: String? = nil) {
         
         let editTask = TaskModel(id: id,
@@ -79,6 +80,7 @@ class TaskEditViewModel: ObservableObject {
         updateTask(editTask: editTask)
     }
     
+    /// Helper method to update a task with an existing TaskModel.
     func updateTask(editTask: TaskModel) {
         taskManager.updateTask(task: editTask) { [weak self] error in
             self?.handleMainAsync {
@@ -93,12 +95,14 @@ class TaskEditViewModel: ObservableObject {
         }
     }
     
+    /// Updates the progress of an existing task.
     func updateTaskProgress(editTask: TaskModel) {
         taskManager.updateTask(task: editTask) { [weak self] error in
             self?.isShouldPostNotify = true
         }
     }
     
+    /// Deletes a specified task.
     func deleteTask(subtask: TaskModel) {
         taskManager.deleteTask(task: subtask) { [weak self] error in
             if let error = error {
@@ -109,8 +113,10 @@ class TaskEditViewModel: ObservableObject {
     }
     
     // MARK: - Subtasks
-    
+
+    /// Adds a subtask under a specified parent task.
     func addSubtask(title: String, dueDate: Date? = nil, priority: TaskPriority = .medium, category: TaskCategory = .others, status: TaskStatus = .backlog, brief: String? = nil, detail: String? = nil, position: Int = 1, isCompleted: Bool = false, parentId: String) {
+        
         let newTask = TaskModel(title: title,
                                 dueDate: dueDate,
                                 priority: priority,
@@ -135,13 +141,15 @@ class TaskEditViewModel: ObservableObject {
     }
     
     // MARK: - Private Methods
-    
+
+    /// Executes a closure on the main thread.
     private func handleMainAsync(_ block: @escaping () -> Void) {
         DispatchQueue.main.async {
             block()
         }
     }
     
+    /// Logs error messages to the console.
     private func logError(_ message: String?) {
         if let message = message {
             print(message)
