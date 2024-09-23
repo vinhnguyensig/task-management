@@ -90,6 +90,19 @@
 		1FDA7F4A2C8EE76A00B969A1 /* EmptyTaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDA7F492C8EE76A00B969A1 /* EmptyTaskView.swift */; };
 		1FDA7F4C2C8EF0EE00B969A1 /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDA7F4B2C8EF0EE00B969A1 /* DashboardView.swift */; };
 		1FDA7F502C8EF3E000B969A1 /* CircleProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDA7F4F2C8EF3E000B969A1 /* CircleProgressView.swift */; };
+		1FDF3DD32CA16501009D100F /* TestTaskListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDF3DD22CA16501009D100F /* TestTaskListViewModel.swift */; };
+		1FDF3DD52CA16724009D100F /* MockTaskManagerDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDF3DD42CA16724009D100F /* MockTaskManagerDB.swift */; };
+		1FDF3DD72CA16F61009D100F /* TestTaskEditViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDF3DD62CA16F61009D100F /* TestTaskEditViewModel.swift */; };
+		1FDF3DD92CA17140009D100F /* TaskManagerDBProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDF3DD82CA17140009D100F /* TaskManagerDBProtocol.swift */; };
+		1FDF3DDA2CA1716A009D100F /* TaskManagerDBProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDF3DD82CA17140009D100F /* TaskManagerDBProtocol.swift */; };
+		1FDF3DDB2CA176CB009D100F /* TaskListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDA7F152C8E9E6A00B969A1 /* TaskListViewModel.swift */; };
+		1FDF3DDE2CA1792C009D100F /* ShareService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FBC24482C94304A006FB7AE /* ShareService.swift */; };
+		1FDF3DDF2CA1794C009D100F /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA9BB882C919500005CDA16 /* Constants.swift */; };
+		1FDF3DE02CA17952009D100F /* UserDefaultManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FAF294C2C90693800686EA3 /* UserDefaultManager.swift */; };
+		1FDF3DE12CA17957009D100F /* HapticManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCC9AB32C92A6DB00046ACF /* HapticManager.swift */; };
+		1FDF3DE22CA1795C009D100F /* AppConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F88FAD92C9537A800E09D88 /* AppConfiguration.swift */; };
+		1FDF3DE32CA17960009D100F /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F64945E2C8F722300344661 /* Utils.swift */; };
+		1FDF3DE42CA1865E009D100F /* TaskEditViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDA7F1B2C8E9E9700B969A1 /* TaskEditViewModel.swift */; };
 		5A8B0A679F98436298504E5F /* Pods_TaskManagement.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DCFD7E81FE717BB38E9F109C /* Pods_TaskManagement.framework */; };
 /* End PBXBuildFile section */
 
@@ -195,6 +208,10 @@
 		1FDA7F492C8EE76A00B969A1 /* EmptyTaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyTaskView.swift; sourceTree = "<group>"; };
 		1FDA7F4B2C8EF0EE00B969A1 /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
 		1FDA7F4F2C8EF3E000B969A1 /* CircleProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleProgressView.swift; sourceTree = "<group>"; };
+		1FDF3DD22CA16501009D100F /* TestTaskListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestTaskListViewModel.swift; sourceTree = "<group>"; };
+		1FDF3DD42CA16724009D100F /* MockTaskManagerDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockTaskManagerDB.swift; sourceTree = "<group>"; };
+		1FDF3DD62CA16F61009D100F /* TestTaskEditViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestTaskEditViewModel.swift; sourceTree = "<group>"; };
+		1FDF3DD82CA17140009D100F /* TaskManagerDBProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskManagerDBProtocol.swift; sourceTree = "<group>"; };
 		51C263014581CF55B2C040B6 /* Pods-TaskManagement.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TaskManagement.debug.xcconfig"; path = "Target Support Files/Pods-TaskManagement/Pods-TaskManagement.debug.xcconfig"; sourceTree = "<group>"; };
 		CB014A516C1828C67A9ECC82 /* Pods-TaskManagement.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TaskManagement.release.xcconfig"; path = "Target Support Files/Pods-TaskManagement/Pods-TaskManagement.release.xcconfig"; sourceTree = "<group>"; };
 		DCFD7E81FE717BB38E9F109C /* Pods_TaskManagement.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TaskManagement.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -318,8 +335,11 @@
 		1F8A70E02C8E95BF00D99C9A /* TaskManagementTests */ = {
 			isa = PBXGroup;
 			children = (
+				1FDF3DDD2CA17823009D100F /* MockTests */,
 				1F8A70E12C8E95BF00D99C9A /* TaskManagementTests.swift */,
 				1FDA7F412C8EAC3D00B969A1 /* TaskTest.swift */,
+				1FDF3DD22CA16501009D100F /* TestTaskListViewModel.swift */,
+				1FDF3DD62CA16F61009D100F /* TestTaskEditViewModel.swift */,
 			);
 			path = TaskManagementTests;
 			sourceTree = "<group>";
@@ -530,6 +550,7 @@
 			children = (
 				1FDA7F3B2C8EA1E400B969A1 /* TaskManagerDB.swift */,
 				1FDA7F432C8EBFBD00B969A1 /* TaskEntity.swift */,
+				1FDF3DD82CA17140009D100F /* TaskManagerDBProtocol.swift */,
 			);
 			path = DataService;
 			sourceTree = "<group>";
@@ -621,6 +642,14 @@
 				1F341FD52C8EFE230098C834 /* TaskGroupView.swift */,
 			);
 			path = SubViews;
+			sourceTree = "<group>";
+		};
+		1FDF3DDD2CA17823009D100F /* MockTests */ = {
+			isa = PBXGroup;
+			children = (
+				1FDF3DD42CA16724009D100F /* MockTaskManagerDB.swift */,
+			);
+			path = MockTests;
 			sourceTree = "<group>";
 		};
 		51982E9CCC4490EFEC3483A5 /* Frameworks */ = {
@@ -887,6 +916,7 @@
 				1F341FD02C8EF71F0098C834 /* DashboardViewModel.swift in Sources */,
 				1F341FD92C8F07530098C834 /* Color+Extension.swift in Sources */,
 				1FDA7F0F2C8E9DFB00B969A1 /* TaskPriority.swift in Sources */,
+				1FDF3DD92CA17140009D100F /* TaskManagerDBProtocol.swift in Sources */,
 				1FAF29412C90040F00686EA3 /* DueDatePicker.swift in Sources */,
 				1FBC243E2C93E05A006FB7AE /* TaskDueDateSectionView.swift in Sources */,
 				1FAF29442C90527900686EA3 /* TaskCalendarView.swift in Sources */,
@@ -908,9 +938,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1FDF3DD52CA16724009D100F /* MockTaskManagerDB.swift in Sources */,
+				1FDF3DE12CA17957009D100F /* HapticManager.swift in Sources */,
+				1FDF3DDB2CA176CB009D100F /* TaskListViewModel.swift in Sources */,
+				1FDF3DD32CA16501009D100F /* TestTaskListViewModel.swift in Sources */,
 				1FDA7F422C8EAC3D00B969A1 /* TaskTest.swift in Sources */,
+				1FDF3DD72CA16F61009D100F /* TestTaskEditViewModel.swift in Sources */,
+				1FDF3DDE2CA1792C009D100F /* ShareService.swift in Sources */,
+				1FDF3DE02CA17952009D100F /* UserDefaultManager.swift in Sources */,
 				1F341FDC2C8F33AC0098C834 /* TaskStatus.swift in Sources */,
+				1FDF3DE32CA17960009D100F /* Utils.swift in Sources */,
+				1FDF3DDF2CA1794C009D100F /* Constants.swift in Sources */,
+				1FDF3DE42CA1865E009D100F /* TaskEditViewModel.swift in Sources */,
+				1FDF3DE22CA1795C009D100F /* AppConfiguration.swift in Sources */,
 				1FDA7F102C8E9E0600B969A1 /* TaskModel.swift in Sources */,
+				1FDF3DDA2CA1716A009D100F /* TaskManagerDBProtocol.swift in Sources */,
 				1F94776A2C91E8F400480444 /* TaskPriority.swift in Sources */,
 				1F8A70E22C8E95BF00D99C9A /* TaskManagementTests.swift in Sources */,
 				1F94776B2C91E8F700480444 /* TaskCategory.swift in Sources */,

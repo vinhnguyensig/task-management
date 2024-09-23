@@ -10,8 +10,8 @@ import Combine
 
 @MainActor
 class TaskCalendarViewModel: ObservableObject {
+    // Published properties for UI binding
     @Published var taskGroups: [(key: Date, value: [TaskModel])] = []
-   // @Published var selectedDate: Date?
     @Published var errorMessage: String?
     
     var isSelectedDate = false
@@ -19,23 +19,27 @@ class TaskCalendarViewModel: ObservableObject {
     
     private var notificationObserver: AnyCancellable?
     
+    // MARK: - Initialization
     init() {
         registerObserveTaskInfo()
         loadTasks()
     }
     
+    // MARK: - Load and Group Tasks
+    
+    // Fetch all tasks and group by dates
     func loadTasks() {
         TaskManagerDB.shared.getAllTasks { [weak self] result in
             switch result {
             case .success(let loadedTasks):
                 self?.tasksInDates(tasks: loadedTasks)
             case .failure(let error):
-                self?.errorMessage = "Failed to load tasks: \(error.localizedDescription)"
-                print(self?.errorMessage ?? "Unknown error")
+                self?.handleError("Failed to load tasks: \(error.localizedDescription)")
             }
         }
     }
-    
+
+    // Group tasks by their due date
     func groupedTasksByDate(tasks: [TaskModel]) {
         let calendar = Calendar.current
         let groupedTasks = Dictionary(grouping: tasks) { task in
@@ -44,79 +48,82 @@ class TaskCalendarViewModel: ObservableObject {
         taskGroups = groupedTasks.sorted { $0.key < $1.key }
     }
     
+    // Assign tasks to corresponding dates (even if no task exists for that date)
     func tasksInDates(tasks: [TaskModel]) {
         let dates = datesOfYear()
-        var groupDates: [(key: Date, value: [TaskModel])] = []
-        
-        for date in dates {
-            // Filter tasks for the specific date
+        taskGroups = dates.map { date in
             let tasksForDate = tasks.filter { task in
                 let taskDate = Calendar.current.startOfDay(for: task.dueDate ?? Date())
                 return taskDate == date
             }
-            
-            if !tasksForDate.isEmpty {
-                groupDates.append((key: date, value: tasksForDate))
-            } else {
-                groupDates.append((key: date, value: [TaskModel]()))
-            }
+            return (key: date, value: tasksForDate.isEmpty ? [] : tasksForDate)
         }
-        
-        taskGroups = groupDates
     }
 
+    // Generate a list of dates for the current year (+/- 1 week)
     func datesOfYear() -> [Date] {
         let calendar = Calendar.current
         var dates = [Date]()
         
-        // Show +/- 1 week from current date
         let today = calendar.startOfDay(for: Date())
-        guard let startDate = calendar.date(byAdding: .day, value: 0, to: today),
-              let endDate = calendar.date(byAdding: .day, value: 360, to: today) else {
-            return dates
-        }
+        
+        // Show dates from today up to 360 days ahead
+        guard let endDate = calendar.date(byAdding: .day, value: 360, to: today) else { return dates }
 
-        var currentDate = startDate
+        var currentDate = today
         while currentDate <= endDate {
             dates.append(currentDate)
+            // Move to the next day
             currentDate = calendar.date(byAdding: .day, value: 1, to: currentDate)!
         }
 
         return dates
     }
     
-    func deleteTask(at offsets: IndexSet) {
-    }
+    // MARK: - Task Management
     
+    // Toggle task completion status and reload tasks
     func toggleTaskCompletion(task: TaskModel) {
         var editTask = task
         editTask.isCompleted.toggle()
-        editTask.status = editTask.isCompleted ? TaskStatus.completed : TaskStatus.ready
+        editTask.status = editTask.isCompleted ? .completed : .ready
         
         TaskManagerDB.shared.updateTask(task: editTask) { [weak self] error in
             if let error = error {
-                self?.errorMessage = "Error updating task: \(error.localizedDescription)"
-                print(self?.errorMessage ?? "Unknown error")
+                self?.handleError("Error updating task: \(error.localizedDescription)")
             } else {
                 self?.loadTasks()
             }
         }
     }
     
+    // Placeholder for deleting a task (implement as needed)
+    func deleteTask(at offsets: IndexSet) {
+        // Implement task deletion logic here if required
+    }
+    
+    // MARK: - Notifications
+    
+    // Observe task updates via notifications
     func registerObserveTaskInfo() {
-        if notificationObserver == nil {
-            notificationObserver = NotificationCenter.default.publisher(for: Notification.Name(Constants.taskNotificationInfo))
-                .sink { [weak self] notification in
-                    print("TaskVM notification received")
-                    if let _ = notification.userInfo {
-                        self?.loadTasks()
-                    }
-                }
-        }
+        guard notificationObserver == nil else { return }
+        
+        notificationObserver = NotificationCenter.default.publisher(for: Notification.Name(Constants.taskNotificationInfo))
+            .sink { [weak self] _ in
+                print("TaskVM notification received")
+                self?.loadTasks()
+            }
+    }
+    
+    // MARK: - Helper Methods
+    
+    // Handle and display error messages
+    private func handleError(_ message: String) {
+        errorMessage = message
+        print(message)
     }
     
     deinit {
         notificationObserver?.cancel()
-        notificationObserver = nil
     }
 }

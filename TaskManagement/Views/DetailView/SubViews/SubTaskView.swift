@@ -20,6 +20,7 @@ struct SubTaskView: View {
     @ObservedObject var editViewModel: TaskEditViewModel
     @Binding var isExpandedDetail: Bool
     
+    @StateObject private var generatorViewModel = GenerateTaskViewModel()
     @State private var isAddingSubTask = false
     @State private var isGeneratingSubTask = false
     @State private var isExpanded = true
@@ -57,7 +58,7 @@ struct SubTaskView: View {
         .onReceive(editViewModel.$addedTask, perform: handleAddedTask)
         .onReceive(viewModel.$subtasks, perform: handleLoadedSubtasks)
         .onReceive(editViewModel.$updatedTask, perform: handleUpdatedTask)
-        .onReceive(editViewModel.$isGenerateSuccess, perform: { status in
+        .onReceive(generatorViewModel.$isGenerateSuccess, perform: { status in
             if status {
                 isGeneratingSubTask = false
                 isExpanded = true
@@ -165,7 +166,7 @@ struct SubTaskView: View {
             Spacer()
             Button(action: {
                 isGeneratingSubTask = true
-                editViewModel.generateSubTasks(task: task)
+                generatorViewModel.generateSubTasks(task: task)
             }) {
                 Label("Generate Sub-Tasks", systemImage: "sparkles")
                     .foregroundColor(.blue)
@@ -210,10 +211,7 @@ struct SubTaskView: View {
             var updatedTask = task
             updatedTask.isCompleted = subtasks[index].isCompleted
             updatedTask.status = .completed
-            editViewModel.updateTask(editTask: updatedTask)
-            if updatedTask.isCompleted {
-                confettiCounter += 1
-            }
+            editViewModel.updateTask(id: task.id ,title: "Test Edit task")
         }
     }
     
