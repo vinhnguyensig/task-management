@@ -86,6 +86,7 @@ struct WalkthroughView: View {
                 Spacer()
                 
                 Button(action: {
+                    HapticManager.shared.triggerImpactFeedback(style: .medium)
                     if currentPage < 6 {
                         withAnimation(.easeInOut) {
                             currentPage += 1
@@ -106,6 +107,7 @@ struct WalkthroughView: View {
                         .scaleEffect(currentPage < 6 ? 1.05 : 1.1)
                         .animation(.spring(response: 0.3, dampingFraction: 0.6), value: currentPage)
                 }
+                .accessibilityIdentifier("nextButton")
                 .padding(.horizontal)
             }
             .navigationDestination(isPresented: $navigateHome) {

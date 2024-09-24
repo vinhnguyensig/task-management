@@ -14,7 +14,7 @@ struct TaskManagementApp: App {
     
     var body: some Scene {
         WindowGroup {
-            if let _ = UserDefaultsManager.get(forKey: Constants.isReopenApp) {
+            if UserDefaultsManager.getBool(forKey: Constants.isReopenApp) {
                 TaskTabBarView()
             } else {
                 WalkthroughView()

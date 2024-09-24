@@ -7,6 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1F0D38EC2CA25B0C00F15A54 /* TestTaskTabarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F0D38EB2CA25B0C00F15A54 /* TestTaskTabarView.swift */; };
+		1F0D38EF2CA2600500F15A54 /* TestWalkThroughView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F0D38EE2CA2600500F15A54 /* TestWalkThroughView.swift */; };
+		1F0D38F02CA2613800F15A54 /* WalkthroughView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FBC244D2C945585006FB7AE /* WalkthroughView.swift */; };
+		1F0D38F12CA2614B00F15A54 /* WalkthroughFeatureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F88FADB2C95566D00E09D88 /* WalkthroughFeatureView.swift */; };
+		1F0D38F22CA2617900F15A54 /* UserDefaultManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FAF294C2C90693800686EA3 /* UserDefaultManager.swift */; };
+		1F0D38F32CA2617B00F15A54 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA9BB882C919500005CDA16 /* Constants.swift */; };
+		1F0D38F42CA2617E00F15A54 /* HapticManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCC9AB32C92A6DB00046ACF /* HapticManager.swift */; };
+		1F0D38F52CA2618200F15A54 /* AppConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F88FAD92C9537A800E09D88 /* AppConfiguration.swift */; };
+		1F0D38FB2CA2656200F15A54 /* MockGenerateTaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F0D38FA2CA2656200F15A54 /* MockGenerateTaskView.swift */; };
 		1F341FD02C8EF71F0098C834 /* DashboardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F341FCF2C8EF71F0098C834 /* DashboardViewModel.swift */; };
 		1F341FD22C8EFD9E0098C834 /* TodayTaskProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F341FD12C8EFD9E0098C834 /* TodayTaskProgressView.swift */; };
 		1F341FD42C8EFDEC0098C834 /* TaskInProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F341FD32C8EFDEC0098C834 /* TaskInProgressView.swift */; };
@@ -23,7 +32,7 @@
 		1F487E032C9AD48800066D5C /* SideMenuHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F487E022C9AD48800066D5C /* SideMenuHeaderView.swift */; };
 		1F64945F2C8F722300344661 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F64945E2C8F722300344661 /* Utils.swift */; };
 		1F88FADA2C9537A800E09D88 /* AppConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F88FAD92C9537A800E09D88 /* AppConfiguration.swift */; };
-		1F88FADC2C95566D00E09D88 /* WalkthroughFeatureVuew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F88FADB2C95566D00E09D88 /* WalkthroughFeatureVuew.swift */; };
+		1F88FADC2C95566D00E09D88 /* WalkthroughFeatureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F88FADB2C95566D00E09D88 /* WalkthroughFeatureView.swift */; };
 		1F8A70D12C8E95BE00D99C9A /* TaskManagementApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8A70D02C8E95BE00D99C9A /* TaskManagementApp.swift */; };
 		1F8A70D32C8E95BE00D99C9A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8A70D22C8E95BE00D99C9A /* ContentView.swift */; };
 		1F8A70D52C8E95BF00D99C9A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1F8A70D42C8E95BF00D99C9A /* Assets.xcassets */; };
@@ -124,6 +133,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1F0D38EB2CA25B0C00F15A54 /* TestTaskTabarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestTaskTabarView.swift; sourceTree = "<group>"; };
+		1F0D38EE2CA2600500F15A54 /* TestWalkThroughView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestWalkThroughView.swift; sourceTree = "<group>"; };
+		1F0D38FA2CA2656200F15A54 /* MockGenerateTaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockGenerateTaskView.swift; sourceTree = "<group>"; };
 		1F341FCF2C8EF71F0098C834 /* DashboardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardViewModel.swift; sourceTree = "<group>"; };
 		1F341FD12C8EFD9E0098C834 /* TodayTaskProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayTaskProgressView.swift; sourceTree = "<group>"; };
 		1F341FD32C8EFDEC0098C834 /* TaskInProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskInProgressView.swift; sourceTree = "<group>"; };
@@ -140,7 +152,7 @@
 		1F64945E2C8F722300344661 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		1F88FAD82C950C5700E09D88 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		1F88FAD92C9537A800E09D88 /* AppConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfiguration.swift; sourceTree = "<group>"; };
-		1F88FADB2C95566D00E09D88 /* WalkthroughFeatureVuew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalkthroughFeatureVuew.swift; sourceTree = "<group>"; };
+		1F88FADB2C95566D00E09D88 /* WalkthroughFeatureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalkthroughFeatureView.swift; sourceTree = "<group>"; };
 		1F8A70CD2C8E95BE00D99C9A /* TaskManagement.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TaskManagement.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F8A70D02C8E95BE00D99C9A /* TaskManagementApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskManagementApp.swift; sourceTree = "<group>"; };
 		1F8A70D22C8E95BE00D99C9A /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -252,6 +264,14 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		1F0D38F72CA2652500F15A54 /* MockTestViews */ = {
+			isa = PBXGroup;
+			children = (
+				1F0D38FA2CA2656200F15A54 /* MockGenerateTaskView.swift */,
+			);
+			path = MockTestViews;
+			sourceTree = "<group>";
+		};
 		1F341FD72C8F073F0098C834 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -347,8 +367,11 @@
 		1F8A70EA2C8E95BF00D99C9A /* TaskManagementUITests */ = {
 			isa = PBXGroup;
 			children = (
+				1F0D38F72CA2652500F15A54 /* MockTestViews */,
 				1F8A70EB2C8E95BF00D99C9A /* TaskManagementUITests.swift */,
 				1F8A70ED2C8E95BF00D99C9A /* TaskManagementUITestsLaunchTests.swift */,
+				1F0D38EB2CA25B0C00F15A54 /* TestTaskTabarView.swift */,
+				1F0D38EE2CA2600500F15A54 /* TestWalkThroughView.swift */,
 			);
 			path = TaskManagementUITests;
 			sourceTree = "<group>";
@@ -419,7 +442,7 @@
 			isa = PBXGroup;
 			children = (
 				1FBC244D2C945585006FB7AE /* WalkthroughView.swift */,
-				1F88FADB2C95566D00E09D88 /* WalkthroughFeatureVuew.swift */,
+				1F88FADB2C95566D00E09D88 /* WalkthroughFeatureView.swift */,
 			);
 			path = WalkthroughView;
 			sourceTree = "<group>";
@@ -870,7 +893,7 @@
 				1FAF294B2C9058EB00686EA3 /* NotificationService.swift in Sources */,
 				1F487DFC2C9A8BF800066D5C /* SignInViewModel.swift in Sources */,
 				1FAF294D2C90693800686EA3 /* UserDefaultManager.swift in Sources */,
-				1F88FADC2C95566D00E09D88 /* WalkthroughFeatureVuew.swift in Sources */,
+				1F88FADC2C95566D00E09D88 /* WalkthroughFeatureView.swift in Sources */,
 				1FDA7F482C8EE0B000B969A1 /* AddTaskView.swift in Sources */,
 				1FBC243A2C93CFC6006FB7AE /* CalendarDateView.swift in Sources */,
 				1FCC9AB12C92975F00046ACF /* ConfettiSwiftUI.swift in Sources */,
@@ -964,7 +987,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				1F8A70EE2C8E95BF00D99C9A /* TaskManagementUITestsLaunchTests.swift in Sources */,
+				1F0D38EF2CA2600500F15A54 /* TestWalkThroughView.swift in Sources */,
+				1F0D38F22CA2617900F15A54 /* UserDefaultManager.swift in Sources */,
 				1F8A70EC2C8E95BF00D99C9A /* TaskManagementUITests.swift in Sources */,
+				1F0D38F52CA2618200F15A54 /* AppConfiguration.swift in Sources */,
+				1F0D38F12CA2614B00F15A54 /* WalkthroughFeatureView.swift in Sources */,
+				1F0D38F42CA2617E00F15A54 /* HapticManager.swift in Sources */,
+				1F0D38EC2CA25B0C00F15A54 /* TestTaskTabarView.swift in Sources */,
+				1F0D38F02CA2613800F15A54 /* WalkthroughView.swift in Sources */,
+				1F0D38FB2CA2656200F15A54 /* MockGenerateTaskView.swift in Sources */,
+				1F0D38F32CA2617B00F15A54 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
