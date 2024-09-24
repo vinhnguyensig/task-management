@@ -19,6 +19,7 @@ struct TaskTabBarView: View {
         ZStack {
             contentView(for: selectedTab)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .accessibilityIdentifier("contentView")
             
             VStack {
                 Spacer()
@@ -39,14 +40,19 @@ struct TaskTabBarView: View {
         switch tab {
         case .tasks:
             TaskListView()
+                .accessibilityIdentifier("tasksTab")
         case .home:
             DashboardView()
+                .accessibilityIdentifier("homeTab")
         case .calendar:
             TaskCalendarView()
+                .accessibilityIdentifier("calendarTab")
         case .menu:
             SideMenuView()
+                .accessibilityIdentifier("menuTab")
         default:
             TaskListView()
+                .accessibilityIdentifier("tasksTab")
         }
     }
     
@@ -57,11 +63,14 @@ struct TaskTabBarView: View {
                 .fill(Color(UIColor.systemGray6))
                 .frame(height: 80)
                 .edgesIgnoringSafeArea(.bottom)
+                .accessibilityIdentifier("customTabBar")
             
             HStack {
                 TabBarButton(icon: "list.bullet.clipboard", selectedTab: $selectedTab, currentTab: .tasks)
+                    .accessibilityIdentifier("tasksButton")
                 Spacer()
                 TabBarButton(icon: "gauge.with.dots.needle.67percent", selectedTab: $selectedTab, currentTab: .home)
+                    .accessibilityIdentifier("homeButton")
                 Spacer()
                 Button(action: {
                     HapticManager.shared.triggerImpactFeedback(style: .medium)
@@ -75,10 +84,13 @@ struct TaskTabBarView: View {
                         .shadow(color: Color.accentColor.opacity(0.4), radius: 10, x: 0, y: 5)
                 }
                 .padding(.top, -40)
+                .accessibilityIdentifier("addButton")
                 Spacer()
                 TabBarButton(icon: "calendar", selectedTab: $selectedTab, currentTab: .calendar)
+                    .accessibilityIdentifier("calendarButton")
                 Spacer()
                 TabBarButton(icon: "ellipsis.circle", selectedTab: $selectedTab, currentTab: .menu)
+                    .accessibilityIdentifier("menuButton")
             }
             .padding(.horizontal)
         }
@@ -102,5 +114,6 @@ struct TabBarButton: View {
                 .foregroundColor(selectedTab == currentTab ? Color.accentColor : Color(UIColor.systemGray))
                 .frame(maxWidth: .infinity)
         }
+        .accessibilityIdentifier("\(icon)Button")
     }
 }

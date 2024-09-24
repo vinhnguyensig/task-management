@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import SwiftUIIntrospect
 
 struct GenerateTaskView: View {
     var isFromWalkthough: Bool = false
