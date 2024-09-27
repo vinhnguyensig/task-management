@@ -32,6 +32,8 @@
 		1F487E012C9ABF8E00066D5C /* SigninView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F487E002C9ABF8E00066D5C /* SigninView.swift */; };
 		1F487E032C9AD48800066D5C /* SideMenuHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F487E022C9AD48800066D5C /* SideMenuHeaderView.swift */; };
 		1F64945F2C8F722300344661 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F64945E2C8F722300344661 /* Utils.swift */; };
+		1F88043B2CA6C92D00CEF589 /* NotificationServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F88043A2CA6C92D00CEF589 /* NotificationServiceProtocol.swift */; };
+		1F88043C2CA6C92D00CEF589 /* NotificationServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F88043A2CA6C92D00CEF589 /* NotificationServiceProtocol.swift */; };
 		1F88FADA2C9537A800E09D88 /* AppConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F88FAD92C9537A800E09D88 /* AppConfiguration.swift */; };
 		1F88FADC2C95566D00E09D88 /* WalkthroughFeatureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F88FADB2C95566D00E09D88 /* WalkthroughFeatureView.swift */; };
 		1F8A70D12C8E95BE00D99C9A /* TaskManagementApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8A70D02C8E95BE00D99C9A /* TaskManagementApp.swift */; };
@@ -152,6 +154,7 @@
 		1F487E002C9ABF8E00066D5C /* SigninView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SigninView.swift; sourceTree = "<group>"; };
 		1F487E022C9AD48800066D5C /* SideMenuHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuHeaderView.swift; sourceTree = "<group>"; };
 		1F64945E2C8F722300344661 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
+		1F88043A2CA6C92D00CEF589 /* NotificationServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationServiceProtocol.swift; sourceTree = "<group>"; };
 		1F88FAD82C950C5700E09D88 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		1F88FAD92C9537A800E09D88 /* AppConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfiguration.swift; sourceTree = "<group>"; };
 		1F88FADB2C95566D00E09D88 /* WalkthroughFeatureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalkthroughFeatureView.swift; sourceTree = "<group>"; };
@@ -410,6 +413,7 @@
 			isa = PBXGroup;
 			children = (
 				1FAF294A2C9058EB00686EA3 /* NotificationService.swift */,
+				1F88043A2CA6C92D00CEF589 /* NotificationServiceProtocol.swift */,
 			);
 			path = NotificationService;
 			sourceTree = "<group>";
@@ -920,6 +924,7 @@
 				1F64945F2C8F722300344661 /* Utils.swift in Sources */,
 				1F8A70D32C8E95BE00D99C9A /* ContentView.swift in Sources */,
 				1F341FDB2C8F33AC0098C834 /* TaskStatus.swift in Sources */,
+				1F88043B2CA6C92D00CEF589 /* NotificationServiceProtocol.swift in Sources */,
 				1FDA7F3E2C8EA1FA00B969A1 /* NetworkClient.swift in Sources */,
 				1F341FD42C8EFDEC0098C834 /* TaskInProgressView.swift in Sources */,
 				1F487E012C9ABF8E00066D5C /* SigninView.swift in Sources */,
@@ -987,6 +992,7 @@
 				1FDF3DE42CA1865E009D100F /* TaskEditViewModel.swift in Sources */,
 				1FDF3DE22CA1795C009D100F /* AppConfiguration.swift in Sources */,
 				1FDA7F102C8E9E0600B969A1 /* TaskModel.swift in Sources */,
+				1F88043C2CA6C92D00CEF589 /* NotificationServiceProtocol.swift in Sources */,
 				1FDF3DDA2CA1716A009D100F /* TaskManagerDBProtocol.swift in Sources */,
 				1F94776A2C91E8F400480444 /* TaskPriority.swift in Sources */,
 				1F8A70E22C8E95BF00D99C9A /* TaskManagementTests.swift in Sources */,
