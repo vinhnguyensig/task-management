@@ -95,7 +95,7 @@
 		1FDA7F282C8E9F2200B969A1 /* TaskDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDA7F272C8E9F2200B969A1 /* TaskDetailView.swift */; };
 		1FDA7F392C8EA0F700B969A1 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1FDA7F382C8EA0F700B969A1 /* Launch Screen.storyboard */; };
 		1FDA7F3C2C8EA1E400B969A1 /* TaskManagerDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDA7F3B2C8EA1E400B969A1 /* TaskManagerDB.swift */; };
-		1FDA7F3E2C8EA1FA00B969A1 /* NetworkClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDA7F3D2C8EA1FA00B969A1 /* NetworkClient.swift */; };
+		1FDA7F3E2C8EA1FA00B969A1 /* NetwordService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDA7F3D2C8EA1FA00B969A1 /* NetwordService.swift */; };
 		1FDA7F422C8EAC3D00B969A1 /* TaskTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDA7F412C8EAC3D00B969A1 /* TaskTest.swift */; };
 		1FDA7F442C8EBFBD00B969A1 /* TaskEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDA7F432C8EBFBD00B969A1 /* TaskEntity.swift */; };
 		1FDA7F482C8EE0B000B969A1 /* AddTaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDA7F472C8EE0B000B969A1 /* AddTaskView.swift */; };
@@ -218,7 +218,7 @@
 		1FDA7F272C8E9F2200B969A1 /* TaskDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDetailView.swift; sourceTree = "<group>"; };
 		1FDA7F382C8EA0F700B969A1 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		1FDA7F3B2C8EA1E400B969A1 /* TaskManagerDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskManagerDB.swift; sourceTree = "<group>"; };
-		1FDA7F3D2C8EA1FA00B969A1 /* NetworkClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkClient.swift; sourceTree = "<group>"; };
+		1FDA7F3D2C8EA1FA00B969A1 /* NetwordService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetwordService.swift; sourceTree = "<group>"; };
 		1FDA7F412C8EAC3D00B969A1 /* TaskTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskTest.swift; sourceTree = "<group>"; };
 		1FDA7F432C8EBFBD00B969A1 /* TaskEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskEntity.swift; sourceTree = "<group>"; };
 		1FDA7F472C8EE0B000B969A1 /* AddTaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTaskView.swift; sourceTree = "<group>"; };
@@ -658,7 +658,7 @@
 			children = (
 				1FB564A42C96CD9600D01238 /* APIKeys */,
 				1FBC24512C948AF6006FB7AE /* Endpoint */,
-				1FDA7F3D2C8EA1FA00B969A1 /* NetworkClient.swift */,
+				1FDA7F3D2C8EA1FA00B969A1 /* NetwordService.swift */,
 			);
 			path = NetworkService;
 			sourceTree = "<group>";
@@ -925,7 +925,7 @@
 				1F8A70D32C8E95BE00D99C9A /* ContentView.swift in Sources */,
 				1F341FDB2C8F33AC0098C834 /* TaskStatus.swift in Sources */,
 				1F88043B2CA6C92D00CEF589 /* NotificationServiceProtocol.swift in Sources */,
-				1FDA7F3E2C8EA1FA00B969A1 /* NetworkClient.swift in Sources */,
+				1FDA7F3E2C8EA1FA00B969A1 /* NetwordService.swift in Sources */,
 				1F341FD42C8EFDEC0098C834 /* TaskInProgressView.swift in Sources */,
 				1F487E012C9ABF8E00066D5C /* SigninView.swift in Sources */,
 				1F990AF82C9133E5003B5117 /* DueDatePickerView.swift in Sources */,

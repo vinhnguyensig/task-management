@@ -10,205 +10,216 @@ import Combine
 
 @MainActor
 class GenerateTaskViewModel: ObservableObject {
+    private var networkService: NetworkServiceProtocol
     
     @Published var responseMessage: String = ""
     @Published var isLoading: Bool = false
     @Published var isGenerateSuccess: Bool = false
     @Published var errorMessage: String?
     
-    private var cancellables = Set<AnyCancellable>()
-    
-    let viewModel = ChatAIViewModel()
     var parentTask: TaskModel?
     
-    init() {
-        bindData()
+    init(networkService: NetworkServiceProtocol = NetwordService.shared) {
+        self.networkService = networkService
     }
     
-    func bindData() {
-        viewModel.$responseMessage
-            .dropFirst()
-            .sink {[weak self] result in
-                print("result = ", result)
-                self?.processTaskList(text: result)
-            }
-            .store(in: &cancellables)
-        
-        viewModel.$errorMessage
-            .dropFirst()
-            .sink {[weak self] message in
-                if let msg = message {
-                    DispatchQueue.main.async {
-                        self?.isGenerateSuccess = false
-                        self?.isLoading = false
-                        self?.errorMessage = msg
-                    }
-                }
-            }
-            .store(in: &cancellables)
-    }
-    
+    // Fetch task details based on a suggestion. Basically calling AI for help.
     func fetchTaskDetailSuggestion(task: TaskModel) {
         let prompt = createTaskPrompt(task: task)
-        self.isLoading = true
         Task {
-            await viewModel.fetchChatCompletion(singleMessage: prompt)
-            
-            Publishers.CombineLatest(viewModel.$responseMessage, viewModel.$errorMessage)
-                .sink { [weak self] (response, error) in
-                    self?.isLoading = false
-                    if let errorMessage = error {
-                        DispatchQueue.main.async {
-                            self?.errorMessage = errorMessage
-                        }
-                    } else {
-                        let responseDetail = Utils.formatChatAIResponse(text: response)
-                        DispatchQueue.main.async {
-                            self?.responseMessage = responseDetail
-                        }
-                    }
-                }
-                .store(in: &cancellables)
-        }
-    }
-    
-    func generateTasks(requirement: String) {
-        if let template = getTemplate() {
-            self.isLoading = true
-            var prompt = "Please create task list from requirement."
-            prompt = prompt + "Output is json format like this"
-            prompt = prompt + template
-            prompt = prompt + "Requirement: " + requirement
-            print("prompt = ", prompt)
-            Task {
-                await viewModel.fetchChatCompletion(singleMessage: prompt)
-                
+            if let response = await fetchChatCompletion(prompt) {
+                updateResponseMessage(with: response)
             }
-        } else {
-            handleFailGenerateTask()
         }
     }
     
+    // Generate tasks based on a requirement. Asking AI to do my job.
+    func generateTasks(requirement: String) {
+        guard let template = getTemplate() else {
+            handleFailGenerateTask()
+            return
+        }
+        
+        let prompt = """
+        Please create task list from requirement. Output is json format like this:
+        \(template)
+        Requirement: \(requirement)
+        """
+        
+        isLoading = true
+        Task {
+            if let response = await fetchChatCompletion(prompt) {
+                processTaskList(from: response)
+            }
+        }
+    }
+    
+    // Generate subtasks from a given task. More work for AI, less for me.
     func generateSubTasks(task: TaskModel) {
         var requirement = task.title
-        if let brief = task.brief {
-            requirement += "Brief: " + brief
-        }
-        if let detail = task.detail {
-            requirement += "Task Detail: " + detail
-        }
-       
+        
+        if let brief = task.brief { requirement += "Brief: " + brief }
+        if let detail = task.detail { requirement += "Task Detail: " + detail }
+        
         Task {
             await generateSubTasks(requirement: requirement, task: task)
         }
     }
     
-    func generateSubTasks(requirement: String, task: TaskModel) async {
-        if let template = getTemplate() {
-            self.isLoading = true
-            parentTask = task
-            var prompt = "Please create sub tasks from main task in requirement."
-            prompt = prompt + "Output is json format like this"
-            prompt = prompt + template
-            prompt = prompt + "Requirement: " + requirement
-            print("prompt = ", prompt)
-           
-            await viewModel.fetchChatCompletion(singleMessage: prompt)
-                
+    // Fetch completion from OpenAI. In other words, delegate thinking to AI.
+    private func fetchChatCompletion(_ prompt: String) async -> String? {
+        guard !prompt.isEmpty else {
+            errorMessage = "Please enter a message to send."
+            return nil
+        }
+        
+        isLoading = true
+        errorMessage = nil
+        
+        let userMessage = OpenAIMessage(role: "user", content: prompt)
+        
+        do {
+            let result = try await networkService.fetchChat(messages: [userMessage])
+            isLoading = false
+            return result
+        } catch {
+            handleError(error)
+            return nil
+        }
+    }
+    
+    // Generates subtasks but with extra steps. Let AI handle the dirty work.
+    private func generateSubTasks(requirement: String, task: TaskModel) async {
+        guard let template = getTemplate() else {
+            handleFailGenerateTask()
+            return
+        }
+        
+        parentTask = task
+        let prompt = """
+        Please create sub tasks from main task in requirement. Output is json format like this:
+        \(template)
+        Requirement: \(requirement)
+        """
+        
+        isLoading = true
+        Task {
+            if let response = await fetchChatCompletion(prompt) {
+                processTaskList(from: response)
+            }
+        }
+    }
+    
+    // Process a response that supposedly has a list of tasks. Hope AI got this right.
+    private func processTaskList(from response: String) {
+        let pattern = #"(?<=```json)[\s\S]*?(?=```)"#
+        
+        guard let jsonString = response.extract(usingPattern: pattern),
+              let jsonData = jsonString.data(using: .utf8) else {
+            handleFailGenerateTask()
+            return
+        }
+        
+        do {
+            if let jsonArray = try JSONSerialization.jsonObject(with: jsonData, options: []) as? [[String: Any]] {
+                handleTaskList(jsonArray)
+            } else {
+                handleFailGenerateTask()
+            }
+        } catch {
+            print("Failed to parse JSON: \(error.localizedDescription)")
+            handleFailGenerateTask()
+        }
+    }
+    
+    // Process a list of tasks one by one. More like automate saving, so I don’t have to.
+    private func handleTaskList(_ jsonArray: [[String: Any]]) {
+        var tasks = [TaskModel]()
+        let reversedTasks = jsonArray.reversed()
+        var position = 1
+        let parentId = parentTask?.id
+        
+        for item in reversedTasks {
+            if let title = item["title"] as? String {
+                let brief = item["brief"] as? String ?? ""
+                let detail = item["detail"] as? String ?? ""
+                position += 1
+                let task = TaskModel(title: title, brief: brief, detail: detail, position: position, parentId: parentId)
+                tasks.append(task)
+            }
+        }
+        
+        if !tasks.isEmpty {
+            saveTasks(tasks)
         } else {
             handleFailGenerateTask()
         }
     }
     
+    // Recursively save tasks. The lazy way to handle lists.
+    private func saveTasks(_ tasks: [TaskModel], index: Int = 0) {
+        guard index < tasks.count else {
+            completeTaskProcessing()
+            return
+        }
+        
+        let task = tasks[index]
+        TaskManagerDB.shared.createTask(task: task) { [weak self] error in
+            if error != nil {
+                print("Could not save task: \(task.title)")
+            }
+            self?.saveTasks(tasks, index: index + 1)
+        }
+    }
+    
+    // Wrap up after saving tasks. Finally, something I can mark as done.
+    private func completeTaskProcessing() {
+        isGenerateSuccess = true
+        isLoading = false
+    }
+    
+    // Handle failure when task generation fails. It's not me, it's the AI.
     private func handleFailGenerateTask() {
         DispatchQueue.main.async {
             self.isGenerateSuccess = false
             self.isLoading = false
-            self.errorMessage = "Please try to write more detail requirment"
+            self.errorMessage = "Please try to provide more detailed requirements."
         }
     }
     
-   private func processTaskList(text: String) {
-        let pattern = #"(?<=```json)[\s\S]*?(?=```)"#
-        if let jsonRange = text.range(of: pattern, options: .regularExpression) {
-            let jsonString = String(text[jsonRange])
-            if let jsonData = jsonString.data(using: .utf8) {
-                do {
-                    if let jsonArray = try JSONSerialization.jsonObject(with: jsonData, options: []) as? [[String: Any]] {
-                        var tasks = [TaskModel]()
-                        var position = 1
-                        let reverseArr = jsonArray.reversed()
-                        var parentId: String? = nil
-                        if let task = parentTask {
-                            parentId = task.id
-                        }
-                        for item in reverseArr {
-                            if let title = item["title"] as? String {
-                                let brief = item["brief"] as? String ?? ""
-                                let detail = item["detail"] as? String ?? ""
-                                position = position + 1
-                                let task = TaskModel(title: title, brief: brief, detail: detail, position: position, parentId: parentId)
-                                tasks.append(task)
-                            }
-                        }
-                        if tasks.count > 0 {
-                            saveTasks(tasks: tasks)
-                        } else {
-                            handleFailGenerateTask()
-                        }
-                    }
-                } catch {
-                    print("Failed to parse JSON: \(error.localizedDescription)")
-                    handleFailGenerateTask()
-                }
-            } else {
-                print("Failed to parse jsonData")
-                handleFailGenerateTask()
-            }
+    // Handle errors, because things do go wrong sometimes.
+    private func handleError(_ error: Error) {
+        isLoading = false
+        if let networkError = error as? NetworkError {
+            errorMessage = networkError.localizedDescription
         } else {
-            print("Failed to parse jsonRange")
-            handleFailGenerateTask()
+            errorMessage = error.localizedDescription
         }
     }
     
-    func saveTasks(tasks: [TaskModel], index: Int = 0) {
-        if index < tasks.count {
-            let task = tasks[index]
-            print("Processing task title = ", task.title)
-            TaskManagerDB.shared.createTask(task: task) { [weak self] error in
-                if let _ = error {
-                    print("Could not save task ", task.title)
-                }
-
-                self?.saveTasks(tasks: tasks, index: index + 1)
-            }
-        } else {
-            print("All tasks processed.")
-            DispatchQueue.main.async {
-                self.isGenerateSuccess = true
-                self.isLoading = false
-            }
-        }
-    }
-    
+    // Get the task template. Hope the file exists.
     private func getTemplate() -> String? {
-        if let path = Bundle.main.path(forResource: "task-template", ofType: "json") {
-            do {
-                let fileContents = try String(contentsOfFile: path, encoding: .utf8)
-                return fileContents
-            } catch {
-                print("Error reading file as String: \(error)")
-                handleFailGenerateTask()
-            }
-        } else {
-            print("File not found")
-            handleFailGenerateTask()
+        guard let path = Bundle.main.path(forResource: "task-template", ofType: "json") else {
+            print("Template file not found.")
+            return nil
         }
-        return nil
+        
+        do {
+            return try String(contentsOfFile: path, encoding: .utf8)
+        } catch {
+            print("Error reading template: \(error)")
+            return nil
+        }
     }
     
+    // Build a task prompt string. Formatting is boring, let’s automate it.
     private func createTaskPrompt(task: TaskModel) -> String {
-        var prompt = "Task: \(task.title)\n"
+        var prompt = """
+        Task: \(task.title)\n
+        Priority: \(task.priority.rawValue.capitalized)\n
+        Category: \(task.category.rawValue.capitalized)\n
+        Status: \(task.status.rawValue.capitalized)\n
+        """
         
         if let dueDate = task.dueDate {
             let formatter = DateFormatter()
@@ -216,16 +227,22 @@ class GenerateTaskViewModel: ObservableObject {
             prompt += "Due Date: \(formatter.string(from: dueDate))\n"
         }
         
-        prompt += "Priority: \(task.priority.rawValue.capitalized)\n"
-        prompt += "Category: \(task.category.rawValue.capitalized)\n"
-        prompt += "Status: \(task.status.rawValue.capitalized)\n"
-        
-        if let brief = task.brief, !brief.isEmpty {
-            prompt += "Brief: \(brief)\n"
-        }
+        if let brief = task.brief, !brief.isEmpty { prompt += "Brief: \(brief)\n" }
         
         prompt += task.isCompleted ? "The task is completed.\n" : "The task is not completed yet.\n"
-        prompt = Utils.clearSpecialChar(text: prompt)
-        return prompt
+        return Utils.clearSpecialChar(text: prompt)
+    }
+    
+    // Update the response message, aka make it look like I did some work.
+    private func updateResponseMessage(with response: String) {
+        responseMessage = Utils.formatChatAIResponse(text: response)
+    }
+}
+
+private extension String {
+    // Regex to extract string. Yup, regex for the win.
+    func extract(usingPattern pattern: String) -> String? {
+        let range = self.range(of: pattern, options: .regularExpression)
+        return range.map { String(self[$0]) }
     }
 }

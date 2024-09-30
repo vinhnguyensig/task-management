@@ -9,12 +9,18 @@ import Foundation
 import Combine
 
 class ChatAIViewModel: ObservableObject {
+    private var networkService: NetworkServiceProtocol
+    
     @Published var chatMessages: [OpenAIMessage] = []
     @Published var isLoading: Bool = false
     @Published var errorMessage: String? = nil
     @Published var responseMessage: String = ""
     
     private var cancellables = Set<AnyCancellable>()
+    
+    init(networkService: NetworkServiceProtocol = NetwordService.shared) {
+        self.networkService = networkService
+    }
     
     /// Fetches the chat completion for a single message and updates the UI.
     func fetchChatCompletion(singleMessage: String) async {
@@ -29,19 +35,19 @@ class ChatAIViewModel: ObservableObject {
         let userMessage = OpenAIMessage(role: "user", content: singleMessage)
         
         do {
-            let response = try await NetworkClient.shared.fetchChatCompletionsAsync(messages: [userMessage])
-            DispatchQueue.main.async {
-                self.responseMessage = response
-                self.isLoading = false
+            let response = try await networkService.fetchChat(messages: [userMessage])
+            await MainActor.run { [weak self] in
+                self?.responseMessage = response
+                self?.isLoading = false
             }
         } catch {
             // Handle any network errors
-            DispatchQueue.main.async {
-                self.isLoading = false
+            await MainActor.run { [weak self] in
+                self?.isLoading = false
                 if let networkError = error as? NetworkError {
-                    self.errorMessage = networkError.localizedDescription
+                    self?.errorMessage = networkError.localizedDescription
                 } else {
-                    self.errorMessage = error.localizedDescription
+                    self?.errorMessage = error.localizedDescription
                 }
             }
         }
@@ -58,24 +64,24 @@ class ChatAIViewModel: ObservableObject {
         errorMessage = nil
         
         do {
-            let response = try await NetworkClient.shared.fetchChatCompletionsAsync(messages: chatMessages)
+            let response = try await networkService.fetchChat(messages: chatMessages)
             
             // Update the UI on the main thread
-            DispatchQueue.main.async {
-                self.responseMessage = response
-                self.isLoading = false
+            await MainActor.run { [weak self] in
+                self?.responseMessage = response
+                self?.isLoading = false
                 
                 // Add the response to the chat history
-                self.chatMessages.append(OpenAIMessage(role: "assistant", content: response))
+                self?.chatMessages.append(OpenAIMessage(role: "assistant", content: response))
             }
         } catch {
             // Handle any network errors
-            DispatchQueue.main.async {
-                self.isLoading = false
+            await MainActor.run { [weak self] in
+                self?.isLoading = false
                 if let networkError = error as? NetworkError {
-                    self.errorMessage = networkError.localizedDescription
+                    self?.errorMessage = networkError.localizedDescription
                 } else {
-                    self.errorMessage = error.localizedDescription
+                    self?.errorMessage = error.localizedDescription
                 }
             }
         }
