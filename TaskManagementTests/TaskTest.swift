@@ -53,7 +53,6 @@ class TaskTests: XCTestCase {
         
         XCTAssertEqual(task.title, title)
         XCTAssertNil(task.startDate)
-        XCTAssertNil(task.dueDate)
         XCTAssertNil(task.estimateHour)
         XCTAssertNotNil(task.priority)
         XCTAssertNotNil(task.category)

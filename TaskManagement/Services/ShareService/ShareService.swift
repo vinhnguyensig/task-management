@@ -12,4 +12,9 @@ class ShareService {
     
     var currentSelectedDate: Date?
     var currentCategory: String?
+    
+    deinit {
+        currentCategory = nil
+        currentSelectedDate = nil
+    }
 }

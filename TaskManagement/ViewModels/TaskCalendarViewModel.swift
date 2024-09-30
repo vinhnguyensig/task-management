@@ -10,6 +10,8 @@ import Combine
 
 @MainActor
 class TaskCalendarViewModel: ObservableObject {
+    private var taskManager: TaskManagerDBProtocol
+    
     // Published properties for UI binding
     @Published var taskGroups: [(key: Date, value: [TaskModel])] = []
     @Published var errorMessage: String?
@@ -20,7 +22,8 @@ class TaskCalendarViewModel: ObservableObject {
     private var notificationObserver: AnyCancellable?
     
     // MARK: - Initialization
-    init() {
+    init(taskManager: TaskManagerDBProtocol = TaskManagerDB.shared) {
+        self.taskManager = taskManager
         registerObserveTaskInfo()
         loadTasks()
     }
@@ -29,7 +32,7 @@ class TaskCalendarViewModel: ObservableObject {
     
     // Fetch all tasks and group by dates
     func loadTasks() {
-        TaskManagerDB.shared.getAllTasks { [weak self] result in
+        taskManager.getAllTasks { [weak self] result in
             switch result {
             case .success(let loadedTasks):
                 self?.tasksInDates(tasks: loadedTasks)
@@ -88,7 +91,7 @@ class TaskCalendarViewModel: ObservableObject {
         editTask.isCompleted.toggle()
         editTask.status = editTask.isCompleted ? .completed : .ready
         
-        TaskManagerDB.shared.updateTask(task: editTask) { [weak self] error in
+        taskManager.updateTask(task: editTask) { [weak self] error in
             if let error = error {
                 self?.handleError("Error updating task: \(error.localizedDescription)")
             } else {
@@ -125,5 +128,6 @@ class TaskCalendarViewModel: ObservableObject {
     
     deinit {
         notificationObserver?.cancel()
+        notificationObserver = nil
     }
 }
