@@ -3,7 +3,7 @@ platform :ios, '16.0'
 use_frameworks!
 
 target 'TaskManagement' do
-  pod 'RealmSwift'
+  pod 'RealmSwift', '~> 10.54'
   pod 'Alamofire'
   pod 'FirebaseCore'
   pod 'FirebaseMessaging'
