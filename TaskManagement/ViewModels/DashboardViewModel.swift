@@ -7,6 +7,7 @@
 
 import Foundation
 import Combine
+import TMBusiness
 
 @MainActor
 class DashboardViewModel: ObservableObject {
@@ -21,6 +22,7 @@ class DashboardViewModel: ObservableObject {
     init() {
         registerObserveTaskInfo()
         loadData()
+        let todo = Todo(title: "Old title")
     }
 
     // Load all data in one go when ViewModel initializes

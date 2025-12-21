@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 60;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -32,6 +32,7 @@
 		1F487E012C9ABF8E00066D5C /* SigninView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F487E002C9ABF8E00066D5C /* SigninView.swift */; };
 		1F487E032C9AD48800066D5C /* SideMenuHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F487E022C9AD48800066D5C /* SideMenuHeaderView.swift */; };
 		1F64945F2C8F722300344661 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F64945E2C8F722300344661 /* Utils.swift */; };
+		1F8207952EF7A3E8004E331C /* TMBusiness in Frameworks */ = {isa = PBXBuildFile; productRef = 1F8207942EF7A3E8004E331C /* TMBusiness */; };
 		1F88043B2CA6C92D00CEF589 /* NotificationServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F88043A2CA6C92D00CEF589 /* NotificationServiceProtocol.swift */; };
 		1F88043C2CA6C92D00CEF589 /* NotificationServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F88043A2CA6C92D00CEF589 /* NotificationServiceProtocol.swift */; };
 		1F88FADA2C9537A800E09D88 /* AppConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F88FAD92C9537A800E09D88 /* AppConfiguration.swift */; };
@@ -238,6 +239,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BF20073663FAE139D8728649 /* Pods_TaskManagement.framework in Frameworks */,
+				1F8207952EF7A3E8004E331C /* TMBusiness in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -778,6 +780,9 @@
 				Base,
 			);
 			mainGroup = 1F8A70C42C8E95BE00D99C9A;
+			packageReferences = (
+				1F8207932EF7A3E8004E331C /* XCLocalSwiftPackageReference "SPM/TMBusiness" */,
+			);
 			productRefGroup = 1F8A70CE2C8E95BE00D99C9A /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -850,9 +855,13 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-TaskManagement/Pods-TaskManagement-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
+			inputPaths = (
+			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-TaskManagement/Pods-TaskManagement-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -1455,6 +1464,20 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		1F8207932EF7A3E8004E331C /* XCLocalSwiftPackageReference "SPM/TMBusiness" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = SPM/TMBusiness;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		1F8207942EF7A3E8004E331C /* TMBusiness */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = TMBusiness;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 1F8A70C52C8E95BE00D99C9A /* Project object */;
 }
